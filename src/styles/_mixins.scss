@@ -1,0 +1,150 @@
+$bac-url: '../assets/';
+@mixin fontSize($font-size) {
+	font-size: $font-size;
+	[data-dpr='2'] & {
+		font-size: $font-size * 2;
+	}
+	[data-dpr='3'] & {
+		font-size: $font-size * 3;
+	}
+}
+
+
+/*定位全屏*/
+
+@mixin fullScreen($type: fixed) {
+	position: $type;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+}
+
+
+/*transform定位居中对齐*/
+
+@mixin useTranCenter($type: absolute, $align:'') {
+	position: $type;
+	/*transform定位左右居中*/
+	@if $align=='x' {
+		left: 50%;
+		-webkit-transform: translateX(-50%);
+		-moz-transform: translateX(-50%);
+		-ms-transform: translateX(-50%);
+		transform: translateX(-50%);
+	}
+	/*transform定位上下居中*/
+	@else if $align=='y' {
+		top: 50%;
+		-webkit-transform: translateY(-50%);
+		-moz-transform: translateY(-50%);
+		-ms-transform: translateY(-50%);
+		transform: translateY(-50%);
+	}
+	/*transform定位上下左右居中*/
+	@else {
+		top: 50%;
+		left: 50%;
+		-webkit-transform: translate(-50%, -50%);
+		-moz-transform: translate(-50%, -50%);
+		-ms-transform: translate(-50%, -50%);
+		transform: translate(-50%, -50%);
+	}
+}
+
+
+/*宽高*/
+
+@mixin setBox($width, $height) {
+	width: $width;
+	height: $height;
+}
+
+
+/* 字体溢出...处理 */
+
+@mixin textEllipsis($line: 1) {
+	@if $line==1 {
+		overflow: hidden;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		-o-text-overflow: ellipsis;
+	}
+	@else {
+		display: -webkit-box;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		-o-text-overflow: ellipsis;
+		-webkit-line-clamp: $line;
+		-webkit-box-orient: vertical;
+	}
+}
+
+
+/* 设置input的placeholder颜色 */
+
+@mixin inputPlaceholder($color: #666) {
+	&::-webkit-input-placeholder {
+		color: $color;
+	}
+	&:-moz-placeholder {
+		color: $color;
+	}
+	&::-moz-placeholder {
+		color: $color;
+	}
+	&:-ms-input-placeholder {
+		color: $color;
+	}
+}
+
+
+/* flex布局 */
+
+@mixin flexLayout($type: flex, $alignV:'center', $alignH:'center') {
+	display: $type;
+	-webkit-box-orient: horizontal;
+	-webkit-box-direction: normal;
+	-webkit-flex-flow: row nowrap;
+	-moz-box-orient: horizontal;
+	-moz-box-direction: normal;
+	-ms-flex-flow: row nowrap;
+	flex-flow: row nowrap;
+	/*垂直方向居中对齐*/
+	@if $alignV=='center' {
+		-webkit-box-align: center;
+		-webkit-align-items: center;
+		-moz-box-align: center;
+		-ms-flex-align: center;
+		align-items: center;
+	}
+	@if $alignV=='stretch' {
+		-webkit-box-align: stretch;
+		-webkit-align-items: stretch;
+		-moz-box-align: stretch;
+		-ms-flex-align: stretch;
+		align-items: stretch;
+	}
+	/*水平方向分散对齐*/
+	@if $alignH=='justify' {
+		-webkit-box-pack: justify;
+		-webkit-justify-content: space-between;
+		-moz-box-pack: justify;
+		-ms-flex-pack: justify;
+		justify-content: space-between;
+	}
+	@if $alignH=='right' {
+		-webkit-box-pack: end;
+		-webkit-justify-content: flex-end;
+		-moz-box-pack: end;
+		-ms-flex-pack: end;
+		justify-content: flex-end;
+	}
+	@if $alignH=='center' {
+		-webkit-box-pack: center;
+		-webkit-justify-content: center;
+		-moz-box-pack: center;
+		-ms-flex-pack: center;
+		justify-content: center;
+	}
+}

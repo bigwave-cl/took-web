@@ -1,0 +1,5 @@
+@import '../../styles/mixins.scss',
+'./ask-alert-theme.scss';
+@include askAlertTheme('success');
+@include askAlertTheme('danger');
+@include askAlertTheme('info');

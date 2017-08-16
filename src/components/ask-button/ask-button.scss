@@ -1,0 +1,60 @@
+@import '../../styles/mixins.scss';
+$backColor: #f1f1f1;
+$fontColor: #474a4f;
+.ask-button {
+    position: relative;
+    display: inline-block;
+    min-width: 88px;
+    margin: 0;
+    padding: 12px 16px;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-transition: all .3s linear;
+    -moz-transition: all .3s linear;
+    -o-transition: all .3s linear;
+    transition: all .3s linear;
+    text-align: center;
+    vertical-align: baseline;
+    white-space: nowrap;
+    text-decoration: none;
+    text-transform: uppercase;
+    color: $fontColor;
+    border: none;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+    outline: 0;
+    background-color: transparent;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-appearance: button;
+    -moz-appearance: button;
+    appearance: button;
+    .button-text {
+        @include fontSize(16px);
+        white-space: nowrap;
+        /* pointer-events:none; */
+    }
+    &>.ask-button-focus-overlay {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        -webkit-transition: opacity .2s cubic-bezier(.35, 0, .25, 1), background-color .2s cubic-bezier(.35, 0, .25, 1);
+        -moz-transition: opacity .2s cubic-bezier(.35, 0, .25, 1), background-color .2s cubic-bezier(.35, 0, .25, 1);
+        -o-transition: opacity .2s cubic-bezier(.35, 0, .25, 1), background-color .2s cubic-bezier(.35, 0, .25, 1);
+        transition: opacity .2s cubic-bezier(.35, 0, .25, 1), background-color .2s cubic-bezier(.35, 0, .25, 1);
+        pointer-events: none;
+        opacity: 0;
+        -webkit-border-radius: inherit;
+        -moz-border-radius: inherit;
+        border-radius: inherit;
+        background-color: rgba(0, 0, 0, .12);
+    }
+    &:hover .ask-button-focus-overlay {
+        opacity: 1;
+    }
+}

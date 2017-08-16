@@ -1,0 +1,22 @@
+{
+	"ok": true,
+	"servertime": 1499238885,
+	"list": [
+	{
+		"id": 1,
+		"pic": "https://mob.xiuzhimeng.com/bfmadmin/files/2017/03/20/58cf660572db2.jpg?size=640x240",
+		"sort": 1,
+		"name": "维达抽纸",
+		"type": 1,
+		"link": "https://sub.xiuzhimeng.com/wsc2t/pro-6611.html?shopid=0&wid=65&is_share=1&uid=15814357&ver=1.0&sign=aa0fc79f8cdb9e1dd2aa1185ae2da232"
+	},
+	{
+		"id": 2,
+		"pic": "https://mob.xiuzhimeng.com/bfmadmin/files/2017/03/28/58d9fac7a3ecd.jpg?size=640x240",
+		"sort": 2,
+		"name": "清扬洗发水",
+		"type": 1,
+		"link": "https://sub.xiuzhimeng.com/wsc2t/pro-6642.html?wid=65&is_share=1&uid=15814357&ver=1.0&sign=aa0fc79f8cdb9e1dd2aa1185ae2da232"
+	}],
+	"hasmore": false
+}

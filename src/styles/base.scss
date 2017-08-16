@@ -1,0 +1,49 @@
+@import './mixins.scss';
+$url: '../assets/';
+@charset 'UTF-8';
+@font-face {
+	font-family: 'dqjt';
+	src: url($url+'font/dqjt.eot');
+	src: url($url+'font/dqjt.eot?#font-spider') format('embedded-opentype'), url($url+'font/dqjt.woff') format('woff'), url($url+'font/dqjt.ttf') format('truetype'), url($url+'font/dqjt.svg') format('svg');
+}
+
+html {
+	font-family: 'dqjt', 'Microsoft YaHei', Monospace, Arial, 'Helvetica Neue', Helvetica, sans-serif;
+	font-size: 62.5%;
+}
+
+body {
+	margin: 0;
+	padding: 0;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	background: #f7f7f7;
+	-webkit-touch-callout: none;
+	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+	-webkit-overflow-scrolling: touch;
+	overflow-scrolling: touch;
+}
+
+.iconfont{
+	@include fontSize(16px);
+}
+* {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+*:before,
+*:after {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+ul {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
