@@ -3,15 +3,17 @@ import Router from 'vue-router'
 import main from '@/components/main/main'
 import home from '@/views/home/home'
 import luckDraw from '@/views/luck-draw/luck-draw.vue'
+import luckCode from '@/views/luck-code/luck-code.vue'
 
 Vue.use(Router)
 
 export default new Router({
+	mode: 'history',
 	routes: [{
 		path: '/',
 		name: 'main',
 		component: main,
-		redirect: '/home',
+		redirect: '/luck-draw',
 		children: [{
 			path: 'home',
 			name:'home',
@@ -19,7 +21,11 @@ export default new Router({
 		},{
 			path: 'luck-draw',
 			name:'luckDraw',
-			component: luckDraw
+			component: luckDraw,
+		},{
+			path: 'luck-code',
+			name:'luckCode',
+			component: luckCode,
 		}]
 	}]
 })

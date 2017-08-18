@@ -8,15 +8,17 @@ export const askAlert = (option,onOk,onClose) =>{
 		msg:'内容',
 		title:'警示框',
 		btnText: '确定',
-		closeIcon: false,
+		closeIcon: true,
 		shade:true,
 		shadeClick: true,
+		closeBtn: true,
 		class:''
 	}
 
 	opt = Object.assign(opt,option);
 	vm.message = opt.msg;
 	vm.title = opt.title;
+	vm.closeBtn = !opt.closeBtn;
 	vm.icon = !opt.closeIcon;
 	vm.btnText = opt.btnText;
 	vm.shadeClick = opt.shadeClick;

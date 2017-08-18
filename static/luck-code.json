@@ -1,0 +1,66 @@
+{
+	"ok": true,
+	"servertime": 1498821869,
+	"times": 11,
+	"is_try": false,
+	"codes": [
+	{
+		"code": "1067",
+		"win": false
+	},
+	{
+		"code": "4231",
+		"win": false
+	},
+	{
+		"code": "2360",
+		"win": false
+	},
+	{
+		"code": "9413",
+		"win": false
+	},
+	{
+		"code": "3313",
+		"win": false
+	},
+	{
+		"code": "9416",
+		"win": true,
+		"name": "特等奖",
+		"yb": "50"
+	},
+	{
+		"code": "6217",
+		"win": false,
+		"name": "特等奖",
+		"yb": "50"
+	},
+	{
+		"code": "4245",
+		"win": false,
+		"name": "特等奖",
+		"yb": "50"
+	},
+	{
+		"code": "0159",
+		"win": false,
+		"name": "特等奖",
+		"yb": "50"
+	},
+	{
+		"code": "8588",
+		"win": false,
+		"name": "特等奖",
+		"yb": "50"
+	},
+	{
+		"code": "7709",
+		"win": true,
+		"name": "一等奖",
+		"yb": "20"
+	}],
+	"is_lucky": false,
+	"order_min_yb": 1,
+	"hasmore": false
+}

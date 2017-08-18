@@ -32,6 +32,15 @@
 					</label>
 				</div>
 				<p>
+					是否显示底部按钮
+				</p>
+				<div class="ask-check-demo">
+					<label class="beautiful-input">
+						<input type="checkbox" name="" value="" v-model="tButton">
+						<span class="b-box"></span>
+					</label>
+				</div>
+				<p>
 					是否开启遮罩层
 				</p>
 				<div class="ask-check-demo">
@@ -94,6 +103,7 @@ export default {
 			tClose: true,
 			tShadeClick: true,
 			tShade: true,
+			tButton:true
 		}
 	},
 	created() {},
@@ -112,6 +122,7 @@ export default {
 						btnText: '${this.tBtnText}',
 						class: '${this.tClass}',
 						closeIcon: ${this.tClose},
+						closeBtn: ${this.tButton},
 						shade: ${this.tShade},
 						shadeClick: ${this.tShadeClick}
 					}, (ok) => {
@@ -141,6 +152,7 @@ export default {
 				btnText: this.tBtnText,
 				class: this.tClass,
 				closeIcon: this.tClose,
+				closeBtn: this.tButton,
 				shade: this.tShade,
 				shadeClick: this.tShadeClick
 			}, (ok) => {

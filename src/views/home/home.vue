@@ -36,7 +36,7 @@
 	</div>
 </template>
 <script>
-	import { homeDataInterface } from '@/services';
+	import askInterface from '@/services';
 	import { askDialogConfirm } from '@/utils/ask.dialog.js';
 	export default{
 		data() {
@@ -48,7 +48,7 @@
 			}
 		},
 		mounted(){
-			homeDataInterface().then(res=>{
+			askInterface.home().then(res=>{
 				console.log(res);
 			},res=>{
 				console.log(res);

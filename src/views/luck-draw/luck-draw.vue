@@ -1,21 +1,23 @@
 <template>
 	<div class="luck-draw-box">
-		<swiper class="luck-draw-swiper" :options="swiperOption">
-			<swiper-slide v-for="(s,$i) in luckSwiper" :key="$i">
+		<ask-swiper class="luck-draw-swiper" :options="swiperOption" :slideData="luckSwiper">
+			<ask-slide v-for="(s,$i) in luckSwiper" :key="$i">
 				<a :href="s.link" :title="s.name">
 					<div class="luck-draw-swiper-slide">
 						<img :src="s.pic">
 					</div>
 				</a>
-			</swiper-slide>
+			</ask-slide>
 			<div class="swiper-pagination luck-draw" slot="pagination"></div>
-		</swiper>
+		</ask-swiper>
 		<section>
+			<!-- 兑奖开始 开始领号 结束领号 -->
 			<div v-if="luckItem.state !== 3">
-				<h4>本期开奖金额</h4>
+				<h4 v-text="luckItem.state === 4 ? '上期开奖金额':'本期开奖金额'"></h4>
 				<h2><em>{{luckItem.prizeIntegral}}</em>云积分</h2>
-				<h5>幸运大使<i class="iconfont icon-help"></i></h5>
-				<ul class="lucky-list">
+				<h1 v-if="luckItem.state === 4">已结束，等待下次兑奖</h1>
+				<h5 v-if="luckItem.state !== 4">幸运大使<i class="iconfont icon-help"></i></h5>
+				<ul v-if="luckItem.state !== 4" class="lucky-list">
 					<li v-for="(envoy,$i) in luckItem.luckEnvoy" :key="$i" class="lucky-li">
 						<div class="img-box">
 							<img src='../../assets/luck-draw/logo.png' v-if="!envoy.thumb_pic">
@@ -27,21 +29,40 @@
 					</li>
 				</ul>
 			</div>
-			<div class="open-prize" v-if="luckItem.state === 3">
+			<!-- 开始开奖（不包含lev==1的奖项） -->
+			<div class="open-prize" v-if="luckItem.state === 3 && luckItem.currentPrize.lev != 1">
 				<h2><em>{{luckItem.currentPrize.name}}：</em><em>{{luckItem.currentPrize.yb}}</em>云积分</h2>
 				<h5>中奖号码</h5>
 				<h2><em>{{luckItem.currentPrize.codes}}</em></h2>
 			</div>
-
-			<p class="single-p" v-html="luckItem.timeText"></p>
-			<p class="single-p" v-if="luckItem.state !== 2 && luckItem.state !== 3">
+			<!-- 开始开奖lev==1的奖项 -->
+			<div class="open-prize" v-if="luckItem.state === 3 && luckItem.currentPrize.lev == 1">
+				<h2><em>{{luckItem.currentPrize.name}}：</em><em>{{luckItem.currentPrize.yb}}</em>云积分</h2>
+				<div class="space-box open-prize-num">
+					<p>
+						<i class="iconfont icon-participatio"></i>共
+						<em>{{luckItem.joinPeople}}</em>人参与
+					</p>
+				</div>
+				<ask-lottery-animation  class="luck-draw-lottery" 
+										:lottery="luckItem.lastPrize" 
+										:winnings="luckItem.currentPrize.codes" 
+										@callback="lotteryAnimationEnd"></ask-lottery-animation>
+				<div class="lottery-animation-box"></div>
+				<h5>中奖号码:<span v-if="luckItem.animationEnd">{{luckItem.currentPrize.codes}}</span></h5>
+			</div>
+			<!-- 开始开奖lev==1的奖项不展示倒计时文本 -->
+			<p class="single-p" v-if="luckItem.state !== 4 && (luckItem.state !== 3 || luckItem.currentPrize.lev != 1)" v-html="luckItem.timeText"></p>
+			<!-- 开始开奖和结束领号不展示次数文本 -->
+			<p class="single-p" v-if="luckItem.state !== 4 && luckItem.state !== 3 && luckItem.state !== 2">
 				<i class="iconfont icon-chance"></i>
 				<span v-if="luckItem.experience">剩余体验次数</span>
 				<span v-else>您共有兑奖机会</span>
 				<em>{{luckItem.chance}}</em>次
 				<i class="iconfont icon-help"></i>
 			</p>
-			<div class="space-box">
+			<!-- 开始开奖lev==1的奖项不在这个地方展示参与人数 -->
+			<div class="space-box" v-if="(luckItem.state !== 3 || luckItem.currentPrize.lev != 1)">
 				<p>
 					<i class="iconfont icon-participatio"></i>共
 					<em>{{luckItem.joinPeople}}</em>人参与
@@ -68,9 +89,12 @@
 </template>
 <style src="./luck-draw.scss" lang="scss"></style>
 <script>
-// import { luckInitDataInterface,luckSwiperDataInterface } from '@/services';
-import { luckInitDataInterface,luckSwiperDataInterface } from '@/services/local.js';
-import { askDialogAlert,askDialogToast } from '@/utils/ask.dialog.js';
+import askInterface from '@/services';
+import { askDialogModal, askDialogAlert, askDialogToast } from '@/utils/ask.dialog.js';
+import { sessionStorage } from '@/utils/storage.js';
+
+import winnerNo from '../../assets/luck-draw/picture_failure.png';
+import winnerYes from '../../assets/luck-draw/picture_winning.png';
 
 let LUCK_COUNT_DOWN = null, //倒计时索引
 	LUCK_REQUEST_AGAIN = true, //是否重新请求接口
@@ -79,43 +103,49 @@ export default {
 	data() {
 		return {
 			swiperOption: {
-				notNextTick: true,
-				initialSlide: 0,
-				autoplay: 3000,
-				autoplayDisableOnInteraction: false,
-				direction: 'horizontal',
-				grabCursor: true,
-				setWrapperSize: true,
-				pagination: '.swiper-pagination',
-				paginationClickable: true,
-				mousewheelControl: true,
-				observeParents: true,
-				loop: true,
-				onTransitionStart(swiper) {},
-			},
+                notNextTick: true,
+                initialSlide: 0,
+                autoplay: 3000,
+                autoplayDisableOnInteraction: false,
+                direction: 'horizontal',
+                grabCursor: true,
+                setWrapperSize: true,
+                pagination: '.swiper-pagination',
+                paginationClickable: true,
+                mousewheelControl: true,
+				observer:true,
+                observeParents: true,
+                loop: true,
+                onSlideChangeEnd(swiper){
+                	// console.log(swiper.activeIndex)
+                	// console.log(swiper.realIndex)
+                }
+            },
 			luckSwiper:[],
 			mainButtonText: '领取兑奖号',
 			luckItem: {
-				state: 0,//开奖状态
+				state: 0, //开奖状态
 				prizeIntegral: 0, //开奖积分
 				luckEnvoy: [], //幸运大使
 				chance: 0, //剩余机会
 				joinPeople: 0, //参与人数
 				experience: false, //是否体验者
 				timeText: '', //倒计时文本内容
-				urls: {			//三个按钮的跳转路径
+				urls: { //三个按钮的跳转路径
 					detail: '',
 					rule: '',
 					record: ''
 				},
 				receiveState: false, //true代表已领号，false代表未领号
-				receiveBegin: null,//开始领号时间
+				receiveBegin: null, //开始领号时间
 				receiveEnd: null, //结束领号时间,
+				luckyEnvoyState: false, //true代表幸运大使
 				currentPrize: {}, //当前开奖信息
+				lastPrize: [0, 0, 0, 0], //lev==1奖项开启状况
+				animationEnd: false //抽奖动画是否完成
 			}
 		}
 	},
-	computed: {},
 	created() {
 		this.$nextTick(() => {
 			document.body.classList.add('luck');
@@ -128,120 +158,103 @@ export default {
 	},
 	mounted() {
 		let self = this;
-		self.getLuckDrawInterface();
-		luckSwiperDataInterface().then(res=>{
+		askInterface.luckSwiper().then(res => {
 			let luckRes = res.data;
+			if(!luckRes.ok) {
+				askDialogToast({ msg: '接口访问失败', class: 'danger' });
+				return;
+			}
 			self.luckSwiper = luckRes.list;
 		});
+		self.getLuckDrawInterface();
 	},
 	methods: {
 		//数据初始化
 		getLuckDrawInterface() {
 			let self = this;
-			luckInitDataInterface().then(res => {
-				console.log(res.data);
+			askInterface.luckInit().then(res => {
 				let luckRes = res.data;
-				// begin
-				// 1、第一次进入并且state为0
-				// 传入领号开始时间
-				// 时间倒计时结束请求接口
-				// 2、获得state为1 表示开始领号
-				// 传入领号结束时间
-				// 时间倒计时结束请求接口
-				// 3、获得state为2 表示领号结束
-				// 传入开奖时间
-				// 时间倒计时结束请求接口
-				// 4、获得state为3 表示开始开奖
-				// 传入当前奖项开启剩余时间
-				// 时间倒计时结束请求接口
-				// 如果有剩余奖项开启时间则进行重复执行第4步
-				// 5、获得state为4 表示开奖结束
-				// end
-				// 
+				if(!luckRes.ok) {
+					askDialogToast({ msg: '接口访问失败', class: 'danger' });
+					return;
+				}
+
+				// 状态
 				self.luckItem.state = luckRes.lot.state;
-				if(luckRes.lot.state === 0){
-					self.luckItem.prizeIntegral = self.getPrizeIntegral(luckRes.lot.open_yb);
 
-					self.luckItem.luckEnvoy = self.getLuckEnvoy(luckRes.lot.luck_user);
+				//积分
+				self.luckItem.prizeIntegral = self.getPrizeIntegral(luckRes.lot.open_yb);
 
-					self.luckItem.chance = luckRes.lot.times;
-					self.luckItem.joinPeople = luckRes.lot.join_num;
-					self.luckItem.experience = luckRes.lot.is_try;
+				//幸运大使信息列表
+				self.luckItem.luckEnvoy = self.getLuckEnvoy(luckRes.lot.luck_user);
 
-					self.luckItem.urls.detail = luckRes.lot.detail;
-					self.luckItem.urls.rule = luckRes.lot.rule_url;
-					self.luckItem.urls.record = luckRes.lot.records;
+				//参与人数
+				self.luckItem.joinPeople = luckRes.lot.join_num;
 
+				//次数
+				self.luckItem.chance = luckRes.lot.times;
+
+				//体验者
+				self.luckItem.experience = luckRes.lot.is_try;
+
+				//三大链接
+				self.luckItem.urls.detail = luckRes.lot.detail;
+				self.luckItem.urls.rule = luckRes.lot.rule_url;
+				self.luckItem.urls.record = luckRes.lot.records;
+				if (luckRes.lot.state === 0) {
+
+					//开始领号时间
 					self.luckItem.receiveBegin = luckRes.lot.get_code_begin;
 
 					self.luckCountDown(luckRes.lot.open_time);
 					self.requestAgainCountDown(luckRes.lot.get_code_begin);
 				}
-				if(luckRes.lot.state === 1){
-					self.luckItem.prizeIntegral = self.getPrizeIntegral(luckRes.lot.open_yb);
 
-					self.luckItem.luckEnvoy = self.getLuckEnvoy(luckRes.lot.luck_user);
-
-					self.luckItem.chance = luckRes.lot.times;
-					self.luckItem.joinPeople = luckRes.lot.join_num;
-					self.luckItem.experience = luckRes.lot.is_try;
-
-					self.luckItem.urls.detail = luckRes.lot.detail;
-					self.luckItem.urls.rule = luckRes.lot.rule_url;
-					self.luckItem.urls.record = luckRes.lot.records;
+				if (luckRes.lot.state === 1) {
 
 					self.luckItem.receiveState = luckRes.lot.has_get_code;
-					self.mainButtonText = !luckRes.lot.has_get_code ? '领取兑奖号':'我的兑奖号';
+					self.mainButtonText = !luckRes.lot.has_get_code ? '领取兑奖号' : '我的兑奖号';
 
 					self.luckCountDown(luckRes.lot.open_time);
 					self.requestAgainCountDown(luckRes.lot.get_code_end);
 				}
-				if(luckRes.lot.state === 2){
+				if (luckRes.lot.state === 2) {
 					//抽奖次数隐藏
-					self.luckItem.prizeIntegral = self.getPrizeIntegral(luckRes.lot.open_yb);
-
-					self.luckItem.luckEnvoy = self.getLuckEnvoy(luckRes.lot.luck_user);
-
-					self.luckItem.chance = luckRes.lot.times;
-					self.luckItem.joinPeople = luckRes.lot.join_num;
-					self.luckItem.experience = luckRes.lot.is_try;
-
-					self.luckItem.urls.detail = luckRes.lot.detail;
-					self.luckItem.urls.rule = luckRes.lot.rule_url;
-					self.luckItem.urls.record = luckRes.lot.records;
-
 					self.luckItem.receiveState = luckRes.lot.has_get_code;
-					self.mainButtonText = !luckRes.lot.has_get_code ? '领取兑奖号':'我的兑奖号';
+					self.mainButtonText = !luckRes.lot.has_get_code ? '领取兑奖号' : '我的兑奖号';
 
 					self.luckCountDown(luckRes.lot.open_time);
 					self.requestAgainCountDown(luckRes.lot.open_time);
 				}
-				if(luckRes.lot.state === 3){
+				if (luckRes.lot.state === 3) {
 					//执行开奖操作
-					
-					self.luckItem.urls.detail = luckRes.lot.detail;
-					self.luckItem.urls.rule = luckRes.lot.rule_url;
-					self.luckItem.urls.record = luckRes.lot.records;
-
 					self.luckItem.receiveState = luckRes.lot.has_get_code;
-					self.mainButtonText = !luckRes.lot.has_get_code ? '领取兑奖号':'我的兑奖号';
-					self.mainButtonText = (luckRes.lot.cur_prize_lev == 1 && luckRes.lot.is_lucky) ? '幸运大使抽号':self.mainButtonText;
+					self.mainButtonText = !luckRes.lot.has_get_code ? '领取兑奖号' : '我的兑奖号';
+					self.mainButtonText = (luckRes.lot.cur_prize_lev == 1 && luckRes.lot.is_lucky) ? '幸运大使抽号' : self.mainButtonText;
 
-					self.luckItem.currentPrize = luckRes.lot.prizes.filter(index=>{
+					self.luckItem.luckyEnvoyState = luckRes.lot.is_lucky;
+
+					self.luckItem.currentPrize = luckRes.lot.prizes.filter(index => {
 						return index.lev == luckRes.lot.cur_prize_lev;
 					})[0];
 
-					if(self.luckItem.currentPrize.codes == ''){
-						self.luckItem.timeText = "奖项已完成";
-					}else{
+					self.luckItem.lastPrize = luckRes.lot.lucky_open.map(index => {
+						return parseInt(index, 10);
+					});
+
+					self.handlerOnLevOne();
+
+					if(luckRes.lot.cur_prize_lev !=1) self.handlerIsWinning();
+
+					if (self.luckItem.currentPrize.codes == '') {
+						self.luckItem.timeText = "奖项已全部开启完毕";
+					} else {
 						self.luckCountDown(self.luckItem.currentPrize.open_time);
 						self.requestAgainCountDown(self.luckItem.currentPrize.open_time);
 					}
 				}
-				if(luckRes.lot.state === 4){
-					self.luckItem.urls.detail = luckRes.lot.detail;
-					self.luckItem.urls.rule = luckRes.lot.rule_url;
-					self.luckItem.urls.record = luckRes.lot.records;
+				if (luckRes.lot.state === 4) {
+					self.mainButtonText = '本期中奖记录';
 				}
 			})
 		},
@@ -259,6 +272,7 @@ export default {
 		},
 		//兼容state为0的时候幸运大使没有图片路径的情况
 		getLuckEnvoy(items) {
+			if(!items || items.length === 0) return;
 			items = items.map(index => {
 				if (!index.thumb_pic) {
 					index.thumb_pic == '';
@@ -268,14 +282,9 @@ export default {
 			return items;
 		},
 		//根据传递过来的time倒计时结束后重新初始化数据
-		requestAgainCountDown(time){
+		requestAgainCountDown(time) {
 			let self = this;
 			let difference = self.getDifference(time);
-			console.log(difference);
-			console.log(self.handlerCountTime(difference))
-
-			console.log(Math.floor(difference / 1000));
-
 			if (LUCK_REQUEST_AGAIN_TIMER) clearTimeout(LUCK_REQUEST_AGAIN_TIMER);
 
 			if (Math.floor(difference / 1000) < -1) {
@@ -288,8 +297,6 @@ export default {
 				LUCK_REQUEST_AGAIN = false;
 				return;
 			};
-
-			console.log('====================================');
 			LUCK_REQUEST_AGAIN_TIMER = setTimeout(() => {
 				self.requestAgainCountDown(time);
 			}, 1000);
@@ -301,8 +308,7 @@ export default {
 
 			let cur = self.handlerCountTime(difference);
 
-			self.luckItem.timeText = `
-					<i class="iconfont icon-time"></i>
+			self.luckItem.timeText = `<i class="iconfont icon-time"></i>
 					开奖时间剩余
 					${cur.d > 0 ? `<em>${cur.d}</em>天`:''}
 					${cur.d > 0 || cur.h > 0 ? `<em>${cur.h}</em>时`:''}
@@ -319,7 +325,7 @@ export default {
 
 		},
 		//根据传递过来的time计算与当前时间的差值，毫秒
-		getDifference(time){
+		getDifference(time) {
 			let _time = time * 1000, //传过来的时间戳是从秒获取的，转换成毫秒
 				curTime = Date.now();
 			let difference = _time - curTime;
@@ -341,12 +347,12 @@ export default {
 		},
 		//处理小于10的数字
 		handlerLessTen(num) {
-			return num < 10 ? '0' + num : num;
+			return num >= -10 ? num >= 0 ? num < 10 ? '0' + num : num : '-0' + Math.abs(num) : num;
 		},
 		//主按钮点击事件处理
-		handlerMainButtonClick(event){
+		handlerMainButtonClick(event) {
 			let self = this;
-			switch (self.luckItem.state){
+			switch (self.luckItem.state) {
 				case 0:
 					self.whileStateZero();
 					break;
@@ -356,17 +362,18 @@ export default {
 				case 2:
 					self.whileStateTwo();
 					break;
-				case 3: 
+				case 3:
 					self.whileStateThree();
 					break;
 				case 4:
 					self.whileStateFour();
+					break;
 				default:
 					console.log(self.luckItem.state);
 			}
 		},
 		//state===0的时候执行的函数
-		whileStateZero(){
+		whileStateZero() {
 			let self = this;
 			let difference = self.getDifference(self.luckItem.receiveBegin);
 			let cur = self.handlerCountTime(difference);
@@ -386,25 +393,103 @@ export default {
 			}, (ok) => {
 				ok.close();
 
-			}, (close) => {
-			})
+			}, (close) => {})
 		},
-		whileStateOne(){
+		//state===1的时候执行的函数
+		whileStateOne() {
 			let self = this;
-			if(self.luckItem.receiveState){
-				askDialogToast({msg:'您已领号',class:'success'});
-			}else{
-				askDialogToast({msg:'正在领号',class:'success'});
-			}
+			self.$router.push({ name: 'luckCode' });
 		},
-		whileStateTwo(){
+		//state===2的时候执行的函数
+		whileStateTwo() {
 			this.whileStateOne();
 		},
-		whileStateThree(){
-			askDialogToast({msg:'正在抽取幸运号码',class:'success'});
+		//state===3的时候执行的函数
+		whileStateThree() {
+			let self = this;
+			if (self.luckItem.luckyEnvoyState && self.luckItem.currentPrize.lev == 1) {
+				askInterface.luckNumber().then(res => {
+					let luckRes = res.data;
+					if(!luckRes.ok) {
+						askDialogToast({ msg: '接口访问失败', class: 'danger' });
+						return;
+					}
+					askDialogModal({
+						class: 'luck-number',
+						title: '',
+						closeIcon: true,
+						content: `
+							<div class="luck-number-body">
+								<div class="luck-number-bg">
+									<div class="luck-number-result num-${luckRes.num}"></div>
+								</div>
+							</div>
+						`
+					});
+				})
+			} else {
+				self.$router.push({ name: 'luckCode' });
+			}
 		},
-		whileStateFour(){
-			askDialogToast({msg:'往期开奖记录',class:'success'});
+		//state===4的时候执行的函数
+		whileStateFour() {
+			askDialogToast({ msg: '本期开奖记录', class: 'success' });
+		},
+		//抽奖动画结束回调
+		lotteryAnimationEnd() {
+			console.log('-------------------')
+			console.log('抽奖结束');
+			console.log('-------------------')
+			this.luckItem.animationEnd = true;
+			this.handlerIsWinning();
+		},
+		//当lev==1的时候轮询获取抽奖进行状态
+		handlerOnLevOne() {
+			let self = this;
+			if (self.luckItem.currentPrize.lev != 1) return;
+			let result = self.luckItem.lastPrize.filter(index => index == 1);
+			if (result.length === self.luckItem.lastPrize.length) return;
+			let timer = setTimeout(function() {
+				clearTimeout(timer);
+				self.getLuckDrawInterface();
+			}, 5000);
+		},
+		//处理每轮抽奖弹框提示是否中奖
+		handlerIsWinning() {
+			let self = this;
+			let _winner = self.luckItem.currentPrize.is_winner;
+
+			let alertContent = `
+				<div class="winner-header">
+					<img src="${_winner ? winnerYes:winnerNo}">
+				</div>
+				<div class="winner-body ${_winner ? 'yes':''}">
+					<h3>${_winner ? '恭喜你中奖啦':'谢谢参与'}</h3>
+					<h3>${_winner ? self.luckItem.currentPrize.name+':'+ self.luckItem.currentPrize.yb:'您本轮没有中奖'}</h3>
+					<p>
+						温馨提示：抽奖机会越多，中大奖几率越高哦，赶快去商家商城购买商品增加抽奖机会吧！
+					</p>
+				</div>
+			`;
+			self.$nextTick(()=>{
+				let recordV = sessionStorage.getItem(self.luckItem.currentPrize.id);
+				if(recordV) return;
+
+				sessionStorage.setItem(self.luckItem.currentPrize.id,true);
+
+				askDialogAlert({
+					title: '',
+					msg: alertContent,
+					btnText: '立刻分享',
+					class: 'luck-winner-box',
+					closeIcon: true,
+					closeBtn: _winner,
+					shade: true,
+					shadeClick: true
+				}, (ok) => {
+					ok.close();
+				}, (close) => {})
+			})
 		}
 	}
 }

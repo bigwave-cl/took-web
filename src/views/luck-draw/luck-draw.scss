@@ -1,5 +1,4 @@
-@import '../../styles/variables.scss',
-'../../styles/mixins.scss';
+@import '../../styles/variables.scss', '../../styles/mixins.scss';
 body.luck {
 	background: no-repeat bottom/100% url('../../assets/luck-draw/bg.png') map-get($color, 100) fixed;
 }
@@ -55,6 +54,14 @@ body.luck {
 			text-align: center;
 			color: map-get($color, 300);
 		}
+		h1{
+			@include fontSize(20px);
+			font-weight: normal;
+			margin: 15vw 0;
+			padding: 0;
+			text-align: center;
+			color: map-get($color,200);
+		}
 		h2 {
 			@include fontSize(22px);
 			font-weight: normal;
@@ -74,15 +81,13 @@ body.luck {
 			margin: 0;
 			padding: 0;
 			text-align: center;
-			color: #fff;
+			color: map-get($color,200);
 			i {
 				margin: 0 .06666667rem;
 			}
 		}
 		.lucky-list {
-			@include flexLayout(flex,
-			'normal',
-			'justify');
+			@include flexLayout(flex, 'normal', 'justify');
 			width: 90vw;
 			margin: 6vw auto;
 			.lucky-li {
@@ -131,15 +136,12 @@ body.luck {
 				margin: 0 .08rem;
 			}
 		}
-		.single-p,
-		.space-box {
+		.single-p, .space-box {
 			width: 90vw;
 			margin: .4rem auto;
 		}
 		.space-box {
-			@include flexLayout(flex,
-			'center',
-			'justify');
+			@include flexLayout(flex, 'center', 'justify');
 			.space-btn {
 				position: relative;
 				padding: 0 12px 0 0;
@@ -182,6 +184,14 @@ body.luck {
 			&.has-margin {
 				margin-top: 10vw;
 			}
+			&.open-prize-num {
+				margin-top: 0;
+				-webkit-box-pack: end;
+				-webkit-justify-content: flex-end;
+				-moz-box-pack: end;
+				-ms-flex-pack: end;
+				justify-content: flex-end;
+			}
 		}
 		.play-btn {
 			margin-top: 5vw;
@@ -190,8 +200,8 @@ body.luck {
 			-moz-border-radius: .10666667rem;
 			border-radius: .10666667rem;
 			background-color: map-get($color, 300);
-			&:disabled{
-				background-color: map-get($color,400);
+			&:disabled {
+				background-color: map-get($color, 400);
 			}
 			.button-text {
 				@include fontSize(18px);
@@ -199,17 +209,178 @@ body.luck {
 				color: map-get($color, 100);
 			}
 		}
-		.open-prize{
-			h2{
+		.open-prize {
+			h2 {
 				padding: .56rem 0;
 			}
-			h5{
+			h5 {
 				padding: .56rem 0 0;
+			}
+		}
+	}
+	.luck-draw-lottery{
+		.lottery-pic-bg{
+			width: 7.86666667rem;
+			height: 4.56rem;
+		}
+		.lottery-body {
+			.lottery-group{
+				width: 1.6rem; /* 120px*/
+				height: 1.28rem; /* 96px; */
+				line-height: 1.29333333rem; /* 97px*/
+				.number-box ul li{
+				width: 1.6rem; /* 120px*/
+				height: 1.28rem; /* 96px; */
+				}
+			}
+		} 
+		.lottery-voice{
+			width: 1.06666667rem; /* 80px*/
+			height: .8rem; /* 60px*/
+		}
+	}
+}
+.ask-modal.luck-number{
+	background-color: transparent;
+	-webkit-box-shadow: none;
+	   -moz-box-shadow: none;
+	        box-shadow: none;
+	width: 100%;
+	height: 70%;
+	max-width: 10rem; /* 750px*/
+	max-height: 13.76rem; /* 1032px*/
+		pointer-events:none;
+	.ask-modal-body,
+	.custom{
+		width: 100%;
+		height: 100%;
+	}
+	.luck-number-body{
+		width: 100%;
+		height: 100%;
+		.luck-number-bg{
+			width: 100%;
+			height: 100%;
+			position: relative;
+			z-index: 2;
+			background: no-repeat center/100% url('../../assets/luck-draw/luck-number/bg.png') transparent;
+			.luck-number-result{
+				position: relative;
+				z-index: 5;
+				width: 100%;
+				height: 35%;
+				top: 50%;
+				-webkit-transform: translateY(-50%);
+				   -moz-transform: translateY(-50%);
+				    -ms-transform: translateY(-50%);
+				        transform: translateY(-50%);
+				background: no-repeat center/auto 100% url('../../assets/luck-draw/luck-number/0.png') transparent;
+				&.num-0{
+					background: no-repeat center/auto 100% url('../../assets/luck-draw/luck-number/0.png') transparent;
+				}
+				&.num-1{
+					background: no-repeat center/auto 100% url('../../assets/luck-draw/luck-number/1.png') transparent;
+				}
+				&.num-2{
+					background: no-repeat center/auto 100% url('../../assets/luck-draw/luck-number/2.png') transparent;
+				}
+				&.num-3{
+					background: no-repeat center/auto 100% url('../../assets/luck-draw/luck-number/3.png') transparent;
+				}
+				&.num-4{
+					background: no-repeat center/auto 100% url('../../assets/luck-draw/luck-number/4.png') transparent;
+				}
+				&.num-5{
+					background: no-repeat center/auto 100% url('../../assets/luck-draw/luck-number/5.png') transparent;
+				}
+				&.num-6{
+					background: no-repeat center/auto 100% url('../../assets/luck-draw/luck-number/6.png') transparent;
+				}
+				&.num-7{
+					background: no-repeat center/auto 100% url('../../assets/luck-draw/luck-number/7.png') transparent;
+				}
+				&.num-8{
+					background: no-repeat center/auto 100% url('../../assets/luck-draw/luck-number/8.png') transparent;
+				}
+				&.num-9{
+					background: no-repeat center/auto 100% url('../../assets/luck-draw/luck-number/9.png') transparent;
+				}
 			}
 		}
 	}
 }
 
+.ask-modal.luck-winner-box{
+	width: 70%;
+	min-height: .4rem;
+	padding: 0;
+	.ask-modal-header{
+		padding: 0;
+		.ask-close-icon{
+			border: .01333333rem solid map-get($color, 500); /* 1px*/
+			-webkit-border-radius: 50%;
+			   -moz-border-radius: 50%;
+			        border-radius: 50%;
+			overflow: hidden;
+			width: .53333333rem; /* 40px*/
+			height: .53333333rem; /* 40px*/
+			background-color: map-get($color, 200);
+			margin-top: -.13333333rem; /* 10px*/
+			right: -.13333333rem; /* 10px*/
+			&::before,
+			&::after{
+				width: 80%;
+				left: 10%;
+			}
+		}
+	}
+	.ask-modal-body{
+		padding: 0;
+		.winner-header{
+			width: 100%;
+			img{
+				width: 100%;
+				vertical-align: bottom;
+			}
+		}
+		.winner-body{
+			padding: .32rem 0 .4rem; /* 24px*/
+			h3{
+				font-weight: normal;
+				@include fontSize(16px);
+				@include lineHeight(20px);
+				text-align: center;
+				color:map-get($color, 100);
+				margin: .2rem 0; /* 15px*/
+				word-break:break-all;
+			}
+			p{
+				@include fontSize(12px);
+				@include lineHeight(16px);
+				color:map-get($color, 600);
+				margin: .64rem 0; /* 48px*/
+				padding: 0 .53333333rem; /* 40px*/
+			}
+			&.yes{
+				padding: .32rem 0 0;
+			}
+		}
+	}
+	.ask-modal-footer{
+		padding: 0 .4rem .4rem;
+		.ask-alert-btn{
+			color: map-get($color, 100);
+			-webkit-border-radius: .53333333rem;
+			-moz-border-radius: .53333333rem;
+			border-radius: .53333333rem;
+			background-color: map-get($color, 300);
+			padding: .08rem .32rem;
+			.button-text{
+				@include fontSize(14px);
+			}
+		}
+	}
+}
 .ask-modal.luck-state-0 {
 	width: 70%;
 	min-height: .4rem;

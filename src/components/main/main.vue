@@ -1,18 +1,24 @@
 <template>
-		<div id="app" class="container">
+	<div id="app" class="container">
 		<!-- <nav-tab :type="type"></nav-tab> -->
-			<transition :name="transitionName">
-			    <router-view></router-view>
-			</transition>
-		</div>
+		<transition :name="transitionName">
+			<router-view></router-view>
+		</transition>
+	</div>
 </template>
-
 <script>
-	export default{
-		data() {
-			return {
-				transitionName:'slide'
-			}
+import askOverlay from '@/components/ask-overlay/ask.overlay.js';
+export default {
+	data() {
+		return {
+			transitionName: 'slide'
+		}
+	},
+	watch: {
+		'$route' (to, from) {
+			askOverlay.closeAll();
 		}
 	}
+}
+
 </script>

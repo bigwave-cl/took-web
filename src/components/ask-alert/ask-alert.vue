@@ -2,6 +2,7 @@
 	<ask-modal  :show="show" 
 				:title="title" 
 				:closeIcon="icon" 
+				:closeBtn="closeBtn"
 				:shade="shade"
 				:shadeColor="shadeColor"
 				:shadeClick="shadeClick"
@@ -47,6 +48,10 @@
 			btnText:{
 				type: String,
 				default:'确定'
+			},
+			closeBtn:{
+				type:Boolean,
+				default:false
 			},
 			theme:[]
 		},

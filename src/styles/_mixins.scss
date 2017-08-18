@@ -8,6 +8,15 @@ $bac-url: '../assets/';
 		font-size: $font-size * 3;
 	}
 }
+@mixin lineHeight($line-height) {
+	line-height: $line-height;
+	[data-dpr='2'] & {
+		line-height: $line-height * 2;
+	}
+	[data-dpr='3'] & {
+		line-height: $line-height * 3;
+	}
+}
 
 
 /*定位全屏*/
@@ -146,5 +155,10 @@ $bac-url: '../assets/';
 		-moz-box-pack: center;
 		-ms-flex-pack: center;
 		justify-content: center;
+	}
+	@if $alignH=='around' {
+		-webkit-justify-content: space-around;
+		-ms-flex-pack: distribute;
+		justify-content: space-around;
 	}
 }

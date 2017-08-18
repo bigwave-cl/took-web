@@ -15,6 +15,14 @@ const askOverlay = {
 		this.instances.push(instance);
 		this.changeOverlayStyle(instance);
 	},
+	closeAll(){
+		let self = this;
+		if(self.instances.length === 0) return;
+		self.instances.map(index=>{
+			index.close();
+			self.close(index);
+		})
+	},
 	close(instance,type){
 		let index = this.instances.indexOf(instance);
 
