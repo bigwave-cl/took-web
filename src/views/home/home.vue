@@ -48,11 +48,11 @@
 			}
 		},
 		mounted(){
-			askInterface.home().then(res=>{
-				console.log(res);
-			},res=>{
-				console.log(res);
-			})
+			// askInterface.home().then(res=>{
+			// 	console.log(res);
+			// },res=>{
+			// 	console.log(res);
+			// })
 			let vm = this;
 			vm.message = '更新完成';
 			console.log(vm.$el.querySelector('#message_t').textContent);

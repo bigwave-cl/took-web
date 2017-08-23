@@ -1,7 +1,4 @@
 @import '../../styles/variables.scss', '../../styles/mixins.scss';
-body.luck {
-	background: no-repeat bottom/100% url('../../assets/luck-draw/bg.png') map-get($color, 100) fixed;
-}
 
 .luck-draw-swiper {
 	width: 100%;
@@ -83,6 +80,7 @@ body.luck {
 			text-align: center;
 			color: map-get($color,200);
 			i {
+				cursor: pointer;
 				margin: 0 .06666667rem;
 			}
 		}
@@ -133,6 +131,7 @@ body.luck {
 				color: map-get($color, 300);
 			}
 			i {
+				cursor: pointer;
 				margin: 0 .08rem;
 			}
 		}
@@ -201,7 +200,11 @@ body.luck {
 			border-radius: .10666667rem;
 			background-color: map-get($color, 300);
 			&:disabled {
-				background-color: map-get($color, 400);
+				background-color: transparent;
+				border: .02666667rem solid map-get($color, 200);
+				.button-text{
+					color: map-get($color, 200);
+				}
 			}
 			.button-text {
 				@include fontSize(18px);

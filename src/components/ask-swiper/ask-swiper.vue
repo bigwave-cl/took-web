@@ -39,6 +39,7 @@ import '@/../node_modules/swiper/dist/css/swiper.min.css';
 		watch:{
 			"slideData":{
 				handler:function(n,o){
+					// if(n.length <= 1) return;
 					this.$nextTick(()=>{
 						 if (this.swiper) {
 		                	this.swiper.update();

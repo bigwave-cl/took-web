@@ -23,6 +23,7 @@ var luckDraw = require('../static/luck.json');
 var swiperData = require('../static/swiper.json');
 var luckNumberData = require('../static/luck-number.json');
 var luckCodeData = require('../static/luck-code.json');
+var luckDetailData = require('../static/luck-detail.json');
 
 var apiRoutes = express.Router();
 
@@ -41,10 +42,11 @@ apiRoutes.post('/luck_draw', function(req, res) {
 		if(luckDraw.lot.cur_prize_lev == 1 && nowTime - curPrize.open_time >= 5 ){
 			luckDraw.lot.lucky_open[1] = 1;
 			luckDraw.lot.lucky_open[2] = 1;
-			// if(nowTime - curPrize.open_time >= 500) luckDraw.lot.state = 4;
+			if(nowTime - curPrize.open_time >= 500) luckDraw.lot.state = 4;
 		}
 
 	}
+	// luckDraw.lot.state = 2;
 	console.log(luckDraw.lot.state);
 	res.json(luckDraw);
 });
@@ -58,6 +60,10 @@ apiRoutes.post('/lottery_getLuckyNum', function(req, res) {
 
 apiRoutes.post('/lottery_getCode', function(req, res) {
 	res.json(luckCodeData);
+});
+
+apiRoutes.post('/lottery_prizeDetail', function(req, res) {
+	res.json(luckDetailData);
 });
 
 app.use('/api', apiRoutes);

@@ -16,7 +16,7 @@
 				<h4 v-text="luckItem.state === 4 ? '上期开奖金额':'本期开奖金额'"></h4>
 				<h2><em>{{luckItem.prizeIntegral}}</em>云积分</h2>
 				<h1 v-if="luckItem.state === 4">已结束，等待下次兑奖</h1>
-				<h5 v-if="luckItem.state !== 4">幸运大使<i class="iconfont icon-help"></i></h5>
+				<h5 v-if="luckItem.state !== 4">幸运大使<i @click="luckRuleBomb" class="iconfont icon-help"></i></h5>
 				<ul v-if="luckItem.state !== 4" class="lucky-list">
 					<li v-for="(envoy,$i) in luckItem.luckEnvoy" :key="$i" class="lucky-li">
 						<div class="img-box">
@@ -59,7 +59,7 @@
 				<span v-if="luckItem.experience">剩余体验次数</span>
 				<span v-else>您共有兑奖机会</span>
 				<em>{{luckItem.chance}}</em>次
-				<i class="iconfont icon-help"></i>
+				<i @click="freeRuleBomb" class="iconfont icon-help"></i>
 			</p>
 			<!-- 开始开奖lev==1的奖项不在这个地方展示参与人数 -->
 			<div class="space-box" v-if="(luckItem.state !== 3 || luckItem.currentPrize.lev != 1)">
@@ -67,9 +67,11 @@
 					<i class="iconfont icon-participatio"></i>共
 					<em>{{luckItem.joinPeople}}</em>人参与
 				</p>
-				<a :href="luckItem.urls.detail" title="奖项详情">
+
+				<router-link :to="{ path: 'luck-detail', query: { state: !luckItem.receiveState ? (luckItem.state == 0 || luckItem.state == 1) ? '1': '0' :'2'}}" >
 					<ask-button class="space-btn" :text="'奖项详情'"></ask-button>
-				</a>
+				</router-link>
+				
 			</div>
 			<div class="space-box has-margin">
 				<a :href="luckItem.urls.record" title="往期开奖记录">
@@ -92,13 +94,13 @@
 import askInterface from '@/services';
 import { askDialogModal, askDialogAlert, askDialogToast } from '@/utils/ask.dialog.js';
 import { sessionStorage } from '@/utils/storage.js';
+import { refreshTitle } from '@/utils/refresh.title.js';
 
 import winnerNo from '../../assets/luck-draw/picture_failure.png';
 import winnerYes from '../../assets/luck-draw/picture_winning.png';
 
 let LUCK_COUNT_DOWN = null, //倒计时索引
-	LUCK_REQUEST_AGAIN = true, //是否重新请求接口
-	LUCK_REQUEST_AGAIN_TIMER = true; //是否重新请求接口倒计时索引
+	LUCK_REQUEST_AGAIN_TIMER = null; //是否重新请求接口倒计时索引
 export default {
 	data() {
 		return {
@@ -147,116 +149,120 @@ export default {
 		}
 	},
 	created() {
+		refreshTitle('抽奖中心');
 		this.$nextTick(() => {
 			document.body.classList.add('luck');
 		})
 	},
 	destroyed() {
 		document.body.classList.remove('luck');
+		console.log(LUCK_REQUEST_AGAIN_TIMER);
 		if (LUCK_REQUEST_AGAIN_TIMER) clearTimeout(LUCK_REQUEST_AGAIN_TIMER);
 		LUCK_REQUEST_AGAIN_TIMER = null;
 	},
-	mounted() {
+	async mounted() {
 		let self = this;
-		askInterface.luckSwiper().then(res => {
-			let luckRes = res.data;
+		await self.getLuckDrawInterface();
+		await self.getSwiperPic();
+	},
+	methods: {
+		async getSwiperPic(){
+			let self = this;
+			let luckSwiperData = await askInterface.luckSwiper();
+
+			let luckRes = luckSwiperData.data;
 			if(!luckRes.ok) {
-				askDialogToast({ msg: '接口访问失败', class: 'danger' });
+				askDialogToast({ msg: luckRes.error ? luckRes.error:'接口访问失败', class: 'danger' });
 				return;
 			}
 			self.luckSwiper = luckRes.list;
-		});
-		self.getLuckDrawInterface();
-	},
-	methods: {
+		},
 		//数据初始化
-		getLuckDrawInterface() {
+		async getLuckDrawInterface() {
 			let self = this;
-			askInterface.luckInit().then(res => {
-				let luckRes = res.data;
-				if(!luckRes.ok) {
-					askDialogToast({ msg: '接口访问失败', class: 'danger' });
-					return;
+			let luckDraw = await askInterface.luckInit();
+			let luckRes = luckDraw.data;
+
+			if(!luckRes.ok) {
+				askDialogToast({ msg: luckRes.error ? luckRes.error:'接口访问失败', class: 'danger' });
+				return;
+			}
+			// 状态
+			self.luckItem.state = luckRes.lot.state;
+
+			//积分
+			self.luckItem.prizeIntegral = self.getPrizeIntegral(luckRes.lot.open_yb);
+
+			//幸运大使信息列表
+			self.luckItem.luckEnvoy = self.getLuckEnvoy(luckRes.lot.luck_user);
+
+			//参与人数
+			self.luckItem.joinPeople = luckRes.lot.join_num;
+
+			//次数
+			self.luckItem.chance = luckRes.lot.times;
+
+			//体验者
+			self.luckItem.experience = luckRes.lot.is_try;
+
+			//三大链接
+			self.luckItem.urls.detail = luckRes.lot.detail;
+			self.luckItem.urls.rule = luckRes.lot.rule_url;
+			self.luckItem.urls.record = luckRes.lot.records;
+
+			self.luckItem.receiveState = luckRes.lot.has_get_code;
+			if (luckRes.lot.state === 0) {
+
+				//开始领号时间
+				self.luckItem.receiveBegin = luckRes.lot.get_code_begin;
+
+				self.luckCountDown(luckRes.lot.open_time);
+				self.requestAgainCountDown(luckRes.lot.get_code_begin);
+			}
+
+			if (luckRes.lot.state === 1) {
+
+				self.mainButtonText = !luckRes.lot.has_get_code ? '领取兑奖号' : '我的兑奖号';
+
+				self.luckCountDown(luckRes.lot.open_time);
+				self.requestAgainCountDown(luckRes.lot.get_code_end);
+			}
+			if (luckRes.lot.state === 2) {
+				//抽奖次数隐藏
+				self.mainButtonText = !luckRes.lot.has_get_code ? '领取兑奖号' : '我的兑奖号';
+
+				self.luckCountDown(luckRes.lot.open_time);
+				self.requestAgainCountDown(luckRes.lot.open_time);
+			}
+			if (luckRes.lot.state === 3) {
+				//执行开奖操作
+				self.mainButtonText = !luckRes.lot.has_get_code ? '领取兑奖号' : '我的兑奖号';
+				self.mainButtonText = (luckRes.lot.cur_prize_lev == 1 && luckRes.lot.is_lucky) ? '幸运大使抽号' : self.mainButtonText;
+
+				self.luckItem.luckyEnvoyState = luckRes.lot.is_lucky;
+
+				self.luckItem.currentPrize = luckRes.lot.prizes.filter(index => {
+					return index.lev == luckRes.lot.cur_prize_lev;
+				})[0];
+
+				self.luckItem.lastPrize = luckRes.lot.lucky_open.map(index => {
+					return parseInt(index, 10);
+				});
+
+				self.handlerOnLevOne();
+
+				if(luckRes.lot.cur_prize_lev !=1) self.handlerIsWinning();
+
+				if (self.luckItem.currentPrize.codes == '') {
+					self.luckItem.timeText = "奖项已全部开启完毕";
+				} else {
+					self.luckCountDown(self.luckItem.currentPrize.next_open_time);
+					self.requestAgainCountDown(self.luckItem.currentPrize.next_open_time);
 				}
-
-				// 状态
-				self.luckItem.state = luckRes.lot.state;
-
-				//积分
-				self.luckItem.prizeIntegral = self.getPrizeIntegral(luckRes.lot.open_yb);
-
-				//幸运大使信息列表
-				self.luckItem.luckEnvoy = self.getLuckEnvoy(luckRes.lot.luck_user);
-
-				//参与人数
-				self.luckItem.joinPeople = luckRes.lot.join_num;
-
-				//次数
-				self.luckItem.chance = luckRes.lot.times;
-
-				//体验者
-				self.luckItem.experience = luckRes.lot.is_try;
-
-				//三大链接
-				self.luckItem.urls.detail = luckRes.lot.detail;
-				self.luckItem.urls.rule = luckRes.lot.rule_url;
-				self.luckItem.urls.record = luckRes.lot.records;
-				if (luckRes.lot.state === 0) {
-
-					//开始领号时间
-					self.luckItem.receiveBegin = luckRes.lot.get_code_begin;
-
-					self.luckCountDown(luckRes.lot.open_time);
-					self.requestAgainCountDown(luckRes.lot.get_code_begin);
-				}
-
-				if (luckRes.lot.state === 1) {
-
-					self.luckItem.receiveState = luckRes.lot.has_get_code;
-					self.mainButtonText = !luckRes.lot.has_get_code ? '领取兑奖号' : '我的兑奖号';
-
-					self.luckCountDown(luckRes.lot.open_time);
-					self.requestAgainCountDown(luckRes.lot.get_code_end);
-				}
-				if (luckRes.lot.state === 2) {
-					//抽奖次数隐藏
-					self.luckItem.receiveState = luckRes.lot.has_get_code;
-					self.mainButtonText = !luckRes.lot.has_get_code ? '领取兑奖号' : '我的兑奖号';
-
-					self.luckCountDown(luckRes.lot.open_time);
-					self.requestAgainCountDown(luckRes.lot.open_time);
-				}
-				if (luckRes.lot.state === 3) {
-					//执行开奖操作
-					self.luckItem.receiveState = luckRes.lot.has_get_code;
-					self.mainButtonText = !luckRes.lot.has_get_code ? '领取兑奖号' : '我的兑奖号';
-					self.mainButtonText = (luckRes.lot.cur_prize_lev == 1 && luckRes.lot.is_lucky) ? '幸运大使抽号' : self.mainButtonText;
-
-					self.luckItem.luckyEnvoyState = luckRes.lot.is_lucky;
-
-					self.luckItem.currentPrize = luckRes.lot.prizes.filter(index => {
-						return index.lev == luckRes.lot.cur_prize_lev;
-					})[0];
-
-					self.luckItem.lastPrize = luckRes.lot.lucky_open.map(index => {
-						return parseInt(index, 10);
-					});
-
-					self.handlerOnLevOne();
-
-					if(luckRes.lot.cur_prize_lev !=1) self.handlerIsWinning();
-
-					if (self.luckItem.currentPrize.codes == '') {
-						self.luckItem.timeText = "奖项已全部开启完毕";
-					} else {
-						self.luckCountDown(self.luckItem.currentPrize.open_time);
-						self.requestAgainCountDown(self.luckItem.currentPrize.open_time);
-					}
-				}
-				if (luckRes.lot.state === 4) {
-					self.mainButtonText = '本期中奖记录';
-				}
-			})
+			}
+			if (luckRes.lot.state === 4) {
+				self.mainButtonText = '本期中奖记录';
+			}
 		},
 		//过滤积分展示为1,000,000.00这种形式
 		getPrizeIntegral(num) {
@@ -287,16 +293,13 @@ export default {
 			let difference = self.getDifference(time);
 			if (LUCK_REQUEST_AGAIN_TIMER) clearTimeout(LUCK_REQUEST_AGAIN_TIMER);
 
-			if (Math.floor(difference / 1000) < -1) {
-				LUCK_REQUEST_AGAIN = true;
+			if (Math.floor(difference / 1000) < -1)  return;
+			if (Math.floor(difference / 1000) == -1) {
+				self.getLuckDrawInterface();
 				LUCK_REQUEST_AGAIN_TIMER = null;
 				return;
 			};
-			if (Math.floor(difference / 1000) == -1 && LUCK_REQUEST_AGAIN) {
-				self.getLuckDrawInterface();
-				LUCK_REQUEST_AGAIN = false;
-				return;
-			};
+
 			LUCK_REQUEST_AGAIN_TIMER = setTimeout(() => {
 				self.requestAgainCountDown(time);
 			}, 1000);
@@ -372,7 +375,6 @@ export default {
 					console.log(self.luckItem.state);
 			}
 		},
-		//state===0的时候执行的函数
 		whileStateZero() {
 			let self = this;
 			let difference = self.getDifference(self.luckItem.receiveBegin);
@@ -382,6 +384,7 @@ export default {
 						${cur.d > 0 || cur.h > 0 ? cur.h+'时':''}
 						${cur.d > 0 || cur.h > 0 || cur.m > 0 ? cur.m+'分':''}
 						${cur.d > 0 || cur.h > 0 || cur.m > 0 || cur.s > 0 ? cur.s:0}秒`.trim();
+
 			askDialogAlert({
 				title: '',
 				msg: `剩余${text}开始领号`,
@@ -392,26 +395,22 @@ export default {
 				shadeClick: false
 			}, (ok) => {
 				ok.close();
-
-			}, (close) => {})
+			})
 		},
-		//state===1的时候执行的函数
 		whileStateOne() {
 			let self = this;
 			self.$router.push({ name: 'luckCode' });
 		},
-		//state===2的时候执行的函数
 		whileStateTwo() {
 			this.whileStateOne();
 		},
-		//state===3的时候执行的函数
 		whileStateThree() {
 			let self = this;
 			if (self.luckItem.luckyEnvoyState && self.luckItem.currentPrize.lev == 1) {
 				askInterface.luckNumber().then(res => {
 					let luckRes = res.data;
 					if(!luckRes.ok) {
-						askDialogToast({ msg: '接口访问失败', class: 'danger' });
+						askDialogToast({ msg: luckRes.error ? luckRes.error:'接口访问失败', class: 'danger' });
 						return;
 					}
 					askDialogModal({
@@ -431,15 +430,12 @@ export default {
 				self.$router.push({ name: 'luckCode' });
 			}
 		},
-		//state===4的时候执行的函数
 		whileStateFour() {
-			askDialogToast({ msg: '本期开奖记录', class: 'success' });
+			window.location.href = this.luckItem.urls.detail;
 		},
 		//抽奖动画结束回调
 		lotteryAnimationEnd() {
-			console.log('-------------------')
-			console.log('抽奖结束');
-			console.log('-------------------')
+
 			this.luckItem.animationEnd = true;
 			this.handlerIsWinning();
 		},
@@ -488,7 +484,65 @@ export default {
 					shadeClick: true
 				}, (ok) => {
 					ok.close();
-				}, (close) => {})
+				})
+			})
+		},
+		//幸运大使弹框
+		luckRuleBomb(){
+			let self = this;
+
+			let alertContent = `
+				<div class="rule-body">
+					<p>
+						1、领取抽奖号码结束后，系统将随机挑选多位幸运大使。
+					</p>
+					<p>
+						2、多位幸运大使将在开启最终大奖时共同揭晓中奖号码。
+					</p>
+				</div>
+			`;
+			self.$nextTick(()=>{
+				askDialogAlert({
+					title: '什么是幸运大使？',
+					msg: alertContent,
+					btnText: '我知道了',
+					class: 'luck-rule-box',
+					closeIcon: false,
+					closeBtn: true,
+					shade: true,
+					shadeClick: true
+				}, (ok) => {
+					ok.close();
+				})
+			})
+		},
+		//体验次数说明弹框
+		freeRuleBomb(){
+			let self = this;
+
+			let alertContent = `
+				<div class="rule-body">
+					<p>
+						1、为让每个人都有参与抽奖的机会，每个用户拥有共计6期的免费体验机会，每期体验机会仅可获得一个抽奖号码。
+					</p>
+					<p>
+						2、免费体验机会次数不可和普通抽奖机会次数叠加。
+					</p>
+				</div>
+			`;
+			self.$nextTick(()=>{
+				askDialogAlert({
+					title: '什么是免费体验期数？',
+					msg: alertContent,
+					btnText: '我知道了',
+					class: 'luck-rule-box',
+					closeIcon: false,
+					closeBtn: true,
+					shade: true,
+					shadeClick: true
+				}, (ok) => {
+					ok.close();
+				})
 			})
 		}
 	}

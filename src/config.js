@@ -1,4 +1,34 @@
-export const baseUrl = 'http://test.xiuzhimeng.com/huoyun/ajax/api';
-export const baseUrl2 = 'http://test.xiuzhimeng.com/fqb/page/web-app/api';
-export const AUTH_TOKEN = '50119abbd4f1991e7072f61cd5266dc4';
-export const USER_ID = 164;
+let config = {
+	isLocal: false,
+	el: document.getElementsByTagName('body')[0],
+	getBaseUrl() {
+		let self = this;
+		let _r = this.el.getAttribute('data-api');
+		if (self.isLocal) {
+			_r = 'http://qft.jiaohang999.com/qft/page/web-app/api';
+			// _r = 'http://test.xiuzhimeng.com/fqb/page/web-app/api';
+		}
+		return _r;
+	},
+	getAuthToken() {
+		let self = this;
+		let _r = this.el.getAttribute('data-token');
+		if (self.isLocal) {
+			_r = '1a6d0c9bf64054e48cfdf3b28cb62bb8';
+		}
+		return _r;
+	},
+	getWId() {
+		let self = this;
+		let _r = this.el.getAttribute('data-wid');
+		if (self.isLocal) {
+			_r = 1;
+		}
+		return _r;
+	}
+}
+
+export const PROD = config.isLocal;
+export const BASE_URL = config.getBaseUrl();
+export const AUTH_TOKEN = config.getAuthToken();
+export const W_ID = config.getWId();

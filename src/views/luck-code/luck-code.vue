@@ -28,6 +28,7 @@
 <script>
 import askInterface from '@/services';
 import { askDialogAlert } from '@/utils/ask.dialog.js';
+import { refreshTitle } from '@/utils/refresh.title.js';
 export default {
 	data() {
 		return {
@@ -40,10 +41,11 @@ export default {
 		}
 	},
 	created() {
+		refreshTitle('领取兑奖号');
 		let self = this;
 		askInterface.luckCode().then(res => {
 			let luckRes = res.data;
-			console.log(luckRes);
+
 			self.item.chance = luckRes.times;
 			self.item.experience = luckRes.is_try;
 			self.item.luckyEnvoyState = luckRes.is_lucky;
@@ -73,7 +75,7 @@ export default {
 					shadeClick: true
 				}, (ok) => {
 					ok.close();
-				}, (close) => {})
+				})
 			})
 		}
 	}

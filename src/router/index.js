@@ -4,11 +4,12 @@ import main from '@/components/main/main'
 import home from '@/views/home/home'
 import luckDraw from '@/views/luck-draw/luck-draw.vue'
 import luckCode from '@/views/luck-code/luck-code.vue'
+import luckDetail from '@/views/luck-detail/luck-detail.vue'
 
 Vue.use(Router)
 
 export default new Router({
-	mode: 'history',
+	// mode: 'history',
 	routes: [{
 		path: '/',
 		name: 'main',
@@ -26,6 +27,10 @@ export default new Router({
 			path: 'luck-code',
 			name:'luckCode',
 			component: luckCode,
+		},{
+			path: 'luck-detail',
+			name:'luckDetail',
+			component: luckDetail,
 		}]
 	}]
 })

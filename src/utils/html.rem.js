@@ -31,7 +31,9 @@
 	        // 其他设备下，仍旧使用1倍的方案
 	        dpr = 1;
 	    }
+	    // dpr = 2; //TODO Remove
 	    scale = 1 / dpr;
+
 	}
 	docEl.setAttribute('data-dpr', dpr);
 	if (!metaEl) {
@@ -59,11 +61,13 @@
         timer = setTimeout(refreshRem, 300);
     }, false);
     win.addEventListener('pageshow', function(e) {
+    	
         if (e.persisted) {
             clearTimeout(timer);
             timer = setTimeout(refreshRem, 300);
         }
     }, false);
 
-    refreshRem();
+    clearTimeout(timer);
+    timer = setTimeout(refreshRem, 300);
 })(window)

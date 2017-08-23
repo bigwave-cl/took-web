@@ -3,7 +3,7 @@ import axios from 'axios'
 import qs from 'qs';
 import * as config from '@/config.js';
 
-export default async(options) => {
+export default async (options) => {
 	let opt = {
 		url: '',
 		proxy: '',
@@ -12,12 +12,14 @@ export default async(options) => {
 		complete: null,
 		before: null
 	};
-	opt = Object.assign(opt, options);
 
+	Object.keys(options).forEach(key=>{
+		opt[key] =  options[key];
+	})
 	opt.method = opt.method.toUpperCase();
 	Object.defineProperties(opt.data, {
 		"wid": {
-			value: config.USER_ID,
+			value: config.W_ID,
 			writable: false,
 			enumerable: true
 		},
@@ -28,7 +30,6 @@ export default async(options) => {
 		}
 	});
 
-
 	//添加一个请求拦截器
 	axios.interceptors.request.use(function(config) {
 		//在请求发送之前做一些事
@@ -36,20 +37,18 @@ export default async(options) => {
 		return config;
 	}, function(error) {
 		//当出现请求错误是做一些事
-		if (opt.complete) opt.complete();
+		if (opt.complete) opt.complete(error);
 		return Promise.reject(error);
 	});
 
-	//添加一个返回拦截器
+	/*//添加一个返回拦截器
 	axios.interceptors.response.use(function(response) {
 		//对返回的数据进行一些处理
-		if (opt.complete) opt.complete();
 		return response;
 	}, function(error) {
 		//对返回的错误进行一些处理
-		if (opt.complete) opt.complete();
 		return Promise.reject(error);
-	});
+	});*/
 
 	if (opt.method === 'GET') {
 		try {
@@ -61,8 +60,11 @@ export default async(options) => {
 				responsetype: 'json'
 			});
 
+			if (opt.complete) opt.complete(response);
+			
 			return response;
 		} catch (error) {
+			if (opt.complete) opt.complete(error);
 			throw new Error(error)
 		}
 	}
@@ -79,8 +81,11 @@ export default async(options) => {
 				},
 			});
 
+			if (opt.complete) opt.complete(response);
+
 			return response;
 		} catch (error) {
+			if (opt.complete) opt.complete(error);
 			throw new Error(error)
 		}
 	}

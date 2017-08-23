@@ -7,7 +7,7 @@
 		"lot_id": 240,
 		"open_yb": "1000",
 		"join_num": 134,
-		"has_get_code": true,
+		"has_get_code": false,
 		"records": "http://test.xiuzhimeng.com/fqb/page/lot/record?lot_id=240&t=1502331490",
 		"detail": "http://test.xiuzhimeng.com/fqb/page/lot/winners?lot_id=240&t=1502331490",
 		"rule_url": "http://test.xiuzhimeng.com/fqb/page/lot/rule",
@@ -35,9 +35,9 @@
 			"id": 0,
 			"name": "虚位以待"
 		}],
-		"get_code_begin": 1503044460,
-		"get_code_end": 1503044520,
-		"open_time": 1503044640,
+		"get_code_begin": 1503386140,
+		"get_code_end": 1503386170,
+		"open_time": 1503386200,
 		"times": 3,
 		"is_try": false,
 		"prizes": [
@@ -48,7 +48,8 @@
 			"lev": "3",
 			"num": "1",
 			"codes": "3828,6666",
-			"open_time": 1503047280,
+			"open_time": 1503299430,
+			"next_open_time": 1503299430,
 			"is_open": true,
 			"is_winner": true
 		},
@@ -59,7 +60,8 @@
 			"lev": "2",
 			"num": "1",
 			"codes": "3826",
-			"open_time": 1503047310,
+			"open_time": 1503299460,
+			"next_open_time": 1503299460,
 			"is_open": true,
 			"is_winner": false
 		},
@@ -70,7 +72,8 @@
 			"lev": "1",
 			"num": "1",
 			"codes": "3032",
-			"open_time": 1503047340,
+			"open_time": 1503306614,
+			"next_open_time": 1503306614,
 			"is_open": true,
 			"is_winner": true
 		}],

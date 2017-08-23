@@ -1,0 +1,169 @@
+@import '../../styles/variables.scss', '../../styles/mixins.scss';
+.luck-detail-box {
+	width: 100vw;
+	padding: .8rem 0 .4rem 0;
+	text-align: center;
+	h4 {
+		@include fontSize(20px);
+		font-weight: 600;
+		margin: 0;
+		padding: 0;
+		text-align: center;
+		color: map-get($color, 200);
+	}
+	h2 {
+		@include fontSize(22px);
+		font-weight: normal;
+		margin: 0;
+		padding: 0;
+		padding: .16rem;
+		text-align: center;
+		letter-spacing: 1px;
+		color: map-get($color, 200);
+		em {
+			font-style: normal;
+		}
+	}
+	p {
+		@include fontSize(16px);
+		margin: 0;
+		text-align: left;
+		color: map-get($color, 200);
+		em {
+			font-style: normal;
+			margin: 0 .04rem;
+			color: map-get($color, 300);
+		}
+		i {
+			margin: 0 .08rem;
+			cursor: pointer;
+		}
+	}
+	.single-p, .space-box {
+		width: 90vw;
+		margin: .4rem auto;
+	}
+	.space-box {
+		@include flexLayout(flex, 'center', 'justify');
+		.space-btn {
+			position: relative;
+			padding: 0 12px 0 0;
+			.button-text {
+				@include fontSize(16px);
+				padding: 0;
+				color: map-get($color, 200);
+			}
+			&::after {
+				position: absolute;
+				z-index: 2;
+				top: 50%;
+				right: 0;
+				display: block;
+				width: .16rem;
+				height: .16rem;
+				margin-top: -.05333333rem;
+				content: '';
+				-webkit-transform: rotate(-135deg);
+				-moz-transform: rotate(-135deg);
+				-ms-transform: rotate(-135deg);
+				transform: rotate(-135deg);
+				pointer-events: none;
+				border-bottom: .02666667rem solid map-get($color, 200);
+				border-left: .02666667rem solid map-get($color, 200);
+			}
+		}
+		.ordinary-btn {
+			padding: .16rem .32rem;
+			border: .02666667rem solid map-get($color, 200);
+			-webkit-border-radius: .10666667rem;
+			-moz-border-radius: .10666667rem;
+			border-radius: .10666667rem;
+			.button-text {
+				@include fontSize(14px);
+				padding: 0;
+				color: map-get($color, 200);
+			}
+		}
+		&.has-margin {
+			margin-top: 10vw;
+		}
+		&.open-prize-num {
+			margin-top: 0;
+			-webkit-box-pack: end;
+			-webkit-justify-content: flex-end;
+			-moz-box-pack: end;
+			-ms-flex-pack: end;
+			justify-content: flex-end;
+		}
+	}
+	.lucky-list {
+		width: 90vw;
+		margin: 0 auto;
+		.lucky-li {
+			@include flexLayout(flex, 'center', 'justify');
+			margin: 5vw 0;
+			.text {
+				@include fontSize(18px);
+				color: map-get($color, 200);
+				h5 {
+					@include fontSize(18px);
+					font-weight: normal;
+					margin: 0;
+				}
+				span {
+					word-break: break-all;
+					color: map-get($color, 300);
+				}
+				&.prize-integral {
+					@include flexLayout(flex, 'center', 'normal');
+					-webkit-box-flex: 1;
+					-webkit-flex: 1 1 auto;
+					-moz-box-flex: 1;
+					-ms-flex: 1 1 auto;
+					flex: 1 1 auto;
+					h5 {
+						-webkit-box-flex: 0;
+						-webkit-flex: 0 0 1.57333333rem;
+						-moz-box-flex: 0;
+						-ms-flex: 0 0 1.57333333rem;
+						flex: 0 0 1.57333333rem;
+						/* 118px;*/
+					}
+					span {
+						display: inline-block;
+						text-align: left;
+					}
+				}
+				&.people {
+					text-align: right;
+					-webkit-box-flex: 0;
+					-webkit-flex: 0 0 2.26666667rem;
+					-moz-box-flex: 0;
+					-ms-flex: 0 0 2.26666667rem;
+					flex: 0 0 2.26666667rem;
+					/* 170px;*/
+				}
+			}
+		}
+	}
+	.ask-button.state-btn {
+		margin-top: 14vh;
+		padding: .16rem .88rem;
+		-webkit-border-radius: .10666667rem;
+		-moz-border-radius: .10666667rem;
+		border-radius: .10666667rem;
+		background-color: map-get($color, 300);
+		.button-text {
+			@include fontSize(18px);
+			padding: 0;
+			color: map-get($color, 100);
+		}
+		&:disabled {
+			border: .02666667rem solid map-get($color, 200);
+			background-color: transparent;
+			.button-text {
+				color: map-get($color, 200);
+			}
+		}
+	}
+}
