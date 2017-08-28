@@ -62,7 +62,7 @@
 				color: map-get($color,400);
 			}
 			.number-box{
-				@include flexLayout(flex,'center','normal');
+				@include flexLayout(flex,'center','center');
 			    -webkit-box-orient: horizontal;
 			    -webkit-box-direction: normal;
 			    -webkit-flex-flow: row wrap;
@@ -81,6 +81,7 @@
 					-moz-box-flex: 0;
 					-ms-flex: 0 0 33.33%;
 					flex: 0 0 33.33%;
+					text-align: center;
 				}
 			}
 		}

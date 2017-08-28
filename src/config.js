@@ -1,11 +1,12 @@
 let config = {
-	isLocal: false,
+	isLocal: true,
 	el: document.getElementsByTagName('body')[0],
 	getBaseUrl() {
 		let self = this;
 		let _r = this.el.getAttribute('data-api');
 		if (self.isLocal) {
-			_r = 'http://qft.jiaohang999.com/qft/page/web-app/api';
+			// _r = 'http://qft.jiaohang999.com/qft/page/web-app/api';
+			_r = 'http://192.168.1.100:8089/api'; 
 			// _r = 'http://test.xiuzhimeng.com/fqb/page/web-app/api';
 		}
 		return _r;

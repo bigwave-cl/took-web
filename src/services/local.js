@@ -1,7 +1,8 @@
 import ajax from '@/utils/http.axios.js';
 import { sessionStorage } from '@/utils/storage.js';
+import * as config from '@/config.js';
 
-const baseURL = 'http://192.168.1.100:8089/api';
+const baseURL = config.BASE_URL;
 let LOT_ID = (()=>{
 	let _r = sessionStorage.getItem('lot_id');
 	return _r ? _r : '';
