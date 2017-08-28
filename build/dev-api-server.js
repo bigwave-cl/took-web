@@ -37,12 +37,12 @@ apiRoutes.post('/luck_draw', function(req, res) {
 		var curPrize = luckDraw.lot.prizes.filter(index=>{
 			return index.lev == luckDraw.lot.cur_prize_lev;
 		})[0];
-		if(curPrize.open_time - nowTime <= 0) luckDraw.lot.cur_prize_lev = Math.max(1,--luckDraw.lot.cur_prize_lev);
-		console.log(nowTime - curPrize.open_time);
-		if(luckDraw.lot.cur_prize_lev == 1 && nowTime - curPrize.open_time >= 5 ){
+		if(curPrize.next_open_time - nowTime <= 0) luckDraw.lot.cur_prize_lev = Math.max(1,--luckDraw.lot.cur_prize_lev);
+		console.log(nowTime - curPrize.next_open_time);
+		if(luckDraw.lot.cur_prize_lev == 1 && nowTime - curPrize.next_open_time >= 5 ){
 			luckDraw.lot.lucky_open[1] = 1;
 			luckDraw.lot.lucky_open[2] = 1;
-			if(nowTime - curPrize.open_time >= 500) luckDraw.lot.state = 4;
+			if(nowTime - curPrize.next_open_time >= 300) luckDraw.lot.state = 4;
 		}
 
 	}

@@ -16,5 +16,8 @@
 	}],
 	"open_yb": 1000,
 	"join_num": 9,
-	"hasmore": false
+	"hasmore": false,
+	"times": 0,
+	"is_try": true,
+	"state": 4
 }

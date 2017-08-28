@@ -2,7 +2,7 @@ import Vue from 'vue'
 import ComponentTemplate from './ask-modal.vue';
 const VueComponent = Vue.extend(ComponentTemplate);
 
-export const askModal = (option) =>{
+export const askModal = (option,onClose) =>{
 	let vm = new VueComponent().$mount();
 	let opt = {
 		title:'自定义框',
@@ -38,6 +38,7 @@ export const askModal = (option) =>{
 	}
 	vm.$on('onclose',()=>{
 		vm.show = false;
+		if(onClose) onClose();
 	});
 	document.body.appendChild(vm.$el);
 	vm.show = true;

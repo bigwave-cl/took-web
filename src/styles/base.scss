@@ -9,7 +9,7 @@ $url: '../assets/';
 
 html {
 	font-family: 'dqjt', 'Microsoft YaHei', Monospace, Arial, 'Helvetica Neue', Helvetica, sans-serif;
-	font-size: 75px;
+	font-size: 62.5%;
 }
 
 body {
@@ -30,17 +30,13 @@ body.luck {
 	background: no-repeat bottom/100% url('../assets/luck-draw/bg.png') map-get($color, 100) fixed;
 }
 
-.iconfont{
-	@include fontSize(16px);
-}
 * {
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 }
 
-*:before,
-*:after {
+*:before, *:after {
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
@@ -51,64 +47,64 @@ ul {
 	padding: 0;
 	list-style: none;
 }
-.ask-modal.luck-rule-box{
+
+.ask-modal.luck-rule-box {
 	width: 70%;
-	min-height: .4rem;
+	min-height: 30px;
 	padding: 0;
-	-webkit-border-radius: .10666667rem;
-	   -moz-border-radius: .10666667rem;
-	        border-radius: .10666667rem;
-	.ask-modal-header{
-		padding: .72rem 0;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+	.ask-modal-header {
+		padding: 26px 0;
 		text-align: center;
-		.ask-modal-title{
+		.ask-modal-title {
+			font-size: 1.8rem;
+			width: 100%;
 			color: map-get($color, 100);
-				@include fontSize(18px);
-				width: 100%;
 		}
-		.ask-close-icon{
-			border: .01333333rem solid map-get($color, 500); /* 1px*/
-			-webkit-border-radius: 50%;
-			   -moz-border-radius: 50%;
-			        border-radius: 50%;
+		.ask-close-icon {
+			right: -5px;
 			overflow: hidden;
-			width: .53333333rem; /* 40px*/
-			height: .53333333rem; /* 40px*/
+			width: 20px;
+			height: 20px;
+			margin-top: -5px;
+			border: 1px solid map-get($color, 500);
+			-webkit-border-radius: 50%;
+			-moz-border-radius: 50%;
+			border-radius: 50%;
 			background-color: map-get($color, 200);
-			margin-top: -.13333333rem; /* 10px*/
-			right: -.13333333rem; /* 10px*/
-			&::before,
-			&::after{
-				width: 80%;
+			&::before, &::after {
 				left: 10%;
+				width: 80%;
 			}
 		}
 	}
-	.ask-modal-body{
+	.ask-modal-body {
 		padding: 0;
-		.rule-body{
+		.rule-body {
 			padding: 0;
-			p{
-				@include fontSize(14px);
-				@include lineHeight(20px);
-				color:map-get($color, 400M);
-				margin: 0 0 .4rem;
-				padding: 0 .53333333rem; /* 40px*/
+			p {
+				font-size: 1.4rem;
+				line-height: 2rem;
+				margin: 0 0 15px;
+				padding: 0 20px;
 				text-indent: 2em;
+				color: map-get($color, 400M);
 			}
 		}
 	}
-	.ask-modal-footer{
-		padding: 0 .4rem .4rem;
-		.ask-alert-btn{
+	.ask-modal-footer {
+		padding: 0 15px 15px;
+		.ask-alert-btn {
+			padding: 4px 14px;
 			color: map-get($color, 100);
-			-webkit-border-radius: .53333333rem;
-			-moz-border-radius: .53333333rem;
-			border-radius: .53333333rem;
+			-webkit-border-radius: 20px;
+			-moz-border-radius: 20px;
+			border-radius: 20px;
 			background-color: map-get($color, 300);
-			padding: .08rem .32rem;
-			.button-text{
-				@include fontSize(12px);
+			.button-text {
+				font-size: 1.2rem;
 			}
 		}
 	}

@@ -12,12 +12,12 @@
 		</ask-swiper>
 		<section>
 			<!-- 兑奖开始 开始领号 结束领号 -->
-			<div v-if="luckItem.state !== 3">
-				<h4 v-text="luckItem.state === 4 ? '上期开奖金额':'本期开奖金额'"></h4>
+			<div v-if="luckItem.state !== luckRef.UNDERWAY">
+				<h4 v-text="luckItem.state === luckRef.FINISH ? '上期开奖金额':'本期开奖金额'"></h4>
 				<h2><em>{{luckItem.prizeIntegral}}</em>云积分</h2>
-				<h1 v-if="luckItem.state === 4">已结束，等待下次兑奖</h1>
-				<h5 v-if="luckItem.state !== 4">幸运大使<i @click="luckRuleBomb" class="iconfont icon-help"></i></h5>
-				<ul v-if="luckItem.state !== 4" class="lucky-list">
+				<h1 v-if="luckItem.state === luckRef.FINISH">已结束，等待下次兑奖</h1>
+				<h5 v-if="luckItem.state !== luckRef.FINISH">幸运大使<i @click="luckRuleBomb" class="iconfont icon-help"></i></h5>
+				<ul v-if="luckItem.state !== luckRef.FINISH" class="lucky-list">
 					<li v-for="(envoy,$i) in luckItem.luckEnvoy" :key="$i" class="lucky-li">
 						<div class="img-box">
 							<img src='../../assets/luck-draw/logo.png' v-if="!envoy.thumb_pic">
@@ -30,13 +30,13 @@
 				</ul>
 			</div>
 			<!-- 开始开奖（不包含lev==1的奖项） -->
-			<div class="open-prize" v-if="luckItem.state === 3 && luckItem.currentPrize.lev != 1">
+			<div class="open-prize" v-if="luckItem.state === luckRef.UNDERWAY && luckItem.currentPrize.lev != 1">
 				<h2><em>{{luckItem.currentPrize.name}}：</em><em>{{luckItem.currentPrize.yb}}</em>云积分</h2>
 				<h5>中奖号码</h5>
 				<h2><em>{{luckItem.currentPrize.codes}}</em></h2>
 			</div>
 			<!-- 开始开奖lev==1的奖项 -->
-			<div class="open-prize" v-if="luckItem.state === 3 && luckItem.currentPrize.lev == 1">
+			<div class="open-prize" v-if="luckItem.state === luckRef.UNDERWAY && luckItem.currentPrize.lev == 1">
 				<h2><em>{{luckItem.currentPrize.name}}：</em><em>{{luckItem.currentPrize.yb}}</em>云积分</h2>
 				<div class="space-box open-prize-num">
 					<p>
@@ -52,9 +52,9 @@
 				<h5>中奖号码:<span v-if="luckItem.animationEnd">{{luckItem.currentPrize.codes}}</span></h5>
 			</div>
 			<!-- 开始开奖lev==1的奖项不展示倒计时文本 -->
-			<p class="single-p" v-if="luckItem.state !== 4 && (luckItem.state !== 3 || luckItem.currentPrize.lev != 1)" v-html="luckItem.timeText"></p>
+			<p class="single-p" v-if="luckItem.state !== luckRef.FINISH && (luckItem.state !== luckRef.UNDERWAY || luckItem.currentPrize.lev != 1)" v-html="luckItem.timeText"></p>
 			<!-- 开始开奖和结束领号不展示次数文本 -->
-			<p class="single-p" v-if="luckItem.state !== 4 && luckItem.state !== 3 && luckItem.state !== 2">
+			<p class="single-p" v-if="luckItem.state !== luckRef.FINISH && luckItem.state !== luckRef.UNDERWAY && luckItem.state !== luckRef.RECEIVE">
 				<i class="iconfont icon-chance"></i>
 				<span v-if="luckItem.experience">剩余体验次数</span>
 				<span v-else>您共有兑奖机会</span>
@@ -62,13 +62,13 @@
 				<i @click="freeRuleBomb" class="iconfont icon-help"></i>
 			</p>
 			<!-- 开始开奖lev==1的奖项不在这个地方展示参与人数 -->
-			<div class="space-box" v-if="(luckItem.state !== 3 || luckItem.currentPrize.lev != 1)">
+			<div class="space-box" v-if="(luckItem.state !== luckRef.UNDERWAY || luckItem.currentPrize.lev != 1)">
 				<p>
 					<i class="iconfont icon-participatio"></i>共
 					<em>{{luckItem.joinPeople}}</em>人参与
 				</p>
 
-				<router-link :to="{ path: 'luck-detail', query: { state: !luckItem.receiveState ? (luckItem.state == 0 || luckItem.state == 1) ? '1': '0' :'2'}}" >
+				<router-link :to="{ path: 'luck-detail', query: { r: luckItem.receiveState ? '1':'0'}}" >
 					<ask-button class="space-btn" :text="'奖项详情'"></ask-button>
 				</router-link>
 				
@@ -82,7 +82,7 @@
 				</a>
 			</div>
 			<ask-button class="play-btn" 
-						:disabled="(luckItem.state === 2 || luckItem.state === 3) && !luckItem.receiveState" 
+						:disabled="(luckItem.state === luckRef.RECEIVE || luckItem.state === luckRef.UNDERWAY) && !luckItem.receiveState" 
 						:text="mainButtonText" 
 						@ask-click="handlerMainButtonClick($event)">
 			</ask-button>
@@ -104,6 +104,13 @@ let LUCK_COUNT_DOWN = null, //倒计时索引
 export default {
 	data() {
 		return {
+			luckRef : {
+				BEFORE: 0,//活动未开始
+				RECEIVE: 1, //开始领取兑奖号
+				RECEIVEING: 2, //领取兑奖号
+				UNDERWAY: 3,//活动进行中
+				FINISH: 4,//活动已结束
+			},
 			swiperOption: {
                 notNextTick: true,
                 initialSlide: 0,
@@ -182,13 +189,14 @@ export default {
 			let self = this;
 			let luckDraw = await askInterface.luckInit();
 			let luckRes = luckDraw.data;
+			let sLuckNumber = sessionStorage.getItem('luck_number');
 
 			if(!luckRes.ok) {
 				askDialogToast({ msg: luckRes.error ? luckRes.error:'接口访问失败', class: 'danger' });
 				return;
 			}
 			// 状态
-			self.luckItem.state = luckRes.lot.state;
+			self.luckItem.state = parseInt(luckRes.lot.state,10);
 
 			//积分
 			self.luckItem.prizeIntegral = self.getPrizeIntegral(luckRes.lot.open_yb);
@@ -211,7 +219,9 @@ export default {
 			self.luckItem.urls.record = luckRes.lot.records;
 
 			self.luckItem.receiveState = luckRes.lot.has_get_code;
-			if (luckRes.lot.state === 0) {
+			if (luckRes.lot.state === self.luckRef.BEFORE) {
+
+				if(sLuckNumber) sessionStorage.removeItem('luck_number');
 
 				//开始领号时间
 				self.luckItem.receiveBegin = luckRes.lot.get_code_begin;
@@ -220,25 +230,30 @@ export default {
 				self.requestAgainCountDown(luckRes.lot.get_code_begin);
 			}
 
-			if (luckRes.lot.state === 1) {
+			if (luckRes.lot.state === self.luckRef.RECEIVE) {
 
 				self.mainButtonText = !luckRes.lot.has_get_code ? '领取兑奖号' : '我的兑奖号';
 
 				self.luckCountDown(luckRes.lot.open_time);
 				self.requestAgainCountDown(luckRes.lot.get_code_end);
 			}
-			if (luckRes.lot.state === 2) {
+			if (luckRes.lot.state === self.luckRef.RECEIVEING) {
 				//抽奖次数隐藏
-				self.mainButtonText = !luckRes.lot.has_get_code ? '领取兑奖号' : '我的兑奖号';
+				self.mainButtonText = !luckRes.lot.has_get_code ? '领号结束' : '我的兑奖号';
 
 				self.luckCountDown(luckRes.lot.open_time);
 				self.requestAgainCountDown(luckRes.lot.open_time);
 			}
-			if (luckRes.lot.state === 3) {
+			if (luckRes.lot.state === self.luckRef.UNDERWAY) {
 				//执行开奖操作
-				self.mainButtonText = !luckRes.lot.has_get_code ? '领取兑奖号' : '我的兑奖号';
-				self.mainButtonText = (luckRes.lot.cur_prize_lev == 1 && luckRes.lot.is_lucky) ? '幸运大使抽号' : self.mainButtonText;
+				self.mainButtonText = !luckRes.lot.has_get_code ? '领号结束' : '我的兑奖号';
+				if(luckRes.lot.has_get_code){
+					self.mainButtonText = (luckRes.lot.cur_prize_lev == 1 && luckRes.lot.is_lucky) ? '幸运大使抽号' : self.mainButtonText;	
 
+				}
+				if(sLuckNumber){ 
+					self.mainButtonText = `您抽的幸运数字:${sLuckNumber}`;
+				}
 				self.luckItem.luckyEnvoyState = luckRes.lot.is_lucky;
 
 				self.luckItem.currentPrize = luckRes.lot.prizes.filter(index => {
@@ -260,7 +275,7 @@ export default {
 					self.requestAgainCountDown(self.luckItem.currentPrize.next_open_time);
 				}
 			}
-			if (luckRes.lot.state === 4) {
+			if (luckRes.lot.state === self.luckRef.FINISH) {
 				self.mainButtonText = '本期中奖记录';
 			}
 		},
@@ -356,19 +371,19 @@ export default {
 		handlerMainButtonClick(event) {
 			let self = this;
 			switch (self.luckItem.state) {
-				case 0:
+				case self.luckRef.BEFORE:
 					self.whileStateZero();
 					break;
-				case 1:
+				case self.luckRef.RECEIVE:
 					self.whileStateOne();
 					break;
-				case 2:
+				case self.luckRef.RECEIVEING:
 					self.whileStateTwo();
 					break;
-				case 3:
+				case self.luckRef.UNDERWAY:
 					self.whileStateThree();
 					break;
-				case 4:
+				case self.luckRef.FINISH:
 					self.whileStateFour();
 					break;
 				default:
@@ -399,7 +414,26 @@ export default {
 		},
 		whileStateOne() {
 			let self = this;
-			self.$router.push({ name: 'luckCode' });
+			if(self.luckItem.chance){
+				self.$router.push({ name: 'luckCode' });
+				return;
+			}
+
+			let alertContent = `
+				您的免费${self.luckItem.experience ? '体验期数':'抽奖机会'}已用完
+			`;
+			askDialogAlert({
+				title: '',
+				msg: alertContent,
+				btnText: '确定',
+				class: 'luck-state-0',
+				closeIcon: false,
+				shade: true,
+				shadeClick: false
+			}, (ok) => {
+				ok.close();
+			})
+			
 		},
 		whileStateTwo() {
 			this.whileStateOne();
@@ -407,6 +441,8 @@ export default {
 		whileStateThree() {
 			let self = this;
 			if (self.luckItem.luckyEnvoyState && self.luckItem.currentPrize.lev == 1) {
+				let sLuckNumber = sessionStorage.getItem('luck_number');
+				if(sLuckNumber) return;
 				askInterface.luckNumber().then(res => {
 					let luckRes = res.data;
 					if(!luckRes.ok) {
@@ -424,6 +460,9 @@ export default {
 								</div>
 							</div>
 						`
+					},()=>{
+						sessionStorage.setItem('luck_number',luckRes.num);
+						self.mainButtonText = `您抽的幸运数字:${luckRes.num}`;
 					});
 				})
 			} else {

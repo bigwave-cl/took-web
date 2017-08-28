@@ -1,10 +1,10 @@
 @import '../../styles/variables.scss', '../../styles/mixins.scss';
 .luck-detail-box {
 	width: 100vw;
-	padding: .8rem 0 .4rem 0;
+	padding: 30px 0 15px 0;
 	text-align: center;
 	h4 {
-		@include fontSize(20px);
+		font-size: 2rem;
 		font-weight: 600;
 		margin: 0;
 		padding: 0;
@@ -12,11 +12,10 @@
 		color: map-get($color, 200);
 	}
 	h2 {
-		@include fontSize(22px);
+		font-size: 2.2rem;
 		font-weight: normal;
 		margin: 0;
-		padding: 0;
-		padding: .16rem;
+		padding: 6px;
 		text-align: center;
 		letter-spacing: 1px;
 		color: map-get($color, 200);
@@ -25,70 +24,27 @@
 		}
 	}
 	p {
-		@include fontSize(16px);
+		font-size: 1.6rem;
 		margin: 0;
 		text-align: left;
 		color: map-get($color, 200);
 		em {
 			font-style: normal;
-			margin: 0 .04rem;
+			margin: 0 3px;
 			color: map-get($color, 300);
 		}
 		i {
-			margin: 0 .08rem;
+			margin: 0 6px;
 			cursor: pointer;
 		}
 	}
 	.single-p, .space-box {
 		width: 90vw;
-		margin: .4rem auto;
+		margin: 12px auto;
 	}
 	.space-box {
 		@include flexLayout(flex, 'center', 'justify');
-		.space-btn {
-			position: relative;
-			padding: 0 12px 0 0;
-			.button-text {
-				@include fontSize(16px);
-				padding: 0;
-				color: map-get($color, 200);
-			}
-			&::after {
-				position: absolute;
-				z-index: 2;
-				top: 50%;
-				right: 0;
-				display: block;
-				width: .16rem;
-				height: .16rem;
-				margin-top: -.05333333rem;
-				content: '';
-				-webkit-transform: rotate(-135deg);
-				-moz-transform: rotate(-135deg);
-				-ms-transform: rotate(-135deg);
-				transform: rotate(-135deg);
-				pointer-events: none;
-				border-bottom: .02666667rem solid map-get($color, 200);
-				border-left: .02666667rem solid map-get($color, 200);
-			}
-		}
-		.ordinary-btn {
-			padding: .16rem .32rem;
-			border: .02666667rem solid map-get($color, 200);
-			-webkit-border-radius: .10666667rem;
-			-moz-border-radius: .10666667rem;
-			border-radius: .10666667rem;
-			.button-text {
-				@include fontSize(14px);
-				padding: 0;
-				color: map-get($color, 200);
-			}
-		}
-		&.has-margin {
-			margin-top: 10vw;
-		}
 		&.open-prize-num {
-			margin-top: 0;
 			-webkit-box-pack: end;
 			-webkit-justify-content: flex-end;
 			-moz-box-pack: end;
@@ -103,19 +59,23 @@
 			@include flexLayout(flex, 'center', 'justify');
 			margin: 5vw 0;
 			.text {
-				@include fontSize(18px);
+				font-size: 1.8rem;
+				text-align: left;
 				color: map-get($color, 200);
 				h5 {
-					@include fontSize(18px);
+					font-size: 1.8rem;
 					font-weight: normal;
+					display: inline-block;
+					width: 60px;
 					margin: 0;
 				}
 				span {
+					display: inline-block;
 					word-break: break-all;
 					color: map-get($color, 300);
 				}
 				&.prize-integral {
-					@include flexLayout(flex, 'center', 'normal');
+					@include flexLayout(flex, 'normal', 'normal');
 					-webkit-box-flex: 1;
 					-webkit-flex: 1 1 auto;
 					-moz-box-flex: 1;
@@ -123,47 +83,74 @@
 					flex: 1 1 auto;
 					h5 {
 						-webkit-box-flex: 0;
-						-webkit-flex: 0 0 1.57333333rem;
+						-webkit-flex: 0 1 auto;
 						-moz-box-flex: 0;
-						-ms-flex: 0 0 1.57333333rem;
-						flex: 0 0 1.57333333rem;
-						/* 118px;*/
+						-ms-flex: 0 1 auto;
+						flex: 0 1 auto;
 					}
 					span {
-						display: inline-block;
 						text-align: left;
 					}
 				}
 				&.people {
 					text-align: right;
 					-webkit-box-flex: 0;
-					-webkit-flex: 0 0 2.26666667rem;
+					-webkit-flex: 0 0 85px;
 					-moz-box-flex: 0;
-					-ms-flex: 0 0 2.26666667rem;
-					flex: 0 0 2.26666667rem;
-					/* 170px;*/
+					-ms-flex: 0 0 85px;
+					flex: 0 0 85px;
 				}
 			}
 		}
 	}
 	.ask-button.state-btn {
 		margin-top: 14vh;
-		padding: .16rem .88rem;
-		-webkit-border-radius: .10666667rem;
-		-moz-border-radius: .10666667rem;
-		border-radius: .10666667rem;
+		padding: 6px 30px;
+		-webkit-border-radius: 4px;
+		-moz-border-radius: 4px;
+		border-radius: 4px;
 		background-color: map-get($color, 300);
 		.button-text {
-			@include fontSize(18px);
+			font-size: 1.8rem;
 			padding: 0;
 			color: map-get($color, 100);
 		}
 		&:disabled {
-			border: .02666667rem solid map-get($color, 200);
+			border: 2px solid map-get($color, 200);
 			background-color: transparent;
 			.button-text {
 				color: map-get($color, 200);
 			}
+		}
+	}
+}
+
+.ask-modal.luck-state-0 {
+	width: 70%;
+	min-height: 30px;
+	.ask-modal-header {
+		padding: 0;
+	}
+	.ask-alert-box {
+		padding-top: 16px;
+		text-align: center;
+		color: map-get($color, 100);
+	}
+	.ask-modal-footer {
+		padding: 20px 0 10px;
+		-webkit-box-pack: center;
+		-webkit-justify-content: center;
+		-moz-box-pack: center;
+		-ms-flex-pack: center;
+		justify-content: center;
+		.ask-alert-btn {
+			width: 80px;
+			padding: 4px 10px;
+			color: map-get($color, 100);
+			-webkit-border-radius: 20px;
+			-moz-border-radius: 20px;
+			border-radius: 20px;
+			background-color: map-get($color, 300);
 		}
 	}
 }

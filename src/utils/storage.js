@@ -6,11 +6,11 @@ export const sessionStorage = {
 		window.sessionStorage.setItem(key,value);
 	},
 	removeItem(key){
-	 	window.sessionStorage.removeItem(key);
-	},
-	removeAll(keys){
-		if(keys.length === 0) return;
-		keys.map(index=>{
+	 	if(key.length === 0) {
+	 		window.sessionStorage.removeItem(key);
+	 		return ;
+	 	}
+	 	key.map(index=>{
 			window.sessionStorage.removeItem(index);
 		})
 	}
@@ -23,12 +23,13 @@ export const localStorage = {
 		window.localStorage.setItem(key,value);
 	},
 	removeItem(key){
-	 	window.localStorage.removeItem(key);
-	},
-	removeAll(keys){
-		if(keys.length === 0) return;
-		keys.map(index=>{
+	 	if(key.length === 0) {
+	 		window.localStorage.removeItem(key);
+	 		return ;
+	 	}
+	 	key.map(index=>{
 			window.localStorage.removeItem(index);
 		})
+	 	window.localStorage.removeItem(key);
 	}
 }

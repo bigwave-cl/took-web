@@ -2,6 +2,7 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import GlobalComponents from './components';
+import './utils/wxbutton.js';
 
 Vue.config.productionTip = false;
 

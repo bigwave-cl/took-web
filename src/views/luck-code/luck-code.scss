@@ -1,87 +1,85 @@
 @import '../../styles/variables.scss', '../../styles/mixins.scss';
-
-.luck-code-box{
-	margin: .26666667rem; /* 20px*/
-	background-color: map-get($color,200);
-	-webkit-border-radius: .05333333rem;
-	   -moz-border-radius: .05333333rem;
-	        border-radius: .05333333rem;
-	padding: .56rem; /* 42px*/
-	.luck-code-header{
-		@include flexLayout(flex,'center','justify');
-	    -webkit-box-orient: horizontal;
-	    -webkit-box-direction: normal;
-	    -webkit-flex-flow: row wrap;
-	       -moz-box-orient: horizontal;
-	       -moz-box-direction: normal;
-	        -ms-flex-flow: row wrap;
-	            flex-flow: row wrap;
-		padding: .28rem 0 .72rem;
-		h3{
-			margin: 0;
+.luck-code-box {
+	margin: 10px;
+	padding: 20px;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+	background-color: map-get($color, 200);
+	.luck-code-header {
+		@include flexLayout(flex, 'center', 'justify');
+		padding: 20px 0 27px;
+		-webkit-box-orient: horizontal;
+		-webkit-box-direction: normal;
+		-webkit-flex-flow: row wrap;
+		-moz-box-orient: horizontal;
+		-moz-box-direction: normal;
+		-ms-flex-flow: row wrap;
+		flex-flow: row wrap;
+		h3 {
+			font-size: 1.6rem;
 			font-weight: normal;
-			@include fontSize(16px);
-			color: map-get($color,100);
+			margin: 0;
+			color: map-get($color, 100);
 		}
-		a{
-			text-decoration: underline;
-			color: map-get($color,400);
-			@include fontSize(14px);
+		a {
+			font-size: 1.2rem;
 			cursor: pointer;
+			text-decoration: underline;
+			color: map-get($color, 400);
 		}
 	}
-	p{
-		text-align: center;
-		@include fontSize(14px);
-		@include lineHeight(18px);
-		color: map-get($color,300M);
-		word-break:break-all;
+	p {
+		font-size: 1.4rem;
+		font-weight: normal;
+		line-height: 1.8rem;
 		margin: 0;
+		text-align: center;
+		word-break: break-all;
+		color: map-get($color, 300M);
 	}
-	.luck-code-body{
-
+	.luck-code-body {
 		.img-box {
-		    width: 60vw;
-		    margin: 0 auto 0;
+			width: 60vw;
+			margin: 0 auto 0;
 		}
-
 		.img-box>img {
-		    width: 100%;
-		    vertical-align: bottom;
+			width: 100%;
+			vertical-align: bottom;
 		}
-		.text.small{
-			@include fontSize(16px);
-			color: map-get($color,400);
+		.text.small {
+			font-size: 1.6rem;
 			text-align: center;
+			color: map-get($color, 400);
 		}
-		.luck-number{
+		.luck-number {
 			margin: -15% 0 10%;
 			text-align: center;
-			.text.large{
-				@include fontSize(16px);
-				color: map-get($color,400);
+			.text.large {
+				font-size: 1.6rem;
+				color: map-get($color, 400);
 			}
-			.number-box{
-				@include flexLayout(flex,'center','center');
-			    -webkit-box-orient: horizontal;
-			    -webkit-box-direction: normal;
-			    -webkit-flex-flow: row wrap;
-			       -moz-box-orient: horizontal;
-			       -moz-box-direction: normal;
-			        -ms-flex-flow: row wrap;
-			           flex-flow: row wrap;
-				    width: 5.86666667rem;
-				    margin: 5% auto 0;
-				span{
-					@include fontSize(20px);
+			.number-box {
+				@include flexLayout(flex, 'center', 'center');
+				width: 220px;
+				margin: 5% auto 0;
+				-webkit-box-orient: horizontal;
+				-webkit-box-direction: normal;
+				-webkit-flex-flow: row wrap;
+				-moz-box-orient: horizontal;
+				-moz-box-direction: normal;
+				-ms-flex-flow: row wrap;
+				flex-flow: row wrap;
+				span {
+					font-size: 2rem;
 					margin: 3% 0;
+					text-align: center;
 					color: #ed6347;
 					-webkit-box-flex: 0;
 					-webkit-flex: 0 0 33.33%;
 					-moz-box-flex: 0;
 					-ms-flex: 0 0 33.33%;
 					flex: 0 0 33.33%;
-					text-align: center;
 				}
 			}
 		}

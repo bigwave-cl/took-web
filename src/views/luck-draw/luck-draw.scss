@@ -1,5 +1,4 @@
 @import '../../styles/variables.scss', '../../styles/mixins.scss';
-
 .luck-draw-swiper {
 	width: 100%;
 	.luck-draw-swiper-slide {
@@ -10,11 +9,11 @@
 		}
 	}
 	.swiper-pagination.luck-draw {
-		bottom: .02666667rem;
+		bottom: 2px;
 		pointer-events: none;
 		.swiper-pagination-bullet {
-			width: .16rem;
-			height: .16rem;
+			width: 6px;
+			height: 6px;
 			pointer-events: auto;
 			background-color: map-get($color, 200);
 		}
@@ -24,7 +23,7 @@
 .luck-draw-box {
 	width: 100vw;
 	a {
-		@include fontSize(14px);
+		font-size: 1.4rem;
 	}
 	.icon-img {
 		font-style: normal;
@@ -41,30 +40,30 @@
 	}
 	section {
 		width: 100vw;
-		padding: .8rem 0 .4rem 0;
+		padding: 30px 0 15px 0;
 		text-align: center;
 		h4 {
-			@include fontSize(20px);
+			font-size: 2rem;
 			font-weight: 600;
 			margin: 0;
 			padding: 0;
 			text-align: center;
 			color: map-get($color, 300);
 		}
-		h1{
-			@include fontSize(20px);
+		h1 {
+			font-size: 2rem;
 			font-weight: normal;
 			margin: 15vw 0;
 			padding: 0;
 			text-align: center;
-			color: map-get($color,200);
+			color: map-get($color, 200);
 		}
 		h2 {
-			@include fontSize(22px);
+			font-size: 2.2rem;
 			font-weight: normal;
 			margin: 0;
 			padding: 0;
-			padding: .16rem;
+			padding: 6px;
 			text-align: center;
 			letter-spacing: 1px;
 			color: map-get($color, 300);
@@ -73,15 +72,15 @@
 			}
 		}
 		h5 {
-			@include fontSize(16px);
+			font-size: 1.6rem;
 			font-weight: normal;
 			margin: 0;
 			padding: 0;
 			text-align: center;
-			color: map-get($color,200);
+			color: map-get($color, 200);
 			i {
+				margin: 5px;
 				cursor: pointer;
-				margin: 0 .06666667rem;
 			}
 		}
 		.lucky-list {
@@ -112,8 +111,8 @@
 					}
 				}
 				.text {
-					@include fontSize(14px);
-					padding: .08rem 0;
+					font-size: 1.4rem;
+					padding: 3px 0;
 					text-align: center;
 					word-break: break-all;
 					color: map-get($color, 200);
@@ -121,23 +120,23 @@
 			}
 		}
 		p {
-			@include fontSize(16px);
+			font-size: 1.6rem;
 			margin: 0;
 			text-align: left;
 			color: map-get($color, 200);
 			em {
 				font-style: normal;
-				margin: 0 .04rem;
+				margin: 0 3px;
 				color: map-get($color, 300);
 			}
 			i {
+				margin: 0 6px;
 				cursor: pointer;
-				margin: 0 .08rem;
 			}
 		}
 		.single-p, .space-box {
 			width: 90vw;
-			margin: .4rem auto;
+			margin: 15px auto;
 		}
 		.space-box {
 			@include flexLayout(flex, 'center', 'justify');
@@ -145,7 +144,7 @@
 				position: relative;
 				padding: 0 12px 0 0;
 				.button-text {
-					@include fontSize(16px);
+					font-size: 1.6rem;
 					padding: 0;
 					color: map-get($color, 200);
 				}
@@ -155,27 +154,27 @@
 					top: 50%;
 					right: 0;
 					display: block;
-					width: .16rem;
-					height: .16rem;
-					margin-top: -.05333333rem;
+					width: 8px;
+					height: 8px;
+					margin-top: -3px;
 					content: '';
 					-webkit-transform: rotate(-135deg);
 					-moz-transform: rotate(-135deg);
 					-ms-transform: rotate(-135deg);
 					transform: rotate(-135deg);
 					pointer-events: none;
-					border-bottom: .02666667rem solid map-get($color, 200);
-					border-left: .02666667rem solid map-get($color, 200);
+					border-bottom: 1px solid map-get($color, 200);
+					border-left: 1px solid map-get($color, 200);
 				}
 			}
 			.ordinary-btn {
-				padding: .16rem .32rem;
-				border: .02666667rem solid map-get($color, 200);
-				-webkit-border-radius: .10666667rem;
-				-moz-border-radius: .10666667rem;
-				border-radius: .10666667rem;
+				padding: 6px 12px;
+				border: 1px solid map-get($color, 200);
+				-webkit-border-radius: 4px;
+				-moz-border-radius: 4px;
+				border-radius: 4px;
 				.button-text {
-					@include fontSize(14px);
+					font-size: 1.4rem;
 					padding: 0;
 					color: map-get($color, 200);
 				}
@@ -194,118 +193,120 @@
 		}
 		.play-btn {
 			margin-top: 5vw;
-			padding: .24rem 20vw;
-			-webkit-border-radius: .10666667rem;
-			-moz-border-radius: .10666667rem;
-			border-radius: .10666667rem;
+			padding: 9px 20vw;
+			-webkit-border-radius: 4px;
+			-moz-border-radius: 4px;
+			border-radius: 4px;
 			background-color: map-get($color, 300);
 			&:disabled {
+				border: 1px solid map-get($color, 200);
 				background-color: transparent;
-				border: .02666667rem solid map-get($color, 200);
-				.button-text{
+				.button-text {
 					color: map-get($color, 200);
 				}
 			}
 			.button-text {
-				@include fontSize(18px);
+				font-size: 1.8rem;
 				padding: 0;
 				color: map-get($color, 100);
 			}
 		}
 		.open-prize {
 			h2 {
-				padding: .56rem 0;
+				padding: 20px 0;
 			}
 			h5 {
-				padding: .56rem 0 0;
+				padding: 20px 0 0;
 			}
 		}
 	}
-	.luck-draw-lottery{
-		.lottery-pic-bg{
-			width: 7.86666667rem;
-			height: 4.56rem;
+	.luck-draw-lottery {
+		.lottery-pic-bg {
+			width: 295px;
+			height: 171px;
 		}
 		.lottery-body {
-			.lottery-group{
-				width: 1.6rem; /* 120px*/
-				height: 1.28rem; /* 96px; */
-				line-height: 1.29333333rem; /* 97px*/
-				.number-box ul li{
-				width: 1.6rem; /* 120px*/
-				height: 1.28rem; /* 96px; */
+			.lottery-group {
+				line-height: 49px;
+				width: 60px;
+				height: 48px;
+				.number-box ul li {
+					width: 60px;
+					height: 48px;
 				}
 			}
-		} 
-		.lottery-voice{
-			width: 1.06666667rem; /* 80px*/
-			height: .8rem; /* 60px*/
+		}
+		.lottery-voice {
+			width: 40px;
+			height: 30px;
 		}
 	}
 }
-.ask-modal.luck-number{
+
+.ask-modal.luck-number {
+	width: 100%;
+	max-width: 375px;
+	/* 750px*/
+	height: 70%;
+	max-height: 516px;
+	/* 1032px*/
+	pointer-events: none;
 	background-color: transparent;
 	-webkit-box-shadow: none;
-	   -moz-box-shadow: none;
-	        box-shadow: none;
-	width: 100%;
-	height: 70%;
-	max-width: 10rem; /* 750px*/
-	max-height: 13.76rem; /* 1032px*/
-		pointer-events:none;
-	.ask-modal-body,
-	.custom{
+	-moz-box-shadow: none;
+	box-shadow: none;
+	.ask-modal-body, .custom {
 		width: 100%;
 		height: 100%;
 	}
-	.luck-number-body{
+	.luck-number-body {
 		width: 100%;
 		height: 100%;
-		.luck-number-bg{
-			width: 100%;
-			height: 100%;
+		.luck-number-bg {
 			position: relative;
 			z-index: 2;
+			width: 100%;
+			height: 100%;
 			background: no-repeat center/100% url('../../assets/luck-draw/luck-number/bg.png') transparent;
-			.luck-number-result{
+			.luck-number-result {
 				position: relative;
 				z-index: 5;
+				top: 50%;
 				width: 100%;
 				height: 35%;
-				top: 50%;
 				-webkit-transform: translateY(-50%);
-				   -moz-transform: translateY(-50%);
-				    -ms-transform: translateY(-50%);
-				        transform: translateY(-50%);
+				-moz-transform: translateY(-50%);
+				-ms-transform: translateY(-50%);
+				transform: translateY(-50%);
 				background: no-repeat center/auto 100% url('../../assets/luck-draw/luck-number/0.png') transparent;
-				&.num-0{
+				&.num-0 {
 					background: no-repeat center/auto 100% url('../../assets/luck-draw/luck-number/0.png') transparent;
 				}
-				&.num-1{
+				&.num-1 {
 					background: no-repeat center/auto 100% url('../../assets/luck-draw/luck-number/1.png') transparent;
 				}
-				&.num-2{
+				&.num-2 {
 					background: no-repeat center/auto 100% url('../../assets/luck-draw/luck-number/2.png') transparent;
 				}
-				&.num-3{
+				&.num-3 {
 					background: no-repeat center/auto 100% url('../../assets/luck-draw/luck-number/3.png') transparent;
 				}
-				&.num-4{
+				&.num-4 {
 					background: no-repeat center/auto 100% url('../../assets/luck-draw/luck-number/4.png') transparent;
 				}
-				&.num-5{
+				&.num-5 {
 					background: no-repeat center/auto 100% url('../../assets/luck-draw/luck-number/5.png') transparent;
 				}
-				&.num-6{
+				&.num-6 {
 					background: no-repeat center/auto 100% url('../../assets/luck-draw/luck-number/6.png') transparent;
 				}
-				&.num-7{
+				&.num-7 {
 					background: no-repeat center/auto 100% url('../../assets/luck-draw/luck-number/7.png') transparent;
 				}
-				&.num-8{
+				&.num-8 {
 					background: no-repeat center/auto 100% url('../../assets/luck-draw/luck-number/8.png') transparent;
 				}
-				&.num-9{
+				&.num-9 {
 					background: no-repeat center/auto 100% url('../../assets/luck-draw/luck-number/9.png') transparent;
 				}
 			}
@@ -313,98 +314,104 @@
 	}
 }
 
-.ask-modal.luck-winner-box{
+.ask-modal.luck-winner-box {
 	width: 70%;
-	min-height: .4rem;
+	min-height: 30px;
 	padding: 0;
-	.ask-modal-header{
+	.ask-modal-header {
 		padding: 0;
-		.ask-close-icon{
-			border: .01333333rem solid map-get($color, 500); /* 1px*/
-			-webkit-border-radius: 50%;
-			   -moz-border-radius: 50%;
-			        border-radius: 50%;
+		.ask-close-icon {
+			right: -5px;
+			/* 10px*/
 			overflow: hidden;
-			width: .53333333rem; /* 40px*/
-			height: .53333333rem; /* 40px*/
+			width: 20px;
+			height: 20px;
+			margin-top: -5px;
+			/* 10px*/
+			border: 1px solid map-get($color, 500);
+			-webkit-border-radius: 50%;
+			-moz-border-radius: 50%;
+			border-radius: 50%;
 			background-color: map-get($color, 200);
-			margin-top: -.13333333rem; /* 10px*/
-			right: -.13333333rem; /* 10px*/
-			&::before,
-			&::after{
-				width: 80%;
+			&::before, &::after {
 				left: 10%;
+				width: 80%;
 			}
 		}
 	}
-	.ask-modal-body{
+	.ask-modal-body {
 		padding: 0;
-		.winner-header{
+		.winner-header {
 			width: 100%;
-			img{
+			img {
 				width: 100%;
 				vertical-align: bottom;
 			}
 		}
-		.winner-body{
-			padding: .32rem 0 .4rem; /* 24px*/
-			h3{
+		.winner-body {
+			padding: 12px 0 15px;
+			h3 {
+				font-size: 1.6rem;
 				font-weight: normal;
-				@include fontSize(16px);
-				@include lineHeight(20px);
+				line-height: 2rem;
+				margin: 8px 0;
 				text-align: center;
-				color:map-get($color, 100);
-				margin: .2rem 0; /* 15px*/
-				word-break:break-all;
+				word-break: break-all;
+				color: map-get($color, 100);
 			}
-			p{
-				@include fontSize(12px);
-				@include lineHeight(16px);
-				color:map-get($color, 600);
-				margin: .64rem 0; /* 48px*/
-				padding: 0 .53333333rem; /* 40px*/
+			p {
+				font-size: 1.2rem;
+				line-height: 1.6rem;
+				margin: 24px 0;
+				padding: 0 20px;
+				color: map-get($color, 600);
 			}
-			&.yes{
-				padding: .32rem 0 0;
+			&.yes {
+				padding: 12px 0 0;
 			}
 		}
 	}
-	.ask-modal-footer{
-		padding: 0 .4rem .4rem;
-		.ask-alert-btn{
+	.ask-modal-footer {
+		padding: 0 15px 15px;
+		.ask-alert-btn {
+			padding: 3px 12px;
 			color: map-get($color, 100);
-			-webkit-border-radius: .53333333rem;
-			-moz-border-radius: .53333333rem;
-			border-radius: .53333333rem;
+			-webkit-border-radius: 20px;
+			-moz-border-radius: 20px;
+			border-radius: 20px;
 			background-color: map-get($color, 300);
-			padding: .08rem .32rem;
-			.button-text{
-				@include fontSize(14px);
+			.button-text {
+				font-size: 1.4rem;
 			}
 		}
 	}
 }
+
 .ask-modal.luck-state-0 {
 	width: 70%;
-	min-height: .4rem;
+	min-height: 30px;
+	.ask-modal-header {
+		padding: 0;
+	}
 	.ask-alert-box {
-		padding-top: .26666667rem;
+		padding-top: 16px;
 		text-align: center;
 		color: map-get($color, 100);
 	}
 	.ask-modal-footer {
-		padding: .53333333rem 0 .26666667rem;
+		padding: 20px 0 10px;
 		-webkit-box-pack: center;
 		-webkit-justify-content: center;
 		-moz-box-pack: center;
 		-ms-flex-pack: center;
 		justify-content: center;
 		.ask-alert-btn {
-			width: 2.66666667rem;
+			width: 80px;
+			padding: 4px 10px;
 			color: map-get($color, 100);
-			-webkit-border-radius: .53333333rem;
-			-moz-border-radius: .53333333rem;
-			border-radius: .53333333rem;
+			-webkit-border-radius: 20px;
+			-moz-border-radius: 20px;
+			border-radius: 20px;
 			background-color: map-get($color, 300);
 		}
 	}
