@@ -54,7 +54,7 @@
 			<!-- 开始开奖lev==1的奖项不展示倒计时文本 -->
 			<p class="single-p" v-if="luckItem.state !== luckRef.FINISH && (luckItem.state !== luckRef.UNDERWAY || luckItem.currentPrize.lev != 1)" v-html="luckItem.timeText"></p>
 			<!-- 开始开奖和结束领号不展示次数文本 -->
-			<p class="single-p" v-if="luckItem.state !== luckRef.FINISH && luckItem.state !== luckRef.UNDERWAY && luckItem.state !== luckRef.RECEIVE">
+			<p class="single-p" v-if="luckItem.state !== luckRef.FINISH && luckItem.state !== luckRef.UNDERWAY && luckItem.state !== luckRef.RECEIVEING">
 				<i class="iconfont icon-chance"></i>
 				<span v-if="luckItem.experience">剩余体验次数</span>
 				<span v-else>您共有兑奖机会</span>
@@ -82,7 +82,7 @@
 				</a>
 			</div>
 			<ask-button class="play-btn" 
-						:disabled="(luckItem.state === luckRef.RECEIVE || luckItem.state === luckRef.UNDERWAY) && !luckItem.receiveState" 
+						:disabled="(luckItem.state === luckRef.RECEIVEING || luckItem.state === luckRef.UNDERWAY) && !luckItem.receiveState" 
 						:text="mainButtonText" 
 						@ask-click="handlerMainButtonClick($event)">
 			</ask-button>
