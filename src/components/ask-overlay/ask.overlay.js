@@ -1,4 +1,4 @@
-import { getZIndex } from '@/utils/getZIndex.js';
+import { getZIndex } from '@/utils';
 import Vue from 'vue';
 import ComponentTemplate from './ask-overlay.vue';
 const VueComponent = Vue.extend(ComponentTemplate);

@@ -1,7 +1,10 @@
-import ajax from '@/utils/http.axios.js';
+import {
+	ajax,
+	askDialogToast,
+	sessionStorage
+} from '@/utils';
 import * as config from '@/config.js';
-import { askDialogToast } from '@/utils/ask.dialog.js';
-import { sessionStorage } from '@/utils/storage.js';
+
 
 const baseURL = config.BASE_URL;
 let LOT_ID = (()=>{

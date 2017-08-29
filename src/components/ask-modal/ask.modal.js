@@ -11,6 +11,7 @@ export const askModal = (option,onClose) =>{
 		closeBtn: true,
 		shade:true,
 		shadeClick: true,
+		time: null,
 		class:'',
 		content: ''
 	}
@@ -40,6 +41,13 @@ export const askModal = (option,onClose) =>{
 		vm.show = false;
 		if(onClose) onClose();
 	});
+	if(opt.time != null){
+		let timer = setTimeout(()=>{
+			clearTimeout(timer);
+			vm.show = false;
+			if(onClose) onClose();
+		},opt.time);
+	}
 	document.body.appendChild(vm.$el);
 	vm.show = true;
 }

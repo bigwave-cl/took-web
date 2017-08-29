@@ -1,5 +1,9 @@
-import ajax from '@/utils/http.axios.js';
-import { sessionStorage } from '@/utils/storage.js';
+import {
+	ajax,
+	askDialogToast,
+	sessionStorage
+} from '@/utils';
+
 import * as config from '@/config.js';
 
 const baseURL = config.BASE_URL;

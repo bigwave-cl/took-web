@@ -68,7 +68,7 @@
 					<em>{{luckItem.joinPeople}}</em>人参与
 				</p>
 
-				<router-link :to="{ path: 'luck-detail', query: { r: luckItem.receiveState ? '1':'0'}}" >
+				<router-link to="luck-detail" >
 					<ask-button class="space-btn" :text="'奖项详情'"></ask-button>
 				</router-link>
 				
@@ -92,44 +92,23 @@
 <style src="./luck-draw.scss" lang="scss"></style>
 <script>
 import askInterface from '@/services';
-import { askDialogModal, askDialogAlert, askDialogToast } from '@/utils/ask.dialog.js';
-import { sessionStorage } from '@/utils/storage.js';
-import { refreshTitle } from '@/utils/refresh.title.js';
+import { 
+	askDialogModal, 
+	askDialogAlert, 
+	askDialogToast,
+	sessionStorage,
+	refreshTitle
+} from '@/utils';
 
-import winnerNo from '../../assets/luck-draw/picture_failure.png';
-import winnerYes from '../../assets/luck-draw/picture_winning.png';
+import luckDrawRef from './luck-draw-ref.js'
+import luckDrawPopup from './luck-draw-popup.js'
 
 let LUCK_COUNT_DOWN = null, //倒计时索引
 	LUCK_REQUEST_AGAIN_TIMER = null; //是否重新请求接口倒计时索引
 export default {
+	mixins:[luckDrawRef,luckDrawPopup],
 	data() {
 		return {
-			luckRef : {
-				BEFORE: 0,//活动未开始
-				RECEIVE: 1, //开始领取兑奖号
-				RECEIVEING: 2, //领取兑奖号
-				UNDERWAY: 3,//活动进行中
-				FINISH: 4,//活动已结束
-			},
-			swiperOption: {
-                notNextTick: true,
-                initialSlide: 0,
-                autoplay: 3000,
-                autoplayDisableOnInteraction: false,
-                direction: 'horizontal',
-                grabCursor: true,
-                setWrapperSize: true,
-                pagination: '.swiper-pagination',
-                paginationClickable: true,
-                mousewheelControl: true,
-				observer:true,
-                observeParents: true,
-                loop: true,
-                onSlideChangeEnd(swiper){
-                	// console.log(swiper.activeIndex)
-                	// console.log(swiper.realIndex)
-                }
-            },
 			luckSwiper:[],
 			mainButtonText: '领取兑奖号',
 			luckItem: {
@@ -163,7 +142,7 @@ export default {
 	},
 	destroyed() {
 		document.body.classList.remove('luck');
-		console.log(LUCK_REQUEST_AGAIN_TIMER);
+
 		if (LUCK_REQUEST_AGAIN_TIMER) clearTimeout(LUCK_REQUEST_AGAIN_TIMER);
 		LUCK_REQUEST_AGAIN_TIMER = null;
 	},
@@ -268,7 +247,7 @@ export default {
 
 				if(luckRes.lot.cur_prize_lev !=1) self.handlerIsWinning();
 
-				if (self.luckItem.currentPrize.codes == '') {
+				if (self.luckItem.currentPrize.codes == ''||luckRes.lot.cur_prize_lev == 1) {
 					self.luckItem.timeText = "奖项已全部开启完毕";
 				} else {
 					self.luckCountDown(self.luckItem.currentPrize.next_open_time);
@@ -306,15 +285,14 @@ export default {
 		requestAgainCountDown(time) {
 			let self = this;
 			let difference = self.getDifference(time);
+
 			if (LUCK_REQUEST_AGAIN_TIMER) clearTimeout(LUCK_REQUEST_AGAIN_TIMER);
 
-			if (Math.floor(difference / 1000) < -1)  return;
-			if (Math.floor(difference / 1000) == -1) {
+			if (Math.floor(difference / 1000) <= -1) {
 				self.getLuckDrawInterface();
 				LUCK_REQUEST_AGAIN_TIMER = null;
 				return;
 			};
-
 			LUCK_REQUEST_AGAIN_TIMER = setTimeout(() => {
 				self.requestAgainCountDown(time);
 			}, 1000);
@@ -413,27 +391,7 @@ export default {
 			})
 		},
 		whileStateOne() {
-			let self = this;
-			if(self.luckItem.chance){
-				self.$router.push({ name: 'luckCode' });
-				return;
-			}
-
-			let alertContent = `
-				您的免费${self.luckItem.experience ? '体验期数':'抽奖机会'}已用完
-			`;
-			askDialogAlert({
-				title: '',
-				msg: alertContent,
-				btnText: '确定',
-				class: 'luck-state-0',
-				closeIcon: false,
-				shade: true,
-				shadeClick: false
-			}, (ok) => {
-				ok.close();
-			})
-			
+			this.warnChanceAlert();
 		},
 		whileStateTwo() {
 			this.whileStateOne();
@@ -453,6 +411,7 @@ export default {
 						class: 'luck-number',
 						title: '',
 						closeIcon: true,
+						time: 3000,
 						content: `
 							<div class="luck-number-body">
 								<div class="luck-number-bg">
@@ -474,7 +433,6 @@ export default {
 		},
 		//抽奖动画结束回调
 		lotteryAnimationEnd() {
-
 			this.luckItem.animationEnd = true;
 			this.handlerIsWinning();
 		},
@@ -488,101 +446,6 @@ export default {
 				clearTimeout(timer);
 				self.getLuckDrawInterface();
 			}, 5000);
-		},
-		//处理每轮抽奖弹框提示是否中奖
-		handlerIsWinning() {
-			let self = this;
-			let _winner = self.luckItem.currentPrize.is_winner;
-
-			let alertContent = `
-				<div class="winner-header">
-					<img src="${_winner ? winnerYes:winnerNo}">
-				</div>
-				<div class="winner-body ${_winner ? 'yes':''}">
-					<h3>${_winner ? '恭喜你中奖啦':'谢谢参与'}</h3>
-					<h3>${_winner ? self.luckItem.currentPrize.name+':'+ self.luckItem.currentPrize.yb:'您本轮没有中奖'}</h3>
-					<p>
-						温馨提示：抽奖机会越多，中大奖几率越高哦，赶快去商家商城购买商品增加抽奖机会吧！
-					</p>
-				</div>
-			`;
-			self.$nextTick(()=>{
-				let recordV = sessionStorage.getItem(self.luckItem.currentPrize.id);
-				if(recordV) return;
-
-				sessionStorage.setItem(self.luckItem.currentPrize.id,true);
-
-				askDialogAlert({
-					title: '',
-					msg: alertContent,
-					btnText: '立刻分享',
-					class: 'luck-winner-box',
-					closeIcon: true,
-					closeBtn: _winner,
-					shade: true,
-					shadeClick: true
-				}, (ok) => {
-					ok.close();
-				})
-			})
-		},
-		//幸运大使弹框
-		luckRuleBomb(){
-			let self = this;
-
-			let alertContent = `
-				<div class="rule-body">
-					<p>
-						1、领取抽奖号码结束后，系统将随机挑选多位幸运大使。
-					</p>
-					<p>
-						2、多位幸运大使将在开启最终大奖时共同揭晓中奖号码。
-					</p>
-				</div>
-			`;
-			self.$nextTick(()=>{
-				askDialogAlert({
-					title: '什么是幸运大使？',
-					msg: alertContent,
-					btnText: '我知道了',
-					class: 'luck-rule-box',
-					closeIcon: false,
-					closeBtn: true,
-					shade: true,
-					shadeClick: true
-				}, (ok) => {
-					ok.close();
-				})
-			})
-		},
-		//体验次数说明弹框
-		freeRuleBomb(){
-			let self = this;
-
-			let alertContent = `
-				<div class="rule-body">
-					<p>
-						1、为让每个人都有参与抽奖的机会，每个用户拥有共计6期的免费体验机会，每期体验机会仅可获得一个抽奖号码。
-					</p>
-					<p>
-						2、免费体验机会次数不可和普通抽奖机会次数叠加。
-					</p>
-				</div>
-			`;
-			self.$nextTick(()=>{
-				askDialogAlert({
-					title: '什么是免费体验期数？',
-					msg: alertContent,
-					btnText: '我知道了',
-					class: 'luck-rule-box',
-					closeIcon: false,
-					closeBtn: true,
-					shade: true,
-					shadeClick: true
-				}, (ok) => {
-					ok.close();
-				})
-			})
 		}
 	}
 }

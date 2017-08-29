@@ -27,8 +27,8 @@
 <style src="./luck-code.scss" lang="scss"></style>
 <script>
 import askInterface from '@/services';
-import { askDialogAlert } from '@/utils/ask.dialog.js';
-import { refreshTitle } from '@/utils/refresh.title.js';
+import { askDialogAlert,refreshTitle,sessionStorage } from '@/utils';
+
 export default {
 	data() {
 		return {
@@ -45,11 +45,12 @@ export default {
 		let self = this;
 		askInterface.luckCode().then(res => {
 			let luckRes = res.data;
-
+			
 			self.item.chance = luckRes.times;
 			self.item.experience = luckRes.is_try;
 			self.item.luckyEnvoyState = luckRes.is_lucky;
 			self.item.codes = luckRes.codes;
+			self.item.price = luckRes.order_min_yb;
 		})
 	},
 	methods:{
@@ -59,7 +60,7 @@ export default {
 			let alertContent = `
 				<div class="rule-body">
 					<p>
-						您在抽奖活动所属商家每购买一次商品，完成一笔订单，增加一次抽奖机会，即可多获得一个抽奖号码，参与抽奖次数无上限，若您已领取抽奖号码，新增加的抽奖次数将在下一次的抽奖活动中生效，本期活动不增加。
+						您在抽奖活动所属商家购买商品，单笔订单的金额达到${self.item.price}元，增加一次抽奖机会，即可多获得一个抽奖号码，参与抽奖次数无上限，若在领号时间结束后，新增加的抽奖次数将在下一次的抽奖活动中生效，本期活动不增加。
 					</p>
 				</div>
 			`;

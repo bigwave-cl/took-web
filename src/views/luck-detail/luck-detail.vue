@@ -21,7 +21,7 @@
 
 		<ask-button v-if="state === btnRef.RECEIVE" class="state-btn" :text="item.receiveState ? '我的兑奖号':'领取兑奖号'" @ask-click="chanceInter"></ask-button>
 
-		<ask-button v-if="state === btnRef.RECEIVEING" class="state-btn" :text="item.receiveState ? '我的兑奖号':'领取兑奖号'" @ask-click="chanceInter"></ask-button>
+		<ask-button v-if="state === btnRef.RECEIVEING" :disabled="!item.receiveState" class="state-btn" :text="item.receiveState ? '我的兑奖号':'领号结束'" @ask-click="chanceInter"></ask-button>
 
 		<ask-button v-if="state === btnRef.UNDERWAY" :disabled="!item.receiveState" class="state-btn" :text="item.receiveState ? '我的兑奖号':'领号结束'" @ask-click="chanceInter"></ask-button>
 
@@ -31,8 +31,12 @@
 <style src="./luck-detail.scss" lang="scss"></style>
 <script>
 import askInterface from '@/services';
-import { askDialogAlert,askDialogToast } from '@/utils/ask.dialog.js';
-import { refreshTitle } from '@/utils/refresh.title.js';
+import { 
+	askDialogAlert,
+	askDialogToast,
+	refreshTitle
+} from '@/utils';
+
 export default {
 	data() {
 		return {
@@ -56,9 +60,6 @@ export default {
 	},
 	created() {
 		refreshTitle('奖项详情');
-		if(this.$route.query.r != undefined){
-			this.item.receiveState = !!parseInt(this.$route.query.r,10);
-		}
 		this.$nextTick(() => {
 			document.body.classList.add('luck');
 		})
@@ -81,6 +82,7 @@ export default {
 			self.item.chance = luckRes.times;
 			self.item.experience = luckRes.is_try;
 			self.state = parseInt(luckRes.state,10);
+			self.item.receiveState = luckRes.has_get_code; 
 			self.item.list = luckRes.prizes.map(index=>{
 				let once = { 
 						name:'',
