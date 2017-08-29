@@ -29,6 +29,7 @@ var apiRoutes = express.Router();
 
 apiRoutes.post('/luck_draw', function(req, res) {
 	var nowTime = Math.floor(Date.now()/1000);
+	luckDraw.servertime = nowTime;
 	if(luckDraw.lot.get_code_begin - nowTime <= 0)  luckDraw.lot.state = 1;
 	if(luckDraw.lot.get_code_end - nowTime <= 0)  luckDraw.lot.state = 2;
 	if(luckDraw.lot.open_time - nowTime <= 0)  luckDraw.lot.state = 3;

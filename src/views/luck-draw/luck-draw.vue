@@ -73,6 +73,7 @@
 				</router-link>
 				
 			</div>
+			
 			<div class="space-box has-margin">
 				<a :href="luckItem.urls.record" title="往期开奖记录">
 					<ask-button class="ordinary-btn" :text="'往期开奖记录'"></ask-button>
@@ -131,7 +132,8 @@ export default {
 				currentPrize: {}, //当前开奖信息
 				lastPrize: [0, 0, 0, 0], //lev==1奖项开启状况
 				animationEnd: false //抽奖动画是否完成
-			}
+			},
+			serverDifference: 0,//服务器和本地时间差值
 		}
 	},
 	created() {
@@ -176,6 +178,9 @@ export default {
 			}
 			// 状态
 			self.luckItem.state = parseInt(luckRes.lot.state,10);
+			let currTime = Date.now();
+
+			self.serverDifference = luckRes.servertime*1000 - currTime;
 
 			//积分
 			self.luckItem.prizeIntegral = self.getPrizeIntegral(luckRes.lot.open_yb);
@@ -287,8 +292,8 @@ export default {
 			let difference = self.getDifference(time);
 
 			if (LUCK_REQUEST_AGAIN_TIMER) clearTimeout(LUCK_REQUEST_AGAIN_TIMER);
-
 			if (Math.floor(difference / 1000) <= -1) {
+
 				self.getLuckDrawInterface();
 				LUCK_REQUEST_AGAIN_TIMER = null;
 				return;
@@ -323,7 +328,10 @@ export default {
 		//根据传递过来的time计算与当前时间的差值，毫秒
 		getDifference(time) {
 			let _time = time * 1000, //传过来的时间戳是从秒获取的，转换成毫秒
-				curTime = Date.now();
+				curTime = Date.now() + this.serverDifference;
+			let delay = 2000;
+			curTime -= delay;
+
 			let difference = _time - curTime;
 			return difference;
 		},

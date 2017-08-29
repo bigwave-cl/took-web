@@ -6,13 +6,19 @@ export const sessionStorage = {
 		window.sessionStorage.setItem(key,value);
 	},
 	removeItem(key){
-	 	if(key.length === 0) {
+		
+		if(Object.prototype.toString.call(key) == '[object String]'){
+			window.sessionStorage.removeItem(key);
+	 		return ;
+		}
+		if(Object.prototype.toString.call(key) == '[object Array]' && key.length === 0){
 	 		window.sessionStorage.removeItem(key);
 	 		return ;
-	 	}
-	 	key.map(index=>{
-			window.sessionStorage.removeItem(index);
-		})
+		}else{
+		 	key.map(index=>{
+				window.sessionStorage.removeItem(index);
+			})
+		}
 	}
 }
 export const localStorage = {
@@ -23,13 +29,18 @@ export const localStorage = {
 		window.localStorage.setItem(key,value);
 	},
 	removeItem(key){
-	 	if(key.length === 0) {
+
+		if(Object.prototype.toString.call(key) == '[object String]'){
+			window.localStorage.removeItem(key);
+	 		return ;
+		}
+		if(Object.prototype.toString.call(key) == '[object Array]' && key.length === 0){
 	 		window.localStorage.removeItem(key);
 	 		return ;
-	 	}
-	 	key.map(index=>{
-			window.localStorage.removeItem(index);
-		})
-	 	window.localStorage.removeItem(key);
+		}else{
+		 	key.map(index=>{
+				window.localStorage.removeItem(index);
+			})
+		}
 	}
 }
