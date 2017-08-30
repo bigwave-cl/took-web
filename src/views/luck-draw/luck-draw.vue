@@ -216,6 +216,7 @@ export default {
 
 			if (luckRes.lot.state === self.luckRef.RECEIVE) {
 
+				if(sLuckNumber) sessionStorage.removeItem('luck_number');
 				self.mainButtonText = !luckRes.lot.has_get_code ? '领取兑奖号' : '我的兑奖号';
 
 				self.luckCountDown(luckRes.lot.open_time);
@@ -223,6 +224,7 @@ export default {
 			}
 			if (luckRes.lot.state === self.luckRef.RECEIVEING) {
 				//抽奖次数隐藏
+				if(sLuckNumber) sessionStorage.removeItem('luck_number');
 				self.mainButtonText = !luckRes.lot.has_get_code ? '领号结束' : '我的兑奖号';
 
 				self.luckCountDown(luckRes.lot.open_time);

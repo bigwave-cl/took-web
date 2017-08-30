@@ -48,7 +48,10 @@ export const luckInit = () => ajax({
 	before: (r) => {
 	},
 	complete: (r) => {
-		if(!r.data.ok) return;
+		if(!r.data.ok) {
+			if(r.data.errorid == 11111) window.location.reload();
+			return;
+		}
 		LOT_ID = r.data.lot.lot_id;
 		sessionStorage.setItem('lot_id',r.data.lot.lot_id);
 	}
@@ -72,6 +75,9 @@ export const luckSwiper = () => ajax({
 		// console.log('before');
 	},
 	complete: (r) => {
+		if(!r.data.ok && r.data.errorid == 11111) {
+			window.location.reload();
+		}
 		// console.log('complete');
 	}
 });
@@ -94,6 +100,9 @@ export const luckNumber = () => ajax({
 		// console.log('before');
 	},
 	complete: (r) => {
+		if(!r.data.ok && r.data.errorid == 11111) {
+			window.location.reload();
+		}
 		// console.log('complete');
 	}
 });
@@ -116,6 +125,9 @@ export const luckCode = () => ajax({
 		// console.log('before');
 	},
 	complete: (r) => {
+		if(!r.data.ok && r.data.errorid == 11111) {
+			window.location.reload();
+		}
 		// console.log('complete');
 	}
 });
@@ -139,6 +151,9 @@ export const luckDetail = () => ajax({
 		// console.log('before');
 	},
 	complete: (r) => {
+		if(!r.data.ok && r.data.errorid == 11111) {
+			window.location.reload();
+		}
 		// console.log('complete');
 	}
 });
