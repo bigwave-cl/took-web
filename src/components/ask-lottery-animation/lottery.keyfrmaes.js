@@ -82,9 +82,7 @@ export const lotteryKeyframes = (el, state, num, callback) => {
 	removeStateClass(el);
 	if (state === 'run') {
 		let startRule = getRule('start', { to: '-50%', from: '0' });
-		let processRule = getRule('process', { to: '-50%', from: '0' });
 		appendOnDocument(startRule.rule);
-		appendOnDocument(processRule.rule);
 		el.classList.add('start');
 		if (num) num();
 	}

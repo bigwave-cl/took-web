@@ -4,8 +4,8 @@ import {
 	askDialogToast 
 } from '@/utils';
 
-import winnerNo from '../../assets/luck-draw/picture_failure.png';
-import winnerYes from '../../assets/luck-draw/picture_winning.png';
+import winnerNo from '@/assets/luck-draw/picture_failure.png';
+import winnerYes from '@/assets/luck-draw/picture_winning.png';
 export default{
 	methods:{
 		warnChanceAlert(){

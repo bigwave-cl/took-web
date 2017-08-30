@@ -34,7 +34,8 @@ import askInterface from '@/services';
 import { 
 	askDialogAlert,
 	askDialogToast,
-	refreshTitle
+	refreshTitle,
+	amountFormat
 } from '@/utils';
 
 export default {
@@ -77,7 +78,7 @@ export default {
 				askDialogToast({ msg: luckRes.error ? luckRes.error:'接口访问失败', class: 'danger' });
 				return;
 			}
-			self.item.prizeIntegral = self.getPrizeIntegral(luckRes.open_yb);
+			self.item.prizeIntegral = amountFormat(luckRes.open_yb);
 			self.item.joinPeople = luckRes.join_num;
 			self.item.chance = luckRes.times;
 			self.item.experience = luckRes.is_try;
@@ -91,21 +92,9 @@ export default {
 					}
 				once.name = index.name;
 				once.people = index.num;
-				once.integral = self.getPrizeIntegral(index.yb);
+				once.integral = amountFormat(index.yb);
 				return once;
 			});
-		},
-		//过滤积分展示为1,000,000.00这种形式
-		getPrizeIntegral(num) {
-			var num = (num || 0).toString().replace(/\,/g, "").split('\.'),
-				result = '';
-			while (num[0].length > 3) {
-				result = ',' + num[0].slice(-3) + result;
-				num[0] = num[0].slice(0, num[0].length - 3);
-			}
-			if (num[0]) { result = num[0] + result; }
-			if (num.length > 1) result += '.' + num[1];
-			return result;
 		},
 		chanceInter(){
 			let self = this;

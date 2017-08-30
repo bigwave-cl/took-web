@@ -24,7 +24,7 @@
 							<img :src='envoy.thumb_pic' v-else>
 						</div>
 						<div class="text">
-							{{envoy.name}}{{envoy.name}}1504077023
+							{{envoy.name}}
 						</div>
 					</li>
 				</ul>
@@ -98,10 +98,14 @@ import {
 	askDialogAlert, 
 	askDialogToast,
 	sessionStorage,
-	refreshTitle
+	refreshTitle,
+	amountFormat,
+	handlerTimeDifference
 } from '@/utils';
 
+//轮播图配置和状态码
 import luckDrawRef from './luck-draw-ref.js'
+//页面弹框
 import luckDrawPopup from './luck-draw-popup.js'
 
 let LUCK_COUNT_DOWN = null, //倒计时索引
@@ -169,13 +173,17 @@ export default {
 		async getLuckDrawInterface() {
 			let self = this;
 			let luckDraw = await askInterface.luckInit();
-			let luckRes = luckDraw.data;
-			let sLuckNumber = sessionStorage.getItem('luck_number');
 
-			if(!luckRes.ok) {
-				askDialogToast({ msg: luckRes.error ? luckRes.error:'接口访问失败', class: 'danger' });
+			if(!luckDraw.data.ok) {
+				askDialogToast({ msg: luckDraw.data.error ? luckDraw.data.error:'接口访问失败', class: 'danger' });
 				return;
 			}
+			self.handlerLuckDraw(luckDraw.data);
+		},
+		handlerLuckDraw(data){
+			let self = this;
+			let luckRes = data,
+				sLuckNumber = sessionStorage.getItem('luck_number');
 			// 状态
 			self.luckItem.state = parseInt(luckRes.lot.state,10);
 			let currTime = Date.now();
@@ -183,7 +191,7 @@ export default {
 			self.serverDifference = luckRes.servertime*1000 - currTime;
 
 			//积分
-			self.luckItem.prizeIntegral = self.getPrizeIntegral(luckRes.lot.open_yb);
+			self.luckItem.prizeIntegral = amountFormat(luckRes.lot.open_yb);
 
 			//幸运大使信息列表
 			self.luckItem.luckEnvoy = self.getLuckEnvoy(luckRes.lot.luck_user);
@@ -265,18 +273,6 @@ export default {
 				self.mainButtonText = '本期中奖记录';
 			}
 		},
-		//过滤积分展示为1,000,000.00这种形式
-		getPrizeIntegral(num) {
-			var num = (num || 0).toString().replace(/\,/g, "").split('\.'),
-				result = '';
-			while (num[0].length > 3) {
-				result = ',' + num[0].slice(-3) + result;
-				num[0] = num[0].slice(0, num[0].length - 3);
-			}
-			if (num[0]) { result = num[0] + result; }
-			if (num.length > 1) result += '.' + num[1];
-			return result;
-		},
 		//兼容state为0的时候幸运大使没有图片路径的情况
 		getLuckEnvoy(items) {
 			if(!items || items.length === 0) return;
@@ -309,7 +305,7 @@ export default {
 			let self = this;
 			let difference = self.getDifference(time);
 
-			let cur = self.handlerCountTime(difference);
+			let cur = handlerTimeDifference(difference);
 
 			self.luckItem.timeText = `<i class="iconfont icon-time"></i>
 					开奖时间剩余
@@ -337,24 +333,6 @@ export default {
 			let difference = _time - curTime;
 			return difference;
 		},
-		//根据difference计算时间
-		handlerCountTime(difference) {
-			let self = this;
-			let curDay = self.handlerLessTen(Math.floor(difference / (1000 * 60 * 60 * 24))),
-				curHours = self.handlerLessTen(Math.floor(difference / (1000 * 60 * 60) % 24)),
-				curMinutes = self.handlerLessTen(Math.floor(difference / (1000 * 60) % 60)),
-				curSeconds = self.handlerLessTen(Math.floor(difference / (1000) % 60));
-			return {
-				d: curDay,
-				h: curHours,
-				m: curMinutes,
-				s: curSeconds
-			}
-		},
-		//处理小于10的数字
-		handlerLessTen(num) {
-			return num >= -10 ? num >= 0 ? num < 10 ? '0' + num : num : '-0' + Math.abs(num) : num;
-		},
 		//主按钮点击事件处理
 		handlerMainButtonClick(event) {
 			let self = this;
@@ -381,7 +359,7 @@ export default {
 		whileStateZero() {
 			let self = this;
 			let difference = self.getDifference(self.luckItem.receiveBegin);
-			let cur = self.handlerCountTime(difference);
+			let cur = handlerTimeDifference(difference);
 
 			let text = `${cur.d > 0 ? cur.d+'天':''}
 						${cur.d > 0 || cur.h > 0 ? cur.h+'时':''}

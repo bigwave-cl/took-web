@@ -27,7 +27,11 @@
 <style src="./luck-code.scss" lang="scss"></style>
 <script>
 import askInterface from '@/services';
-import { askDialogAlert,refreshTitle,sessionStorage } from '@/utils';
+import { 
+	askDialogAlert,
+	refreshTitle,
+	sessionStorage 
+} from '@/utils';
 
 export default {
 	data() {
