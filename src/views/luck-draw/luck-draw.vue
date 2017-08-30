@@ -24,7 +24,7 @@
 							<img :src='envoy.thumb_pic' v-else>
 						</div>
 						<div class="text">
-							{{envoy.name}}
+							{{envoy.name}}{{envoy.name}}1504077023
 						</div>
 					</li>
 				</ul>
