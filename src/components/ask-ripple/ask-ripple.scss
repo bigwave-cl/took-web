@@ -6,24 +6,16 @@
 	left: 0;
 	overflow: hidden;
 	pointer-events: none;
-	-webkit-border-radius: inherit;
-	-moz-border-radius: inherit;
 	border-radius: inherit;
 	.ask-ripple-element {
 		position: absolute;
 		-webkit-transition: opacity, -webkit-transform 0ms cubic-bezier(0, 0, .2, 1);
-		-moz-transition: opacity, transform 0ms cubic-bezier(0, 0, .2, 1), -moz-transform 0ms cubic-bezier(0, 0, .2, 1);
-		-o-transition: opacity, transform 0ms cubic-bezier(0, 0, .2, 1);
 		transition: opacity, -webkit-transform 0ms cubic-bezier(0, 0, .2, 1);
 		transition: opacity, transform 0ms cubic-bezier(0, 0, .2, 1);
-		transition: opacity, transform 0ms cubic-bezier(0, 0, .2, 1), -webkit-transform 0ms cubic-bezier(0, 0, .2, 1), -moz-transform 0ms cubic-bezier(0, 0, .2, 1);
+		transition: opacity, transform 0ms cubic-bezier(0, 0, .2, 1), -webkit-transform 0ms cubic-bezier(0, 0, .2, 1);
 		-webkit-transform: scale(0);
-		-moz-transform: scale(0);
-		-ms-transform: scale(0);
 		transform: scale(0);
 		pointer-events: none;
-		-webkit-border-radius: 50%;
-		-moz-border-radius: 50%;
 		border-radius: 50%;
 		will-change: transform;
 	}

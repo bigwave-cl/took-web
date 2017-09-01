@@ -1,11 +1,12 @@
 @import '../../styles/variables.scss', '../../styles/mixins.scss';
 .ask-lottery-animation-box {
-	.lottery-pic-bg{
-		background: no-repeat center top/ auto 100% url('~@/assets/luck-draw/slot_machine.png') transparent;
+	.lottery-pic-bg {
+		position: relative;
 		width: 295px;
 		height: 171px;
-		position: relative;
 		margin: 0 auto;
+		background: no-repeat center top url($baseUrl+'luck-draw/slot_machine.png') transparent;
+		background-size: auto 100%;
 	}
 	.lottery-body {
 		@include flexLayout(inline-flex, 'center', 'around');
@@ -34,37 +35,39 @@
 				}
 				ul {
 					li {
+						font-size: 3.8rem;
 						width: 60px;
 						height: 48px;
-						@include fontSize(38px);
-						color:  map-get($color, 100);
+						color: map-get($color, 100);
 					}
 				}
 			}
 		}
 	}
-	.lottery-voice{
+	.lottery-voice {
 		position: absolute;
 		bottom: 3%;
 		left: 48%;
-		-webkit-transform: translate(-50%,0);
-		        transform: translate(-50%,0);
 		width: 40px;
 		height: 30px;
-		.lottery-play{
+		-webkit-transform: translate(-50%, 0);
+		transform: translate(-50%, 0);
+		.lottery-play {
+			overflow: hidden;
 			width: 100%;
+			min-width: auto;
 			height: 100%;
 			padding: 0;
-			overflow: hidden;
-			min-width: auto;
 			border-radius: 0;
-			background: no-repeat -5% 50%/auto 100% url('~@/assets/luck-draw/icon_voice.png') transparent;
-			&.ask-button{
-				-webkit-transition:all 0s !important;
-				transition:all 0s !important;
+			background: no-repeat -5% 50% url($baseUrl+'luck-draw/icon_voice.png') transparent;
+			background-size: auto 100%;
+			&.ask-button {
+				-webkit-transition: all 0s !important;
+				transition: all 0s !important;
 			}
-			&.pause{
-				background: no-repeat 105% 50%/auto 100% url('~@/assets/luck-draw/icon_voice.png') transparent;
+			&.pause {
+				background: no-repeat 105% 50% url($baseUrl+'luck-draw/icon_voice.png') transparent;
+				background-size: auto 100%;
 			}
 		}
 	}

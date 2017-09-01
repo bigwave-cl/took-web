@@ -1,5 +1,5 @@
 <template>
-	<button :type="type" class="ask-button" @click="handlerClick()" ref="buttonEvent" >
+	<button :type="type" class="ask-button" @click="handlerClick()" ref="buttonEvent">
 		<slot>
 			<span class="button-text" v-if="text">
 				{{text}}
@@ -21,26 +21,26 @@ export default {
 			type: String,
 			default: ''
 		},
-		ripple:{
-			type:Boolean,
-			default:true
+		ripple: {
+			type: Boolean,
+			default: true
 		},
-		rippleColor:{
-			type:String,
-			default:'rgba(0,0,0,.1)'
+		rippleColor: {
+			type: String,
+			default: 'rgba(0,0,0,.1)'
 		}
 	},
-	data(){
+	data() {
 		return {
 			rippleEvent: ''
 		}
 	},
-	mounted(){
+	mounted() {
 		this.rippleEvent = this.$refs.buttonEvent;
 	},
 	methods: {
 		handlerClick() {
-			this.$emit('ask-click',this.$refs.buttonEvent);
+			this.$emit('ask-click', this.$refs.buttonEvent);
 		}
 	}
 }

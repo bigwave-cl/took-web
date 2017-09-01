@@ -4,7 +4,7 @@ $infoColor: #1de9b6 #fff rgba(100, 255, 218, .12) rgba(100, 255, 218, .24);
 $dangerColor: #ff4081 #fff rgba(255, 128, 171, .12) rgba(255, 128, 171, .24);
 @mixin askAlertTheme($theme) {
 	.ask-modal.ask-alert-theme-#{$theme} {
-		.ask-alert-btn{
+		.ask-alert-btn {
 			@if $theme=='success' {
 				color: nth($successColor, 2);
 				background-color: nth($successColor, 1);
@@ -22,6 +22,5 @@ $dangerColor: #ff4081 #fff rgba(255, 128, 171, .12) rgba(255, 128, 171, .24);
 				background-color: nth($defaultColor, 1);
 			}
 		}
-		
 	}
 }

@@ -47,7 +47,8 @@ export const amountFormat = (num) => {
  * @param    {[type]}   difference [毫秒]的数值
  * @return   {[type]}              返回多少天多少小时多少分多少秒
  */
-export const handlerTimeDifference = (difference) => {
+
+export const timeConvert = (difference) => {
 	let curDay = handlerSingleDigit(Math.floor(difference / (1000 * 60 * 60 * 24))),
 		curHours = handlerSingleDigit(Math.floor(difference / (1000 * 60 * 60) % 24)),
 		curMinutes = handlerSingleDigit(Math.floor(difference / (1000 * 60) % 60)),

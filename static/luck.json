@@ -35,9 +35,9 @@
 			"id": 0,
 			"name": "虚位以待"
 		}],
-		"get_code_begin": 1503997800,
-		"get_code_end": 1503997860,
-		"open_time": 1504144537,
+		"get_code_begin": 1504248056,
+		"get_code_end": 1504248536,
+		"open_time": 1504249136,
 		"times": 2,
 		"is_try": false,
 		"prizes": [
@@ -73,7 +73,7 @@
 			"num": "1",
 			"codes": "3032",
 			"open_time": 1503306614,
-			"next_open_time": 1504172649,
+			"next_open_time": 1504252736,
 			"is_open": true,
 			"is_winner": true
 		}],

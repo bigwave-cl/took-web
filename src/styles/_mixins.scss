@@ -1,23 +1,3 @@
-$bac-url: '../assets/';
-@mixin fontSize($font-size) {
-	font-size: $font-size;
-	[data-dpr='2'] & {
-		font-size: $font-size * 2;
-	}
-	[data-dpr='3'] & {
-		font-size: $font-size * 3;
-	}
-}
-@mixin lineHeight($line-height) {
-	line-height: $line-height;
-	[data-dpr='2'] & {
-		line-height: $line-height * 2;
-	}
-	[data-dpr='3'] & {
-		line-height: $line-height * 3;
-	}
-}
-
 
 /*定位全屏*/
 
@@ -38,16 +18,12 @@ $bac-url: '../assets/';
 	@if $align=='x' {
 		left: 50%;
 		-webkit-transform: translateX(-50%);
-		-moz-transform: translateX(-50%);
-		-ms-transform: translateX(-50%);
 		transform: translateX(-50%);
 	}
 	/*transform定位上下居中*/
 	@else if $align=='y' {
 		top: 50%;
 		-webkit-transform: translateY(-50%);
-		-moz-transform: translateY(-50%);
-		-ms-transform: translateY(-50%);
 		transform: translateY(-50%);
 	}
 	/*transform定位上下左右居中*/
@@ -55,8 +31,6 @@ $bac-url: '../assets/';
 		top: 50%;
 		left: 50%;
 		-webkit-transform: translate(-50%, -50%);
-		-moz-transform: translate(-50%, -50%);
-		-ms-transform: translate(-50%, -50%);
 		transform: translate(-50%, -50%);
 	}
 }
@@ -114,50 +88,36 @@ $bac-url: '../assets/';
 	display: $type;
 	-webkit-box-orient: horizontal;
 	-webkit-box-direction: normal;
-	-webkit-flex-flow: row nowrap;
-	-moz-box-orient: horizontal;
-	-moz-box-direction: normal;
 	-ms-flex-flow: row nowrap;
 	flex-flow: row nowrap;
 	/*垂直方向居中对齐*/
 	@if $alignV=='center' {
 		-webkit-box-align: center;
-		-webkit-align-items: center;
-		-moz-box-align: center;
 		-ms-flex-align: center;
 		align-items: center;
 	}
 	@if $alignV=='stretch' {
 		-webkit-box-align: stretch;
-		-webkit-align-items: stretch;
-		-moz-box-align: stretch;
 		-ms-flex-align: stretch;
 		align-items: stretch;
 	}
 	/*水平方向分散对齐*/
 	@if $alignH=='justify' {
 		-webkit-box-pack: justify;
-		-webkit-justify-content: space-between;
-		-moz-box-pack: justify;
 		-ms-flex-pack: justify;
 		justify-content: space-between;
 	}
 	@if $alignH=='right' {
 		-webkit-box-pack: end;
-		-webkit-justify-content: flex-end;
-		-moz-box-pack: end;
 		-ms-flex-pack: end;
 		justify-content: flex-end;
 	}
 	@if $alignH=='center' {
 		-webkit-box-pack: center;
-		-webkit-justify-content: center;
-		-moz-box-pack: center;
 		-ms-flex-pack: center;
 		justify-content: center;
 	}
 	@if $alignH=='around' {
-		-webkit-justify-content: space-around;
 		-ms-flex-pack: distribute;
 		justify-content: space-around;
 	}

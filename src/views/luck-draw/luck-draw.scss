@@ -88,20 +88,16 @@
 			width: 90vw;
 			margin: 6vw auto;
 			.lucky-li {
+				width: 25%;
 				-webkit-box-flex: 0;
-				-webkit-flex: 0 0 25%;
-				-moz-box-flex: 0;
 				-ms-flex: 0 0 25%;
 				flex: 0 0 25%;
-				width: 25%;
 				.img-box {
 					position: relative;
 					overflow: hidden;
 					width: 70%;
 					margin: 0 auto;
 					padding: 35% 0;
-					-webkit-border-radius: 100%;
-					-moz-border-radius: 100%;
 					border-radius: 100%;
 					img {
 						position: absolute;
@@ -112,9 +108,9 @@
 					}
 				}
 				.text {
-					width: 100%;
 					@include textEllipsis();
 					font-size: 1.4rem;
+					width: 100%;
 					padding: 3px 0;
 					text-align: center;
 					word-break: break-all;
@@ -162,8 +158,6 @@
 					margin-top: -3px;
 					content: '';
 					-webkit-transform: rotate(-135deg);
-					-moz-transform: rotate(-135deg);
-					-ms-transform: rotate(-135deg);
 					transform: rotate(-135deg);
 					pointer-events: none;
 					border-bottom: 1px solid map-get($color, 200);
@@ -173,8 +167,6 @@
 			.ordinary-btn {
 				padding: 6px 12px;
 				border: 1px solid map-get($color, 200);
-				-webkit-border-radius: 4px;
-				-moz-border-radius: 4px;
 				border-radius: 4px;
 				.button-text {
 					font-size: 1.4rem;
@@ -188,8 +180,6 @@
 			&.open-prize-num {
 				margin-top: 0;
 				-webkit-box-pack: end;
-				-webkit-justify-content: flex-end;
-				-moz-box-pack: end;
 				-ms-flex-pack: end;
 				justify-content: flex-end;
 			}
@@ -197,8 +187,6 @@
 		.play-btn {
 			margin-top: 5vw;
 			padding: 9px 20vw;
-			-webkit-border-radius: 4px;
-			-moz-border-radius: 4px;
 			border-radius: 4px;
 			background-color: map-get($color, 300);
 			&:disabled {
@@ -256,7 +244,6 @@
 	pointer-events: none;
 	background-color: transparent;
 	-webkit-box-shadow: none;
-	-moz-box-shadow: none;
 	box-shadow: none;
 	.ask-modal-body, .custom {
 		width: 100%;
@@ -270,7 +257,8 @@
 			z-index: 2;
 			width: 100%;
 			height: 100%;
-			background: no-repeat center/100% url('../../assets/luck-draw/luck-number/bg.png') transparent;
+			background: no-repeat center url($baseUrl+'luck-draw/luck-number/bg.png') transparent;
+			background-size: 100% auto;
 			.luck-number-result {
 				position: relative;
 				z-index: 5;
@@ -278,39 +266,48 @@
 				width: 100%;
 				height: 35%;
 				-webkit-transform: translateY(-50%);
-				-moz-transform: translateY(-50%);
-				-ms-transform: translateY(-50%);
 				transform: translateY(-50%);
-				background: no-repeat center/auto 100% url('../../assets/luck-draw/luck-number/0.png') transparent;
+				background: no-repeat center url($baseUrl+'luck-draw/luck-number/0.png') transparent;
+				background-size: auto 100%;
 				&.num-0 {
-					background: no-repeat center/auto 100% url('../../assets/luck-draw/luck-number/0.png') transparent;
+					background: no-repeat center url($baseUrl+'luck-draw/luck-number/0.png') transparent;
+					background-size: auto 100%;
 				}
 				&.num-1 {
-					background: no-repeat center/auto 100% url('../../assets/luck-draw/luck-number/1.png') transparent;
+					background: no-repeat center url($baseUrl+'luck-draw/luck-number/1.png') transparent;
+					background-size: auto 100%;
 				}
 				&.num-2 {
-					background: no-repeat center/auto 100% url('../../assets/luck-draw/luck-number/2.png') transparent;
+					background: no-repeat center url($baseUrl+'luck-draw/luck-number/2.png') transparent;
+					background-size: auto 100%;
 				}
 				&.num-3 {
-					background: no-repeat center/auto 100% url('../../assets/luck-draw/luck-number/3.png') transparent;
+					background: no-repeat center url($baseUrl+'luck-draw/luck-number/3.png') transparent;
+					background-size: auto 100%;
 				}
 				&.num-4 {
-					background: no-repeat center/auto 100% url('../../assets/luck-draw/luck-number/4.png') transparent;
+					background: no-repeat center url($baseUrl+'luck-draw/luck-number/4.png') transparent;
+					background-size: auto 100%;
 				}
 				&.num-5 {
-					background: no-repeat center/auto 100% url('../../assets/luck-draw/luck-number/5.png') transparent;
+					background: no-repeat center url($baseUrl+'luck-draw/luck-number/5.png') transparent;
+					background-size: auto 100%;
 				}
 				&.num-6 {
-					background: no-repeat center/auto 100% url('../../assets/luck-draw/luck-number/6.png') transparent;
+					background: no-repeat center url($baseUrl+'luck-draw/luck-number/6.png') transparent;
+					background-size: auto 100%;
 				}
 				&.num-7 {
-					background: no-repeat center/auto 100% url('../../assets/luck-draw/luck-number/7.png') transparent;
+					background: no-repeat center url($baseUrl+'luck-draw/luck-number/7.png') transparent;
+					background-size: auto 100%;
 				}
 				&.num-8 {
-					background: no-repeat center/auto 100% url('../../assets/luck-draw/luck-number/8.png') transparent;
+					background: no-repeat center url($baseUrl+'luck-draw/luck-number/8.png') transparent;
+					background-size: auto 100%;
 				}
 				&.num-9 {
-					background: no-repeat center/auto 100% url('../../assets/luck-draw/luck-number/9.png') transparent;
+					background: no-repeat center url($baseUrl+'luck-draw/luck-number/9.png') transparent;
+					background-size: auto 100%;
 				}
 			}
 		}
@@ -332,8 +329,6 @@
 			margin-top: -5px;
 			/* 10px*/
 			border: 1px solid map-get($color, 500);
-			-webkit-border-radius: 50%;
-			-moz-border-radius: 50%;
 			border-radius: 50%;
 			background-color: map-get($color, 200);
 			&::before, &::after {
@@ -379,8 +374,6 @@
 		.ask-alert-btn {
 			padding: 3px 12px;
 			color: map-get($color, 100);
-			-webkit-border-radius: 20px;
-			-moz-border-radius: 20px;
 			border-radius: 20px;
 			background-color: map-get($color, 300);
 			.button-text {
@@ -404,16 +397,12 @@
 	.ask-modal-footer {
 		padding: 20px 0 10px;
 		-webkit-box-pack: center;
-		-webkit-justify-content: center;
-		-moz-box-pack: center;
 		-ms-flex-pack: center;
 		justify-content: center;
 		.ask-alert-btn {
 			width: 80px;
 			padding: 4px 10px;
 			color: map-get($color, 100);
-			-webkit-border-radius: 20px;
-			-moz-border-radius: 20px;
 			border-radius: 20px;
 			background-color: map-get($color, 300);
 		}

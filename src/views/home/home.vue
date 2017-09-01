@@ -15,85 +15,79 @@
 		<br>
 		<span>Checked names: {{ checkedNames }}</span>
 		<div id="example-5">
-		  <select v-model="selected">
-		    <option disabled value="">请选择</option>
-		    <option>A</option>
-		    <option>B</option>
-		    <option>C</option>
-		  </select>
-		  <span>Selected: {{ selected }}</span>
+			<select v-model="selected">
+				<option disabled value="">请选择</option>
+				<option>A</option>
+				<option>B</option>
+				<option>C</option>
+			</select>
+			<span>Selected: {{ selected }}</span>
 		</div>
-
-		<input
-		  type="checkbox"
-		  v-model="toggle"
-		  v-bind:true-value="'1'"
-		  v-bind:false-value="'2'"
-		>{{toggle}}
-
+		<input type="checkbox" v-model="toggle" v-bind:true-value="'1'" v-bind:false-value="'2'">{{toggle}}
 		<div id="message_t">异步数据处理{{message}}</div>
 		<ask-button :text="'触发confirm'" @ask-click="open"></ask-button>
 	</div>
 </template>
 <style src="./home.scss" lang="scss"></style>
 <script>
-	import askInterface from '@/services';
-	import { askDialogConfirm } from '@/utils/ask.dialog.js';
-	export default{
-		data() {
-			return {
-				checkedNames:[],
-				selected:'',
-				toggle:'',
-				message:'没有更新'
-			}
-		},
-		mounted(){
-			// askInterface.home().then(res=>{
-			// 	console.log(res);
-			// },res=>{
-			// 	console.log(res);
-			// })
-			let vm = this;
-			vm.message = '更新完成';
+import askInterface from '@/services';
+import { askDialogConfirm } from '@/utils/ask.dialog.js';
+export default {
+	data() {
+		return {
+			checkedNames: [],
+			selected: '',
+			toggle: '',
+			message: '没有更新'
+		}
+	},
+	mounted() {
+		// askInterface.home().then(res=>{
+		// 	console.log(res);
+		// },res=>{
+		// 	console.log(res);
+		// })
+		let vm = this;
+		vm.message = '更新完成';
+		console.log(vm.$el.querySelector('#message_t').textContent);
+		vm.$nextTick(function() {
 			console.log(vm.$el.querySelector('#message_t').textContent);
-			vm.$nextTick(function(){
-				console.log(vm.$el.querySelector('#message_t').textContent);
-			})
-		},
-		methods:{
-			open(){
+		})
+	},
+	methods: {
+		open() {
+			askDialogConfirm({
+				title: '信息',
+				msg: '你是不是认为我是最帅的弹框呢？'
+			}, (vm) => {
+				console.log('真有品位');
 				askDialogConfirm({
-					title:'信息',
-					msg:'你是不是认为我是最帅的弹框呢？'
-				},(vm)=>{
-					console.log('真有品位');
+					title: '真的很不错',
+					msg: '想继续深入吗？',
+					closeIcon: true,
+					shadeClick: false
+				}, () => {
+
 					askDialogConfirm({
-						title:'真的很不错',
-						msg:'想继续深入吗？',
+						title: '来吧',
+						msg: '想继续深入吗？',
 						closeIcon: true,
 						shadeClick: false
-					},()=>{
-						
-						askDialogConfirm({
-							title:'来吧',
-							msg:'想继续深入吗？',
-							closeIcon: true,
-							shadeClick: false
-						},()=>{
-							console.log('没有啦')
-						},()=>{
-							console.log('没有恒心')
-						})
-					},()=>{
+					}, () => {
+						console.log('没有啦')
+					}, () => {
 						console.log('没有恒心')
 					})
-				},()=>{
-					console.log('哼哼')
-				},()=>{
-					console.log('关我干嘛')
-				});
-			}
+				}, () => {
+					console.log('没有恒心')
+				})
+			}, () => {
+				console.log('哼哼')
+			}, () => {
+				console.log('关我干嘛')
+			});
 		}
 	}
+}
+
 </script>

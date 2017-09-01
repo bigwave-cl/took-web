@@ -1,16 +1,16 @@
-import { 
-	askDialogModal, 
-	askDialogAlert, 
-	askDialogToast 
+import {
+	askDialogModal,
+	askDialogAlert,
+	askDialogToast
 } from '@/utils';
 
 import winnerNo from '@/assets/luck-draw/picture_failure.png';
 import winnerYes from '@/assets/luck-draw/picture_winning.png';
-export default{
-	methods:{
-		warnChanceAlert(){
+export default {
+	methods: {
+		chanceAlert() {
 			let self = this;
-			if(self.luckItem.chance){
+			if (self.luckItem.chance) {
 				self.$router.push({ name: 'luckCode' });
 				return;
 			}
@@ -30,8 +30,8 @@ export default{
 				ok.close();
 			})
 		},
-		//处理每轮抽奖弹框提示是否中奖
-		handlerIsWinning() {
+		//每轮抽奖提示是否中奖
+		winningOfNotice() {
 			let self = this;
 			let _winner = self.luckItem.currentPrize.is_winner;
 
@@ -47,11 +47,11 @@ export default{
 					</p>
 				</div>
 			`;
-			self.$nextTick(()=>{
+			self.$nextTick(() => {
 				let recordV = sessionStorage.getItem(self.luckItem.currentPrize.id);
-				if(recordV) return;
+				if (recordV) return;
 
-				sessionStorage.setItem(self.luckItem.currentPrize.id,true);
+				sessionStorage.setItem(self.luckItem.currentPrize.id, true);
 
 				askDialogAlert({
 					title: '',
@@ -68,7 +68,7 @@ export default{
 			})
 		},
 		//幸运大使弹框
-		luckRuleBomb(){
+		luckRule() {
 			let self = this;
 
 			let alertContent = `
@@ -81,7 +81,7 @@ export default{
 					</p>
 				</div>
 			`;
-			self.$nextTick(()=>{
+			self.$nextTick(() => {
 				askDialogAlert({
 					title: '什么是幸运大使？',
 					msg: alertContent,
@@ -97,7 +97,7 @@ export default{
 			})
 		},
 		//体验次数说明弹框
-		freeRuleBomb(){
+		freeRule() {
 			let self = this;
 
 			let alertContent = `
@@ -110,7 +110,7 @@ export default{
 					</p>
 				</div>
 			`;
-			self.$nextTick(()=>{
+			self.$nextTick(() => {
 				askDialogAlert({
 					title: '什么是免费体验期数？',
 					msg: alertContent,

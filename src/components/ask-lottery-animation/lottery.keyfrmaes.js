@@ -12,25 +12,13 @@ const getRule = (name, value) => {
 				        transform: translate(0,${value.from});
 			}
 		}
-		@-moz-keyframes lottery-slide-${name}{
-			0%{
-				-moz-transform: translate(0,${value.to});
-				     transform: translate(0,${value.to});
-			}
-			100%{
-				-moz-transform: translate(0,${value.from});
-				     transform: translate(0,${value.from});
-			}
-		}
 		@keyframes lottery-slide-${name}{
 			0%{
 				-webkit-transform: translate(0,${value.to});
-				   -moz-transform: translate(0,${value.to});
 				        transform: translate(0,${value.to});
 			}
 			100%{
 				-webkit-transform: translate(0,${value.from});
-				   -moz-transform: translate(0,${value.from});
 				        transform: translate(0,${value.from});
 			}
 		}
@@ -44,16 +32,12 @@ const getRule = (name, value) => {
 }
 const getCssText = (time, type, val) => {
 	let cssText = `
-			-webkit-transition: -webkit-transform ${time} ${type};
-			-moz-transition: transform ${time} ${type}, -moz-transform ${time} ${type};
-			-o-transition: transform ${time} ${type};
-			transition: -webkit-transform ${time} ${type};
-			transition: transform ${time} ${type};
-			transition: transform ${time} ${type}, -webkit-transform ${time} ${type}, -moz-transform ${time} ${type};
-			-webkit-transform: translateY(${val});
-			-moz-transform: translateY(${val});
-			-ms-transform: translateY(${val});
-			transform: translateY(${val});
+		-webkit-transition: -webkit-transform ${time} ${type};
+		transition: -webkit-transform ${time} ${type};
+		transition: transform ${time} ${type};
+		transition: transform ${time} ${type}, -webkit-transform ${time} ${type};
+		-webkit-transform: translateY(${val});
+		transform: translateY(${val});
 	`
 	return cssText;
 }
@@ -82,7 +66,9 @@ export const lotteryKeyframes = (el, state, num, callback) => {
 	removeStateClass(el);
 	if (state === 'run') {
 		let startRule = getRule('start', { to: '-50%', from: '0' });
+		let processRule = getRule('process', { to: '-50%', from: '0' });
 		appendOnDocument(startRule.rule);
+		appendOnDocument(processRule.rule);
 		el.classList.add('start');
 		if (num) num();
 	}
@@ -98,9 +84,9 @@ export const lotteryKeyframes = (el, state, num, callback) => {
 		";
 		window.getComputedStyle(el).getPropertyValue('opacity');
 		el.style.cssText = endCss;
-		let timer = setTimeout(()=>{
+		let timer = setTimeout(() => {
 			clearTimeout(timer);
 			if (callback) callback();
-		},TRANSITION_DURATION);
+		}, TRANSITION_DURATION);
 	}
 }

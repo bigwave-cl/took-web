@@ -1,10 +1,12 @@
 @import './variables.scss', './mixins.scss';
-$url: '../assets/';
 @charset 'UTF-8';
 @font-face {
 	font-family: 'dqjt';
-	src: url($url+'font/dqjt.eot');
-	src: url($url+'font/dqjt.eot?#font-spider') format('embedded-opentype'), url($url+'font/dqjt.woff') format('woff'), url($url+'font/dqjt.ttf') format('truetype'), url($url+'font/dqjt.svg') format('svg');
+	src: url($baseUrl+'font/dqjt.eot');
+	src: url($baseUrl+'font/dqjt.eot?#font-spider') format('embedded-opentype'), 
+		url($baseUrl+'font/dqjt.woff') format('woff'), 
+		url($baseUrl+'font/dqjt.ttf') format('truetype'), 
+		url($baseUrl+'font/dqjt.svg') format('svg');
 }
 
 html {
@@ -27,7 +29,8 @@ body {
 }
 
 body.luck {
-	background: no-repeat bottom/100% url('~@/assets/luck-draw/bg.png') map-get($color, 100) fixed;
+	background: no-repeat bottom url($baseUrl+'/luck-draw/bg.png') map-get($color, 100) fixed;
+	background-size: 100% auto;
 }
 
 * {

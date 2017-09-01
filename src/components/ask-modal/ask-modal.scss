@@ -4,17 +4,14 @@ $fontColor: #474443 #7e848c #474a4f;
 .ask-modal {
 	@include useTranCenter(fixed);
 	@include setBox(400px, auto);
-	@include fontSize(16px);
+	font-size: 1.6rem;
 	min-height: 30px;
 	padding: 10px;
 	color: nth($fontColor, 1);
-	-webkit-border-radius: 3px;
-	-moz-border-radius: 3px;
 	border-radius: 3px;
 	outline: none;
 	background-color: nth($bgColor, 1);
 	-webkit-box-shadow: 0 19px 38px rgba(0, 0, 0, .3), 0 15px 12px rgba(0, 0, 0, .22);
-	-moz-box-shadow: 0 19px 38px rgba(0, 0, 0, .3), 0 15px 12px rgba(0, 0, 0, .22);
 	box-shadow: 0 19px 38px rgba(0, 0, 0, .3), 0 15px 12px rgba(0, 0, 0, .22);
 	.ask-visually-hidden {
 		position: absolute;
@@ -33,9 +30,7 @@ $fontColor: #474443 #7e848c #474a4f;
 		padding: 14px 14px 14px;
 		.ask-modal-title {
 			@include textEllipsis();
-			@include fontSize(20px);
-			width: -webkit-calc(100% - 24px);
-			width: -moz-calc(100% - 24px);
+			font-size: 2rem;
 			width: calc(100% - 24px);
 			color: nth($fontColor, 3);
 		}
@@ -49,8 +44,7 @@ $fontColor: #474443 #7e848c #474a4f;
 			margin-top: -10px;
 			cursor: pointer;
 		}
-		.ask-close-icon:before,
-		.ask-close-icon:after {
+		.ask-close-icon:before, .ask-close-icon:after {
 			position: absolute;
 			top: 50%;
 			left: 0;
@@ -59,28 +53,19 @@ $fontColor: #474443 #7e848c #474a4f;
 			margin-top: -1px;
 			content: '';
 			-webkit-transition: background .2s;
-			-moz-transition: background .2s;
-			-o-transition: background .2s;
 			transition: background .2s;
-			-webkit-border-radius: 100%;
-			-moz-border-radius: 100%;
 			border-radius: 100%;
 			background: #999;
 		}
 		.ask-close-icon:before {
 			-webkit-transform: rotate(45deg);
-			-moz-transform: rotate(45deg);
-			-ms-transform: rotate(45deg);
 			transform: rotate(45deg);
 		}
 		.ask-close-icon:after {
 			-webkit-transform: rotate(-45deg);
-			-moz-transform: rotate(-45deg);
-			-ms-transform: rotate(-45deg);
 			transform: rotate(-45deg);
 		}
-		.ask-close-icon:hover:before,
-		.ask-close-icon:hover:after {
+		.ask-close-icon:hover:before, .ask-close-icon:hover:after {
 			background: #333;
 		}
 		/* .ask-close-icon {
@@ -119,7 +104,7 @@ $fontColor: #474443 #7e848c #474a4f;
 		} */
 	}
 	.ask-modal-body {
-		@include fontSize(16px);
+		font-size: 1.6rem;
 		padding: 0 10px;
 		color: nth($fontColor, 1);
 	}
@@ -138,7 +123,6 @@ $fontColor: #474443 #7e848c #474a4f;
 
 .ask-modal-door-enter-active {
 	-webkit-animation: ask-door-enter .5s both cubic-bezier(.4, 0, 0, 1.5);
-	-moz-animation: ask-door-enter .5s both cubic-bezier(.4, 0, 0, 1.5);
 	animation: ask-door-enter .5s both cubic-bezier(.4, 0, 0, 1.5);
 	will-change: transform;
 }
@@ -151,21 +135,6 @@ $fontColor: #474443 #7e848c #474a4f;
 	}
 	to {
 		-webkit-transform: translate(-50%, -50%) scale3d(1, 1, 1);
-		-moz-transform: translate(-50%, -50%) scale3d(1, 1, 1);
-		transform: translate(-50%, -50%) scale3d(1, 1, 1);
-		opacity: 1;
-	}
-}
-
-@-moz-keyframes ask-door-enter {
-	0% {
-		-moz-transform: translate(-50%, -50%) scale3d(.8, 1, 1);
-		transform: translate(-50%, -50%) scale3d(.8, 1, 1);
-		opacity: 0;
-	}
-	to {
-		-webkit-transform: translate(-50%, -50%) scale3d(1, 1, 1);
-		-moz-transform: translate(-50%, -50%) scale3d(1, 1, 1);
 		transform: translate(-50%, -50%) scale3d(1, 1, 1);
 		opacity: 1;
 	}
@@ -174,13 +143,11 @@ $fontColor: #474443 #7e848c #474a4f;
 @keyframes ask-door-enter {
 	0% {
 		-webkit-transform: translate(-50%, -50%) scale3d(.8, 1, 1);
-		-moz-transform: translate(-50%, -50%) scale3d(.8, 1, 1);
 		transform: translate(-50%, -50%) scale3d(.8, 1, 1);
 		opacity: 0;
 	}
 	to {
 		-webkit-transform: translate(-50%, -50%) scale3d(1, 1, 1);
-		-moz-transform: translate(-50%, -50%) scale3d(1, 1, 1);
 		transform: translate(-50%, -50%) scale3d(1, 1, 1);
 		opacity: 1;
 	}
@@ -188,7 +155,6 @@ $fontColor: #474443 #7e848c #474a4f;
 
 .ask-modal-door-leave-active {
 	-webkit-animation: ask-door-leave .5s both;
-	-moz-animation: ask-door-leave .5s both;
 	animation: ask-door-leave .5s both;
 	will-change: transform;
 }
@@ -210,38 +176,18 @@ $fontColor: #474443 #7e848c #474a4f;
 	}
 }
 
-@-moz-keyframes ask-door-leave {
-	0% {
-		-moz-transform: translate(-50%, -50%) scale3d(1, 1, 1);
-		transform: translate(-50%, -50%) scale3d(1, 1, 1);
-		opacity: 1;
-	}
-	60% {
-		-moz-transform: translate(-50%, -50%) scale3d(.01, 1, 1);
-		transform: translate(-50%, -50%) scale3d(.01, 1, 1);
-	}
-	to {
-		-moz-transform: translate(-50%, -50%) scale3d(0, 1, .1);
-		transform: translate(-50%, -50%) scale3d(0, 1, .1);
-		opacity: 0;
-	}
-}
-
 @keyframes ask-door-leave {
 	0% {
 		-webkit-transform: translate(-50%, -50%) scale3d(1, 1, 1);
-		-moz-transform: translate(-50%, -50%) scale3d(1, 1, 1);
 		transform: translate(-50%, -50%) scale3d(1, 1, 1);
 		opacity: 1;
 	}
 	60% {
 		-webkit-transform: translate(-50%, -50%) scale3d(.01, 1, 1);
-		-moz-transform: translate(-50%, -50%) scale3d(.01, 1, 1);
 		transform: translate(-50%, -50%) scale3d(.01, 1, 1);
 	}
 	to {
 		-webkit-transform: translate(-50%, -50%) scale3d(0, 1, .1);
-		-moz-transform: translate(-50%, -50%) scale3d(0, 1, .1);
 		transform: translate(-50%, -50%) scale3d(0, 1, .1);
 		opacity: 0;
 	}
@@ -249,14 +195,12 @@ $fontColor: #474443 #7e848c #474a4f;
 
 .ask-on-foucs {
 	-webkit-animation: ask-on-foucs-zoom .3s both cubic-bezier(.4, 0, 0, 1.5);
-	-moz-animation: ask-on-foucs-zoom .3s both cubic-bezier(.4, 0, 0, 1.5);
 	animation: ask-on-foucs-zoom .3s both cubic-bezier(.4, 0, 0, 1.5);
 }
 
 @-webkit-keyframes ask-on-foucs-zoom {
 	from {
 		-webkit-transform: translate(-50%, -50%) scale3d(.9, .9, .9);
-		-moz-transform: translate(-50%, -50%) scale3d(.9, .9, .9);
 		transform: translate(-50%, -50%) scale3d(.9, .9, .9);
 	}
 	80% {
@@ -265,24 +209,6 @@ $fontColor: #474443 #7e848c #474a4f;
 	}
 	to {
 		-webkit-transform: translate(-50%, -50%) scale3d(1, 1, 1);
-		-moz-transform: translate(-50%, -50%) scale3d(1, 1, 1);
-		transform: translate(-50%, -50%) scale3d(1, 1, 1);
-	}
-}
-
-@-moz-keyframes ask-on-foucs-zoom {
-	from {
-		-webkit-transform: translate(-50%, -50%) scale3d(.9, .9, .9);
-		-moz-transform: translate(-50%, -50%) scale3d(.9, .9, .9);
-		transform: translate(-50%, -50%) scale3d(.9, .9, .9);
-	}
-	80% {
-		-moz-transform: translate(-50%, -50%) scale3d(1.1, 1.1, 1.1);
-		transform: translate(-50%, -50%) scale3d(1.1, 1.1, 1.1);
-	}
-	to {
-		-webkit-transform: translate(-50%, -50%) scale3d(1, 1, 1);
-		-moz-transform: translate(-50%, -50%) scale3d(1, 1, 1);
 		transform: translate(-50%, -50%) scale3d(1, 1, 1);
 	}
 }
@@ -290,17 +216,14 @@ $fontColor: #474443 #7e848c #474a4f;
 @keyframes ask-on-foucs-zoom {
 	from {
 		-webkit-transform: translate(-50%, -50%) scale3d(.9, .9, .9);
-		-moz-transform: translate(-50%, -50%) scale3d(.9, .9, .9);
 		transform: translate(-50%, -50%) scale3d(.9, .9, .9);
 	}
 	80% {
 		-webkit-transform: translate(-50%, -50%) scale3d(1.1, 1.1, 1.1);
-		-moz-transform: translate(-50%, -50%) scale3d(1.1, 1.1, 1.1);
 		transform: translate(-50%, -50%) scale3d(1.1, 1.1, 1.1);
 	}
 	to {
 		-webkit-transform: translate(-50%, -50%) scale3d(1, 1, 1);
-		-moz-transform: translate(-50%, -50%) scale3d(1, 1, 1);
 		transform: translate(-50%, -50%) scale3d(1, 1, 1);
 	}
 }

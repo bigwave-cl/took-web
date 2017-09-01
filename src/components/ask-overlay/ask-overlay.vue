@@ -1,6 +1,6 @@
 <template>
 	<!-- <transition name="ask-overlay-fade" @after-leave="afterLeave"> -->
-		<div class="ask-overlay-box" @click="handlerClick" :style="style" v-if="show"></div>
+	<div class="ask-overlay-box" @click="handlerClick" :style="style" v-if="show"></div>
 	<!-- </transition> -->
 </template>
 <style src="./ask-overlay.scss" lang="scss"></style>
@@ -16,20 +16,20 @@ export default {
 			type: String,
 			default: '#000'
 		},
-		setZIndex:{
-			type:Number,
+		setZIndex: {
+			type: Number,
 			default: null
 		},
-		show:{
-			type:Boolean,
-			default:false
+		show: {
+			type: Boolean,
+			default: false
 		}
 	},
 	methods: {
 		handlerClick() {
 			this.$emit('overlayClick');
 		},
-		afterLeave(){
+		afterLeave() {
 			this.$el.remove();
 			this.$destroy();
 		}

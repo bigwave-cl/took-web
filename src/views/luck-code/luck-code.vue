@@ -27,9 +27,9 @@
 <style src="./luck-code.scss" lang="scss"></style>
 <script>
 import askInterface from '@/services';
-import { 
+import {
 	askDialogAlert,
-	sessionStorage 
+	sessionStorage
 } from '@/utils';
 
 export default {
@@ -47,7 +47,7 @@ export default {
 		let self = this;
 		askInterface.luckCode().then(res => {
 			let luckRes = res.data;
-			
+
 			self.item.chance = luckRes.times;
 			self.item.experience = luckRes.is_try;
 			self.item.luckyEnvoyState = luckRes.is_lucky;
@@ -55,7 +55,7 @@ export default {
 			self.item.price = luckRes.order_min_yb;
 		})
 	},
-	methods:{
+	methods: {
 		rule() {
 			let self = this;
 
@@ -66,7 +66,7 @@ export default {
 					</p>
 				</div>
 			`;
-			self.$nextTick(()=>{
+			self.$nextTick(() => {
 				askDialogAlert({
 					title: '如何获得或增加抽奖机会？',
 					msg: alertContent,

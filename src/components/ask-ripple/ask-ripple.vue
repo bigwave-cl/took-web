@@ -12,17 +12,17 @@ export default {
 		triggerEvents: {
 			required: true
 		},
-		ripple:{
-			type:Boolean,
-			default:true
+		ripple: {
+			type: Boolean,
+			default: true
 		}
 	},
 	data() {
 		return {
 			isMouseDown: false,
-			RIPPLE_FADE_IN_DURATION : 450,
+			RIPPLE_FADE_IN_DURATION: 450,
 			RIPPLE_FADE_OUT_DURATION: 400,
-			rippleRefs:[]
+			rippleRefs: []
 		}
 	},
 	methods: {
@@ -32,20 +32,20 @@ export default {
 			this.triggerEvents.addEventListener('mouseleave', this.onMouseLeave);
 		},
 		onMousedown(event) {
-			if(this.ripple){
+			if (this.ripple) {
 				this.isMouseDown = true;
 				this.fadeInRipple(event.pageX, event.pageY);
 			}
 		},
 		onMouseLeave() {
 			if (this.isMouseDown) {
-			  this.onMouseup();
+				this.onMouseup();
 			}
 		},
 		onMouseup() {
 			this.isMouseDown = false;
-			this.rippleRefs.map(index=>{
-				if(index.state === 'VISIBLE'){
+			this.rippleRefs.map(index => {
+				if (index.state === 'VISIBLE') {
 					this.fadeOutRipple(index);
 				}
 			})
@@ -82,25 +82,25 @@ export default {
 			}
 			rippleRef.state = 'FADING_IN';
 			this.rippleRefs.push(rippleRef);
-			let timer = setTimeout(()=>{
+			let timer = setTimeout(() => {
 				rippleRef.state = 'VISIBLE';
 				if (!this.isMouseDown) {
-				    this.fadeOutRipple(rippleRef);
+					this.fadeOutRipple(rippleRef);
 				}
-			},duration);
+			}, duration);
 		},
-		fadeOutRipple(rippleRef){
+		fadeOutRipple(rippleRef) {
 			let rippleEl = rippleRef.element;
 			rippleEl.style.transitionDuration = `${this.RIPPLE_FADE_OUT_DURATION}ms`;
 			rippleEl.style.opacity = '0';
 			rippleRef.state = 'FADING_OUT';
-			let timer = setTimeout(()=>{
-				if(rippleEl.parentNode){
+			let timer = setTimeout(() => {
+				if (rippleEl.parentNode) {
 					rippleRef.state = 'HIDDEN';
 					this.rippleRefs.splice(0, 1);
 					rippleEl.parentNode.removeChild(rippleEl);
 				}
-			},this.RIPPLE_FADE_OUT_DURATION);
+			}, this.RIPPLE_FADE_OUT_DURATION);
 		},
 		distanceToFurthestCorner(x, y, rect) {
 			const distX = Math.max(Math.abs(x - rect.left), Math.abs(x - rect.right));
@@ -112,29 +112,29 @@ export default {
 			window.getComputedStyle(element).getPropertyValue('opacity');
 		},
 		getViewportScrollPosition(documentRect) {
-		  if (!documentRect) {
-		    documentRect = this._cacheViewportGeometry();
-		  }
+			if (!documentRect) {
+				documentRect = this._cacheViewportGeometry();
+			}
 
-		  // The top-left-corner of the viewport is determined by the scroll position of the document
-		  // body, normally just (scrollLeft, scrollTop). However, Chrome and Firefox disagree about
-		  // whether `document.body` or `document.documentElement` is the scrolled element, so reading
-		  // `scrollTop` and `scrollLeft` is inconsistent. However, using the bounding rect of
-		  // `document.documentElement` works consistently, where the `top` and `left` values will
-		  // equal negative the scroll position.
-		  const top = -documentRect.top || document.body.scrollTop || window.scrollY ||
-		                document.documentElement.scrollTop || 0;
+			// The top-left-corner of the viewport is determined by the scroll position of the document
+			// body, normally just (scrollLeft, scrollTop). However, Chrome and Firefox disagree about
+			// whether `document.body` or `document.documentElement` is the scrolled element, so reading
+			// `scrollTop` and `scrollLeft` is inconsistent. However, using the bounding rect of
+			// `document.documentElement` works consistently, where the `top` and `left` values will
+			// equal negative the scroll position.
+			const top = -documentRect.top || document.body.scrollTop || window.scrollY ||
+				document.documentElement.scrollTop || 0;
 
-		  const left = -documentRect.left || document.body.scrollLeft || window.scrollX ||
-		                document.documentElement.scrollLeft || 0;
+			const left = -documentRect.left || document.body.scrollLeft || window.scrollX ||
+				document.documentElement.scrollLeft || 0;
 
-		  return {top, left};
+			return { top, left };
 		},
 		_cacheViewportGeometry() {
-		    return document.documentElement.getBoundingClientRect();
+			return document.documentElement.getBoundingClientRect();
 		}
 	},
-	destroyed(){
+	destroyed() {
 		this.$nextTick(function() {
 			this.triggerEvents.removeEventListener('mousedown', this.onMousedown);
 			this.triggerEvents.removeEventListener('mouseup', this.onMouseup);
@@ -148,9 +148,9 @@ export default {
 			}
 		}
 	},
-	mounted(){
-		this.$nextTick(()=>{
-			if(this.triggerEvents){
+	mounted() {
+		this.$nextTick(() => {
+			if (this.triggerEvents) {
 				this.initialize();
 			}
 		})
