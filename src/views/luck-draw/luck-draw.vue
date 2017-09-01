@@ -90,15 +90,15 @@
 		</section>
 	</div>
 </template>
-<style src="./luck-draw.scss" lang="scss"></style>
+<style src="./luck-draw.scss" lang="scss">
+</style>
 <script>
 import askInterface from '@/services';
-import { 
-	askDialogModal, 
-	askDialogAlert, 
+import {
+	askDialogModal,
+	askDialogAlert,
 	askDialogToast,
 	sessionStorage,
-	refreshTitle,
 	amountFormat,
 	handlerTimeDifference
 } from '@/utils';
@@ -107,14 +107,13 @@ import {
 import luckDrawRef from './luck-draw-ref.js'
 //页面弹框
 import luckDrawPopup from './luck-draw-popup.js'
-
 let LUCK_COUNT_DOWN = null, //倒计时索引
 	LUCK_REQUEST_AGAIN_TIMER = null; //是否重新请求接口倒计时索引
 export default {
-	mixins:[luckDrawRef,luckDrawPopup],
+	mixins: [luckDrawRef, luckDrawPopup],
 	data() {
 		return {
-			luckSwiper:[],
+			luckSwiper: [],
 			mainButtonText: '领取兑奖号',
 			luckItem: {
 				state: 0, //开奖状态
@@ -137,11 +136,10 @@ export default {
 				lastPrize: [0, 0, 0, 0], //lev==1奖项开启状况
 				animationEnd: false //抽奖动画是否完成
 			},
-			serverDifference: 0,//服务器和本地时间差值
+			serverDifference: 0, //服务器和本地时间差值
 		}
 	},
 	created() {
-		refreshTitle('抽奖中心');
 		this.$nextTick(() => {
 			document.body.classList.add('luck');
 		})
@@ -154,17 +152,18 @@ export default {
 	},
 	async mounted() {
 		let self = this;
+
 		await self.getLuckDrawInterface();
 		await self.getSwiperPic();
 	},
 	methods: {
-		async getSwiperPic(){
+		async getSwiperPic() {
 			let self = this;
 			let luckSwiperData = await askInterface.luckSwiper();
 
 			let luckRes = luckSwiperData.data;
-			if(!luckRes.ok) {
-				askDialogToast({ msg: luckRes.error ? luckRes.error:'接口访问失败', class: 'danger' });
+			if (!luckRes.ok) {
+				askDialogToast({ msg: luckRes.error ? luckRes.error : '接口访问失败', class: 'danger' });
 				return;
 			}
 			self.luckSwiper = luckRes.list;
@@ -174,21 +173,21 @@ export default {
 			let self = this;
 			let luckDraw = await askInterface.luckInit();
 
-			if(!luckDraw.data.ok) {
-				askDialogToast({ msg: luckDraw.data.error ? luckDraw.data.error:'接口访问失败', class: 'danger' });
+			if (!luckDraw.data.ok) {
+				askDialogToast({ msg: luckDraw.data.error ? luckDraw.data.error : '接口访问失败', class: 'danger' });
 				return;
 			}
 			self.handlerLuckDraw(luckDraw.data);
 		},
-		handlerLuckDraw(data){
+		handlerLuckDraw(data) {
+
 			let self = this;
 			let luckRes = data,
 				sLuckNumber = sessionStorage.getItem('luck_number');
 			// 状态
-			self.luckItem.state = parseInt(luckRes.lot.state,10);
+			self.luckItem.state = parseInt(luckRes.lot.state, 10);
 			let currTime = Date.now();
-
-			self.serverDifference = luckRes.servertime*1000 - currTime;
+			self.serverDifference = luckRes.servertime * 1000 - currTime;
 
 			//积分
 			self.luckItem.prizeIntegral = amountFormat(luckRes.lot.open_yb);
@@ -213,7 +212,7 @@ export default {
 			self.luckItem.receiveState = luckRes.lot.has_get_code;
 			if (luckRes.lot.state === self.luckRef.BEFORE) {
 
-				if(sLuckNumber) sessionStorage.removeItem('luck_number');
+				if (sLuckNumber) sessionStorage.removeItem('luck_number');
 
 				//开始领号时间
 				self.luckItem.receiveBegin = luckRes.lot.get_code_begin;
@@ -224,7 +223,7 @@ export default {
 
 			if (luckRes.lot.state === self.luckRef.RECEIVE) {
 
-				if(sLuckNumber) sessionStorage.removeItem('luck_number');
+				if (sLuckNumber) sessionStorage.removeItem('luck_number');
 				self.mainButtonText = !luckRes.lot.has_get_code ? '领取兑奖号' : '我的兑奖号';
 
 				self.luckCountDown(luckRes.lot.open_time);
@@ -232,7 +231,7 @@ export default {
 			}
 			if (luckRes.lot.state === self.luckRef.RECEIVEING) {
 				//抽奖次数隐藏
-				if(sLuckNumber) sessionStorage.removeItem('luck_number');
+				if (sLuckNumber) sessionStorage.removeItem('luck_number');
 				self.mainButtonText = !luckRes.lot.has_get_code ? '领号结束' : '我的兑奖号';
 
 				self.luckCountDown(luckRes.lot.open_time);
@@ -241,11 +240,11 @@ export default {
 			if (luckRes.lot.state === self.luckRef.UNDERWAY) {
 				//执行开奖操作
 				self.mainButtonText = !luckRes.lot.has_get_code ? '领号结束' : '我的兑奖号';
-				if(luckRes.lot.has_get_code){
-					self.mainButtonText = (luckRes.lot.cur_prize_lev == 1 && luckRes.lot.is_lucky) ? '幸运大使抽号' : self.mainButtonText;	
+				if (luckRes.lot.has_get_code) {
+					self.mainButtonText = (luckRes.lot.cur_prize_lev == 1 && luckRes.lot.is_lucky) ? '幸运大使抽号' : self.mainButtonText;
 
 				}
-				if(sLuckNumber){ 
+				if (sLuckNumber) {
 					self.mainButtonText = `您抽的幸运数字:${sLuckNumber}`;
 				}
 				self.luckItem.luckyEnvoyState = luckRes.lot.is_lucky;
@@ -260,9 +259,9 @@ export default {
 
 				self.handlerOnLevOne();
 
-				if(luckRes.lot.cur_prize_lev !=1) self.handlerIsWinning();
+				if (luckRes.lot.cur_prize_lev != 1) self.handlerIsWinning();
 
-				if (self.luckItem.currentPrize.codes == ''||luckRes.lot.cur_prize_lev == 1) {
+				if (self.luckItem.currentPrize.codes == '' || luckRes.lot.cur_prize_lev == 1) {
 					self.luckItem.timeText = "奖项已全部开启完毕";
 				} else {
 					self.luckCountDown(self.luckItem.currentPrize.next_open_time);
@@ -275,7 +274,7 @@ export default {
 		},
 		//兼容state为0的时候幸运大使没有图片路径的情况
 		getLuckEnvoy(items) {
-			if(!items || items.length === 0) return;
+			if (!items || items.length === 0) return;
 			items = items.map(index => {
 				if (!index.thumb_pic) {
 					index.thumb_pic == '';
@@ -290,7 +289,8 @@ export default {
 			let difference = self.getDifference(time);
 
 			if (LUCK_REQUEST_AGAIN_TIMER) clearTimeout(LUCK_REQUEST_AGAIN_TIMER);
-			if (Math.floor(difference / 1000) <= -1) {
+			if (Math.floor(difference / 1000) < -1) return;
+			if (Math.floor(difference / 1000) == -1) {
 
 				self.getLuckDrawInterface();
 				LUCK_REQUEST_AGAIN_TIMER = null;
@@ -327,7 +327,7 @@ export default {
 		getDifference(time) {
 			let _time = time * 1000, //传过来的时间戳是从秒获取的，转换成毫秒
 				curTime = Date.now() + this.serverDifference;
-			let delay = 2000;
+			let delay = 3000;
 			curTime -= delay;
 
 			let difference = _time - curTime;
@@ -388,11 +388,11 @@ export default {
 			let self = this;
 			if (self.luckItem.luckyEnvoyState && self.luckItem.currentPrize.lev == 1) {
 				let sLuckNumber = sessionStorage.getItem('luck_number');
-				if(sLuckNumber) return;
+				if (sLuckNumber) return;
 				askInterface.luckNumber().then(res => {
 					let luckRes = res.data;
-					if(!luckRes.ok) {
-						askDialogToast({ msg: luckRes.error ? luckRes.error:'接口访问失败', class: 'danger' });
+					if (!luckRes.ok) {
+						askDialogToast({ msg: luckRes.error ? luckRes.error : '接口访问失败', class: 'danger' });
 						return;
 					}
 					askDialogModal({
@@ -407,8 +407,8 @@ export default {
 								</div>
 							</div>
 						`
-					},()=>{
-						sessionStorage.setItem('luck_number',luckRes.num);
+					}, () => {
+						sessionStorage.setItem('luck_number', luckRes.num);
 						self.mainButtonText = `您抽的幸运数字:${luckRes.num}`;
 					});
 				})

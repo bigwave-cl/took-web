@@ -46,8 +46,6 @@
 		@include flexLayout(flex, 'center', 'justify');
 		&.open-prize-num {
 			-webkit-box-pack: end;
-			-webkit-justify-content: flex-end;
-			-moz-box-pack: end;
 			-ms-flex-pack: end;
 			justify-content: flex-end;
 		}
@@ -77,32 +75,24 @@
 				&.prize-integral {
 					@include flexLayout(flex, 'normal', 'normal');
 					-webkit-box-flex: 1;
-					-webkit-flex: 1 1 auto;
-					-moz-box-flex: 1;
 					-ms-flex: 1 1 auto;
 					flex: 1 1 auto;
 					h5 {
+						min-width: 70px;
 						-webkit-box-flex: 0;
-						-webkit-flex: 0 1 auto;
-						-moz-box-flex: 0;
 						-ms-flex: 0 1 auto;
 						flex: 0 1 auto;
-						min-width: 70px;
 					}
 					span {
-						-webkit-box-flex: 0;
-						-webkit-flex: 0 1 auto;
-						   -moz-box-flex: 0;
-						    -ms-flex: 0 1 auto;
-						        flex: 0 1 auto;
 						text-align: left;
+						-webkit-box-flex: 0;
+						-ms-flex: 0 1 auto;
+						flex: 0 1 auto;
 					}
 				}
 				&.people {
 					text-align: right;
 					-webkit-box-flex: 0;
-					-webkit-flex: 0 0 85px;
-					-moz-box-flex: 0;
 					-ms-flex: 0 0 85px;
 					flex: 0 0 85px;
 				}
@@ -112,8 +102,6 @@
 	.ask-button.state-btn {
 		margin-top: 14vh;
 		padding: 6px 30px;
-		-webkit-border-radius: 4px;
-		-moz-border-radius: 4px;
 		border-radius: 4px;
 		background-color: map-get($color, 300);
 		.button-text {
@@ -145,16 +133,12 @@
 	.ask-modal-footer {
 		padding: 20px 0 10px;
 		-webkit-box-pack: center;
-		-webkit-justify-content: center;
-		-moz-box-pack: center;
 		-ms-flex-pack: center;
 		justify-content: center;
 		.ask-alert-btn {
 			width: 80px;
 			padding: 4px 10px;
 			color: map-get($color, 100);
-			-webkit-border-radius: 20px;
-			-moz-border-radius: 20px;
 			border-radius: 20px;
 			background-color: map-get($color, 300);
 		}

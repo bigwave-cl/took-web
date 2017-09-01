@@ -3,6 +3,7 @@ import App from './App'
 import router from './router'
 import GlobalComponents from './components';
 import './utils/wxbutton.js';
+import './router/router.auth.js'
 
 Vue.config.productionTip = false;
 

@@ -6,7 +6,7 @@ let config = {
 		let _r = this.el.getAttribute('data-api');
 		if (self.isLocal) {
 			// _r = 'http://qft.jiaohang999.com/qft/page/web-app/api';
-			_r = 'http://192.168.1.101:8089/api'; 
+			_r = 'http://192.168.1.100:8089/api'; 
 			// _r = 'http://test.xiuzhimeng.com/fqb/page/web-app/api';
 			// _r = 'http://qft.jiaohang999.com/qft/page/web-app/api';
 		}
@@ -31,7 +31,7 @@ let config = {
 		return _r;
 	}
 }
-// http://www.cnblogs.com/laden666666/p/5544572.html
+
 export const PROD = config.isLocal;
 export const BASE_URL = config.getBaseUrl();
 export const AUTH_TOKEN = config.getAuthToken();

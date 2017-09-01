@@ -27,18 +27,16 @@ body {
 }
 
 body.luck {
-	background: no-repeat bottom/100% url('../assets/luck-draw/bg.png') map-get($color, 100) fixed;
+	background: no-repeat bottom/100% url('~@/assets/luck-draw/bg.png') map-get($color, 100) fixed;
 }
 
 * {
 	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 }
 
 *:before, *:after {
 	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 }
 
@@ -52,8 +50,6 @@ ul {
 	width: 70%;
 	min-height: 30px;
 	padding: 0;
-	-webkit-border-radius: 4px;
-	-moz-border-radius: 4px;
 	border-radius: 4px;
 	.ask-modal-header {
 		padding: 26px 0;
@@ -70,8 +66,6 @@ ul {
 			height: 20px;
 			margin-top: -5px;
 			border: 1px solid map-get($color, 500);
-			-webkit-border-radius: 50%;
-			-moz-border-radius: 50%;
 			border-radius: 50%;
 			background-color: map-get($color, 200);
 			&::before, &::after {
@@ -99,8 +93,6 @@ ul {
 		.ask-alert-btn {
 			padding: 4px 14px;
 			color: map-get($color, 100);
-			-webkit-border-radius: 20px;
-			-moz-border-radius: 20px;
 			border-radius: 20px;
 			background-color: map-get($color, 300);
 			.button-text {

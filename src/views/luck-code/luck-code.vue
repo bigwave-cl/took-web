@@ -29,7 +29,6 @@
 import askInterface from '@/services';
 import { 
 	askDialogAlert,
-	refreshTitle,
 	sessionStorage 
 } from '@/utils';
 
@@ -45,7 +44,6 @@ export default {
 		}
 	},
 	created() {
-		refreshTitle('领取兑奖号');
 		let self = this;
 		askInterface.luckCode().then(res => {
 			let luckRes = res.data;

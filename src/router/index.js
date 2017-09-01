@@ -9,19 +9,23 @@ import luckDetail from '@/views/luck-detail/luck-detail.vue'
 const APP_ROUTERS = [{
 	path: 'home',
 	name: 'home',
-	component: home
+	component: home,
+	meta: { title: '首页' }
 }, {
 	path: 'luck-draw',
 	name: 'luckDraw',
 	component: luckDraw,
+	meta: { title: '抽奖中心' }
 }, {
 	path: 'luck-code',
 	name: 'luckCode',
 	component: luckCode,
+	meta: { title: '领取兑奖号' }
 }, {
 	path: 'luck-detail',
 	name: 'luckDetail',
 	component: luckDetail,
+	meta: { title: '奖项详情' }
 }];
 
 Vue.use(Router)

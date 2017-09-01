@@ -74,3 +74,20 @@ export const calculationTimeDifference = (begin, end) => {
 export const handlerSingleDigit = (num) => {
 	return num >= -10 ? num >= 0 ? num < 10 ? '0' + num : num : '-0' + Math.abs(num) : num;
 }
+
+
+/*
+let domTiming = window.performance.timing;
+console.log('//浏览器开始解析 HTML 文档第一批收到的字节')
+console.log(domTiming.domLoading);
+console.log('// 浏览器完成解析并且所有 HTML 和 DOM 构建完毕')
+console.log(domTiming.domInteractive);
+console.log('//DOM 解析完成后，网页内资源加载开始的时间')
+console.log(domTiming.domContentLoadedEventStart);
+console.log('// DOM 解析完成后，网页内资源加载完成的时间（如 JS 脚本加载执行完毕）')
+console.log(domTiming.domContentLoadedEventEnd);
+console.log('//网页上所有资源（图片等）下载完成,且准备就绪的时间')
+console.log(domTiming.domComplete);
+console.log('总共耗时')
+console.log(domTiming.domComplete - domTiming.domLoading)
+*/

@@ -35,6 +35,7 @@
 		<ask-button :text="'触发confirm'" @ask-click="open"></ask-button>
 	</div>
 </template>
+<style src="./home.scss" lang="scss"></style>
 <script>
 	import askInterface from '@/services';
 	import { askDialogConfirm } from '@/utils/ask.dialog.js';

@@ -4,26 +4,26 @@ import ComponentTemplate from './ask-overlay.vue';
 const VueComponent = Vue.extend(ComponentTemplate);
 let TIMER = null;
 const askOverlay = {
-	instances:[],
-	overlay:false,
-	open(instance){
+	instances: [],
+	overlay: false,
+	open(instance) {
 		/*检测实例是否有传递过来或者实例是否存在*/
-		if(!instance || this.instances.indexOf(instance) !== -1 ) return;
-		if(this.instances.length === 0){
-			this.creatOverlay(instance.shadeColor,instance.shade);
+		if (!instance || this.instances.indexOf(instance) !== -1) return;
+		if (this.instances.length === 0) {
+			this.creatOverlay(instance.shadeColor, instance.shade);
 		}
 		this.instances.push(instance);
 		this.changeOverlayStyle(instance);
 	},
-	closeAll(){
+	closeAll() {
 		let self = this;
-		if(self.instances.length === 0) return;
-		self.instances.map(index=>{
+		if (self.instances.length === 0) return;
+		self.instances.map(index => {
 			index.close();
 			self.close(index);
 		})
 	},
-	close(instance,type){
+	close(instance, type) {
 		let index = this.instances.indexOf(instance);
 
 		if (index === -1) return;
@@ -41,14 +41,14 @@ const askOverlay = {
 				this.closeOverlay();
 			}
 			this.changeOverlayStyle(this.instances[this.instances.length - 1]);
-			
+
 		})
 	},
-	creatOverlay(color,opacity){
-		let vm = this.overlay =  new VueComponent().$mount();
+	creatOverlay(color, opacity) {
+		let vm = this.overlay = new VueComponent().$mount();
 		vm.opacity = opacity;
 		vm.color = color;
-		vm.$on('overlayClick',()=>{
+		vm.$on('overlayClick', () => {
 			this.handlerOverlayClick();
 		})
 		this.bodyStyle = {
@@ -65,8 +65,8 @@ const askOverlay = {
 		document.body.appendChild(vm.$el);
 		vm.show = true;
 	},
-	closeOverlay(){
-		if(!this.overlay) return;
+	closeOverlay() {
+		if (!this.overlay) return;
 		document.body.style.position = this.bodyStyle.position;
 		document.body.style.width = this.bodyStyle.width;
 		document.body.style.height = this.bodyStyle.height;
@@ -74,25 +74,25 @@ const askOverlay = {
 		this.overlay.show = false;
 		this.overlay = null;
 	},
-	changeOverlayStyle(instance){
-		if(!this.overlay || this.instances.length === 0) return;
+	changeOverlayStyle(instance) {
+		if (!this.overlay || this.instances.length === 0) return;
 		this.overlay.color = instance.shadeColor;
 		this.overlay.opacity = instance.shade;
 		this.overlay.setZIndex = getZIndex();
 		instance.zIndex = getZIndex();
 	},
-	handlerOverlayClick(){
+	handlerOverlayClick() {
 		if (this.instances.length === 0) return;
 		const instance = this.instances[this.instances.length - 1];
-		if(!instance.shadeClick && instance.show){
+		if (!instance.shadeClick && instance.show) {
 			instance.$el.classList.add('ask-on-foucs');
-			
-			TIMER = setTimeout(()=>{
-				if(TIMER)clearTimeout(TIMER);
-				if(instance.$el.classList.contains('ask-on-foucs')){
+
+			TIMER = setTimeout(() => {
+				if (TIMER) clearTimeout(TIMER);
+				if (instance.$el.classList.contains('ask-on-foucs')) {
 					instance.$el.classList.remove('ask-on-foucs');
 				}
-			},300);
+			}, 300);
 			return;
 		}
 		if (instance.close && instance.show) {

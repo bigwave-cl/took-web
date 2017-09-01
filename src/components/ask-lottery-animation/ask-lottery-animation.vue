@@ -53,7 +53,7 @@ export default {
 		},
 		winnings: {
 			type: String,
-			default: '4231',
+			default: '0000',
 		}
 	},
 	data() {

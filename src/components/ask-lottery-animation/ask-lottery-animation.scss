@@ -1,7 +1,7 @@
 @import '../../styles/variables.scss', '../../styles/mixins.scss';
 .ask-lottery-animation-box {
 	.lottery-pic-bg{
-		background: no-repeat center top/ auto 100% url('../../assets/luck-draw/slot_machine.png') transparent;
+		background: no-repeat center top/ auto 100% url('~@/assets/luck-draw/slot_machine.png') transparent;
 		width: 295px;
 		height: 171px;
 		position: relative;
@@ -25,13 +25,11 @@
 				/* 第二步匀速执行动画 */
 				&.start {
 					-webkit-animation: lottery-slide-start 3s ease-in 1, lottery-slide-process 1s linear 3s infinite;
-					-moz-animation: lottery-slide-start 3s ease-in 1, lottery-slide-process 1s linear 3s infinite;
 					animation: lottery-slide-start 3s ease-in 1, lottery-slide-process 1s linear 3s infinite;
 				}
 				/* 第三步减速执行动画 */
 				&.end {
 					-webkit-animation: lottery-slide-end 6s ease-out 1 both;
-					-moz-animation: lottery-slide-end 6s ease-out 1 both;
 					animation: lottery-slide-end 6s ease-out 1 both;
 				}
 				ul {
@@ -50,8 +48,6 @@
 		bottom: 3%;
 		left: 48%;
 		-webkit-transform: translate(-50%,0);
-		   -moz-transform: translate(-50%,0);
-		    -ms-transform: translate(-50%,0);
 		        transform: translate(-50%,0);
 		width: 40px;
 		height: 30px;
@@ -61,18 +57,14 @@
 			padding: 0;
 			overflow: hidden;
 			min-width: auto;
-			-webkit-border-radius: 0;
-			   -moz-border-radius: 0;
-			        border-radius: 0;
-			background: no-repeat -5% 50%/auto 100% url('../../assets/luck-draw/icon_voice.png') transparent;
+			border-radius: 0;
+			background: no-repeat -5% 50%/auto 100% url('~@/assets/luck-draw/icon_voice.png') transparent;
 			&.ask-button{
 				-webkit-transition:all 0s !important;
-				-o-transition:all 0s !important;
-				-moz-transition:all 0s !important;
 				transition:all 0s !important;
 			}
 			&.pause{
-				background: no-repeat 105% 50%/auto 100% url('../../assets/luck-draw/icon_voice.png') transparent;
+				background: no-repeat 105% 50%/auto 100% url('~@/assets/luck-draw/icon_voice.png') transparent;
 			}
 		}
 	}

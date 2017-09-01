@@ -34,7 +34,6 @@ import askInterface from '@/services';
 import { 
 	askDialogAlert,
 	askDialogToast,
-	refreshTitle,
 	amountFormat
 } from '@/utils';
 
@@ -60,7 +59,6 @@ export default {
 		}
 	},
 	created() {
-		refreshTitle('奖项详情');
 		this.$nextTick(() => {
 			document.body.classList.add('luck');
 		})

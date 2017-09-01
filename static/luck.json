@@ -37,7 +37,7 @@
 		}],
 		"get_code_begin": 1503997800,
 		"get_code_end": 1503997860,
-		"open_time": 1504087823,
+		"open_time": 1504144537,
 		"times": 2,
 		"is_try": false,
 		"prizes": [
@@ -73,11 +73,11 @@
 			"num": "1",
 			"codes": "3032",
 			"open_time": 1503306614,
-			"next_open_time": 1503994340,
+			"next_open_time": 1504172649,
 			"is_open": true,
 			"is_winner": true
 		}],
-		"cur_prize_lev": "3",
+		"cur_prize_lev": "1",
 		"luck_open_done": true,
 		"lucky_open": [
 			"1",
