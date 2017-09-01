@@ -37,6 +37,7 @@ const askOverlay = {
 				this.changeOverlayStyle();
 			}*/
 			this.instances.splice(index, 1);
+
 			if (this.instances.length === 0) {
 				this.closeOverlay();
 			}

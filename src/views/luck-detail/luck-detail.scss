@@ -1,5 +1,6 @@
 @import '../../styles/variables.scss', '../../styles/mixins.scss';
 .luck-detail-box {
+	width: 100%;
 	width: 100vw;
 	padding: 30px 0 15px 0;
 	text-align: center;
@@ -39,6 +40,7 @@
 		}
 	}
 	.single-p, .space-box {
+		width: 90%;
 		width: 90vw;
 		margin: 12px auto;
 	}
@@ -51,10 +53,12 @@
 		}
 	}
 	.lucky-list {
+		width: 90%;
 		width: 90vw;
 		margin: 0 auto;
 		.lucky-li {
 			@include flexLayout(flex, 'center', 'justify');
+			margin: 5% 0;
 			margin: 5vw 0;
 			.text {
 				font-size: 1.8rem;
@@ -100,6 +104,7 @@
 		}
 	}
 	.ask-button.state-btn {
+		margin-top: 90px;
 		margin-top: 14vh;
 		padding: 6px 30px;
 		border-radius: 4px;

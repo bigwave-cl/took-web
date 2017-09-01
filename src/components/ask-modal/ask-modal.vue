@@ -82,7 +82,7 @@ export default {
 			this.$emit('onclose');
 		},
 		afterLeave() {
-			this.$el.remove();
+			if(this.$el.remove) this.$el.remove();
 			this.$destroy();
 		}
 	},

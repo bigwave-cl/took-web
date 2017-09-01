@@ -2,7 +2,9 @@ import Vue from 'vue'
 import axios from 'axios'
 import qs from 'qs';
 import * as config from '@/config.js';
+import * as es6Promise from 'es6-promise';
 
+es6Promise.polyfill();
 export default async (options) => {
 	let opt = {
 		url: '',

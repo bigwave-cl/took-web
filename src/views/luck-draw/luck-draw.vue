@@ -75,10 +75,11 @@
 				</router-link>
 			</div>
 			<div class="space-box has-margin">
-				<a :href="luckItem.urls.record" title="往期开奖记录">
+				<a :href="luckItem.urls.record" class="ordinary-a" title="往期开奖记录">
 					<ask-button class="ordinary-btn" :text="'往期开奖记录'"></ask-button>
 				</a>
-				<a :href="luckItem.urls.rule" title="兑奖规则">
+				
+				<a :href="luckItem.urls.rule" class="ordinary-a" title="兑奖规则">
 					<ask-button class="ordinary-btn" :text="'兑奖规则'"></ask-button>
 				</a>
 			</div>
@@ -151,7 +152,6 @@ export default {
 	},
 	async mounted() {
 		let self = this;
-
 		await self.initLottery();
 		await self.initSwiper();
 	},

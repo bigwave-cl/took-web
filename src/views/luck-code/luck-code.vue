@@ -16,8 +16,10 @@
 			</div>
 			<div class="luck-number" v-if="item.codes.length > 0">
 				<div class="text large">您参与抽奖的号码为</div>
-				<div class="number-box">
-					<span v-for="(c,$i) in item.codes" :key="$i" v-text="$i == item.codes.length-1 ? c.code:c.code+'、'"></span>
+				<div class="number-box" v-for="(once,$i) in item.codes" :key="$i">
+					<span v-for="(c,$j) in once" :key="$j" 
+						v-text="$i == item.codes.length-1 && $j == once.length-1? c.code:c.code+'、'">
+					</span>
 				</div>
 			</div>
 			<div class="text small">提前来抽奖中心，就不怕错过大奖！</div>
@@ -51,7 +53,8 @@ export default {
 			self.item.chance = luckRes.times;
 			self.item.experience = luckRes.is_try;
 			self.item.luckyEnvoyState = luckRes.is_lucky;
-			self.item.codes = luckRes.codes;
+			self.item.codes = self.hadlerCode(luckRes.codes);
+
 			self.item.price = luckRes.order_min_yb;
 		})
 	},
@@ -80,6 +83,22 @@ export default {
 					ok.close();
 				})
 			})
+		},
+		hadlerCode(codes){
+			//为了兼容低配手机不支持flex-flow的wrap特性
+			let l = codes.length,
+				_c = [],
+				standard = 3;
+				console.log(l);
+			for(let i = 0; i<l;i+=standard){
+				let _cur = [];
+				if(codes[i]) _cur.push(codes[i]);
+				if(codes[i+1]) _cur.push(codes[i+1]);
+				if(codes[i+2]) _cur.push(codes[i+2]);
+
+				_c.push(_cur);
+			}
+			return _c;
 		}
 	}
 }

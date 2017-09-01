@@ -60,10 +60,11 @@
 				margin: 5% auto 0;
 				-webkit-box-orient: horizontal;
 				-webkit-box-direction: normal;
-				-ms-flex-flow: row wrap;
-				flex-flow: row wrap;
+				-ms-flex-flow: row nowrap;
+				flex-flow: row nowrap;
 				span {
 					font-size: 2rem;
+					display: block;
 					margin: 3% 0;
 					text-align: center;
 					color: #ed6347;

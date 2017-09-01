@@ -53,9 +53,10 @@
 		-webkit-transform: translate(-50%, 0);
 		transform: translate(-50%, 0);
 		.lottery-play {
+			position: relative;
 			overflow: hidden;
 			width: 100%;
-			min-width: auto;
+			min-width: 0;
 			height: 100%;
 			padding: 0;
 			border-radius: 0;
@@ -64,6 +65,9 @@
 			&.ask-button {
 				-webkit-transition: all 0s !important;
 				transition: all 0s !important;
+				.button-text{
+					width: 0;
+				}
 			}
 			&.pause {
 				background: no-repeat 105% 50% url($baseUrl+'luck-draw/icon_voice.png') transparent;
