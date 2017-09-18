@@ -1,5 +1,5 @@
 let config = {
-	isLocal: false,
+	isLocal: true,
 	el: document.getElementsByTagName('body')[0],
 	getBaseUrl() {
 		let self = this;

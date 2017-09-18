@@ -10,7 +10,7 @@ const appendOnDocument = (el) => {
 export const lotteryVoice = (el, bg) => {
 	let oldAudioEl = document.getElementById('ask_audio');
 
-	if (oldAudioEl) oldAudioEl.remove();
+	if (oldAudioEl && oldAudioEl.remove) oldAudioEl.remove();
 	let audioEl = document.createElement('audio'),
 		sourceEl = document.createElement('source');
 	sourceEl.src = bg;

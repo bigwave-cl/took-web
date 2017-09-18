@@ -30,6 +30,7 @@
 </template>
 <style src="./home.scss" lang="scss"></style>
 <script>
+import mojs from 'mo-js';
 import askInterface from '@/services';
 import { askDialogConfirm } from '@/utils/ask.dialog.js';
 export default {
@@ -47,6 +48,40 @@ export default {
 		// },res=>{
 		// 	console.log(res);
 		// })
+		const burst2 = new mojs.Burst({
+		  left: 0, top: 0,
+		  radius:   { 0: 100 },
+		  count:    5,
+		  children: {
+		    shape:        'circle',
+		    radius:       10,
+		    fill:       [ 'deeppink', 'cyan', 'yellow' ],
+		    strokeWidth:  5,
+		    duration:     2000
+		  }
+		});
+		const burst = new mojs.Burst({
+		 left:0,top:0,
+		  radius:   { 0: 100 },
+		  count:    10,
+		  children: {
+		    shape:      'polygon',
+		    points:     5,
+		    fill:       { 'cyan' : 'yellow' },
+		    angle:      { 360: 0 },
+		    duration:   2000,
+		    delay:      'stagger( rand(0, 100) )'
+		  }
+		});
+
+		document.addEventListener( 'click', function (e) {
+		   burst
+		    .tune({ x: e.pageX, y: e.pageY })
+		    .replay();
+		   burst2
+		    .tune({ x: e.pageX, y: e.pageY })
+		    .replay();
+		} );
 		let vm = this;
 		vm.message = '更新完成';
 		console.log(vm.$el.querySelector('#message_t').textContent);

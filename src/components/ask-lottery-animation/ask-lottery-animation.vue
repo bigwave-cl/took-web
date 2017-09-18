@@ -70,7 +70,7 @@ export default {
 	},
 	destroyed() {
 		this.$nextTick(function() {
-			this.voiceEl.remove();
+			if(this.voiceEl.remove)this.voiceEl.remove();
 		})
 	},
 	methods: {

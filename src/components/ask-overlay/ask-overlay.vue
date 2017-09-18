@@ -30,13 +30,13 @@ export default {
 			this.$emit('overlayClick');
 		},
 		afterLeave() {
-			this.$el.remove();
+			if(this.$el.remove) this.$el.remove();
 			this.$destroy();
 		}
 	},
 	destroyed() {
 		this.$nextTick(function() {
-			this.$el.remove();
+			if(this.$el.remove) this.$el.remove();
 			this.$destroy();
 		})
 	},
